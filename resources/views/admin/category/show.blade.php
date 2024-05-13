@@ -3,19 +3,23 @@
 @section('title', 'SIS-Inventario | detalle categoria')
 
 @section('content_header')
-    <h1>Detalle de la categoria</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h4>Detalle de categoría : <span>{{ $category->name }}</span></h4>
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-border col-md-12">
                         <div class="card-header with-border">
                             <h3 class="card-title">Datos registrados</h3>
                             <div class="card-tools">
-                                <form style="display: inline" action="{{ route('category.destroy', [$category]) }}"
+                                <form style="display: inline" action="{{ route('category.destroy', $category) }}"
                                     method="POST" onclick="ask{{ $category->id }}(event)" id="myform{{ $category->id }}">
                                     @csrf
                                     @method('DELETE')
@@ -26,21 +30,19 @@
                                     </div>
                                 </form>
                                 <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('category.edit', [$category]) }}" class="btn btn-sm btn-primary" title="Editar">
+                                    <a href="{{ route('category.edit', [$category]) }}" class="btn btn-sm btn-primary"
+                                        title="Editar">
                                         <i class="zmdi zmdi-edit mr-2"></i><span class="hidden-xs">Editar</span>
                                     </a>
                                 </div>
                                 <div class="btn-group pull-right">
-                                    <a href="{{ route('category.index', []) }}" class="btn btn-sm btn-secondary"
-                                        title="Listar">
+                                    <a href="{{ route('category.index') }}" class="btn btn-sm btn-secondary" title="Listar">
                                         <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span
                                             class="hidden-xs">Listar</span>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
                         <div class="form-horizontal">
                             <div class="card-body">
                                 <div class="row">
@@ -79,7 +81,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.box-body -->
                         </div>
                     </div>
                 </div>
@@ -89,8 +90,6 @@
 @stop
 
 @section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 @stop
 
 @section('js')

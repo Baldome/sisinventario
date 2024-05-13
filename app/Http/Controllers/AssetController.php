@@ -60,7 +60,7 @@ class AssetController extends Controller
             $asset->category_id = $request->input('category_id');
             $asset->location_id = $request->input('location_id');
 
-            $asset->update();
+            $asset->save();
 
             return redirect()->route('asset.index')
                 ->with('message', 'Registro exitoso!')

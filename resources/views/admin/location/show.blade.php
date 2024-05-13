@@ -3,44 +3,53 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Detalle de la Ubicación</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h4>Detalle de la ubicació</h4>
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-border col-md-12">
                         <div class="card-header with-border">
                             <h3 class="card-title">Datos registrados</h3>
                             <div class="card-tools">
-                                <form style="display: inline" action="{{ route('location.destroy', [$location]) }}"
-                                    method="POST" onclick="ask{{ $location->id }}(event)" id="myform{{ $location->id }}">
-                                    @csrf
-                                    @method('DELETE')
+                                {{-- @can('eliminar ubicación') --}}
+                                    <form style="display: inline" action="{{ route('location.destroy', $location) }}"
+                                        method="POST" onclick="ask{{ $location->id }}(event)" id="myform{{ $location->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="btn-group pull-right me-2">
+                                            <a class="btn btn-sm btn-danger delete" title="Eliminar">
+                                                <i class="zmdi zmdi-delete mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                            </a>
+                                        </div>
+                                    </form>
+                                {{-- @endcan --}}
+                                {{-- @can('editar ubicación') --}}
                                     <div class="btn-group pull-right me-2">
-                                        <a class="btn btn-sm btn-danger delete" title="Eliminar">
-                                            <i class="zmdi zmdi-delete mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                        <a href="{{ route('location.edit', [$location]) }}" class="btn btn-sm btn-primary"
+                                            title="Editar">
+                                            <i class="zmdi zmdi-edit mr-2"></i><span class="hidden-xs">Editar</span>
                                         </a>
                                     </div>
-                                </form>
-                                <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('location.edit', [$location]) }}" class="btn btn-sm btn-primary" title="Editar">
-                                        <i class="zmdi zmdi-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                                    </a>
-                                </div>
-                                <div class="btn-group pull-right">
-                                    <a href="{{ route('location.index', []) }}" class="btn btn-sm btn-secondary"
-                                        title="Listar">
-                                        <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span
-                                            class="hidden-xs">Listar</span>
-                                    </a>
-                                </div>
+                                {{-- @endcan --}}
+                                {{-- @can('listar ubicaciones') --}}
+                                    <div class="btn-group pull-right">
+                                        <a href="{{ route('location.index', []) }}" class="btn btn-sm btn-secondary"
+                                            title="Listar">
+                                            <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span
+                                                class="hidden-xs">Listar</span>
+                                        </a>
+                                    </div>
+                                {{-- @endcan --}}
                             </div>
                         </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
                         <div class="form-horizontal">
                             <div class="card-body">
                                 <div class="row">
@@ -79,7 +88,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.box-body -->
                         </div>
                     </div>
                 </div>

@@ -3,22 +3,27 @@
 @section('title', 'SIS-Inventario | Activos')
 
 @section('content_header')
-    <h1>Administracion de activos</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h4>Administración de Activos</h4>
+        </div>
+    </div>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
-                <div class="btn-group pull-right me-2">
-                    <a href="{{ route('asset.create', []) }}" class="btn btn-sm btn-primary" title="Crear">
-                        <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
-                    </a>
-                </div>
+                {{-- @can('crear activo') --}}
+                    <div class="btn-group pull-right me-2">
+                        <a href="{{ route('asset.create', []) }}" class="btn btn-sm btn-primary" title="Crear">
+                            <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
+                        </a>
+                    </div>
+                {{-- @endcan --}}
             </div>
         </div>
         <div class="card-body">
-            {{-- Setup data for datatables --}}
             @php
                 $heads = [
                     'Nro',
@@ -40,16 +45,7 @@
                         'url' => '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
                     ],
                 ];
-                // $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
-//   <"row" <"col-12" tr> >
-//   <"row" <"col-sm-12 d-flex justify-content-start" f> >';
-                // $config['paging'] = false;
-                // $config['lengthMenu'] = [10, 50, 100, 500];
             @endphp
-
-            {{-- @section('plugins.Datatables', true)
-            @section('plugins.DatatablesPlugin', true) --}}
-
             <x-adminlte-datatable id="table7" :heads="$heads" head-theme="light" :config="$config" striped hoverable
                 bordered compressed>
                 @php
@@ -109,14 +105,16 @@
                 @endforeach
             </x-adminlte-datatable>
         </div>
-        <div class="card-footer">
-            <div class="row">
+        <div class="card-footer bg-transparent">
+            <div class="row mb-3">
                 <div class="col-md-12">
+                    {{-- @can('principal dashboard') --}}
                     <div class="btn-group pull-right me-2">
-                        <a href="{{ route('dashboard', []) }}" class="btn btn-sm btn-secondary" title="Principal">
+                        <a href="{{ route('dashboard') }}" class="btn btn-sm btn-secondary">
                             <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
                         </a>
                     </div>
+                    {{-- @endcan --}}
                 </div>
             </div>
         </div>
@@ -124,8 +122,6 @@
 @stop
 
 @section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 @stop
 
 @section('js')

@@ -1,193 +1,157 @@
 @extends('adminlte::page')
 
-@section('title', 'SIS-Inventario | Crear activo')
+@section('title', 'SIS-Inventario | crear activo')
 
 @section('content_header')
-    <h1>Nuevo activo</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h1>Nuevo activo</h1>
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf {{-- Guarda los datos para y genera un token  --}}
+            <div class="card card-border col-md-12">
+                <div class="card-header whit-border">
+                    <div class="card-tools">
+                        {{-- @can('listar activos') --}}
+                            <div class="btn-group pull-right me-2">
+                                <a href="{{ route('asset.index') }}" class="btn btn-sm btn-secondary">
+                                    <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span class="hidden-xs">Listar</span>
+                                </a>
+                            </div>
+                        {{-- @endcan --}}
+                    </div>
+                </div>
+                <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf {{-- Guarda los datos para y genera un token  --}}
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-input name="code" label="Código"
-                                                placeholder="Ingrese el código..." type="number" min=1
-                                                label-class="text-primary" value="{{ old('code') }}" required>
-                                                <x-slot name="appendSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="fas fa-hashtag text-primary"></i>
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
+                                            <label for="code">Código</label>
+                                            <input name="code" placeholder="Ingrese el código" type="number" min=1
+                                                class="form-control" value="{{ old('code') }}" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-input type="text" name="name" label="Nombre"
-                                                placeholder="Ingrese nombre del activo..." label-class="text-primary"
-                                                value="{{ old('name') }}" required>
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="zmdi zmdi-pin-user text-primary"></i>
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
+                                            <label for="name">Nombre activo</label>
+                                            <input type="text" name="name" placeholder="Ingrese nombre del activo"
+                                                class="form-control" value="{{ old('name') }}" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-select name="state" label="Estado" label-class="text-primary"
-                                                value="{{ old('state') }}" required>
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="fas fa-state text-primary"></i>
-                                                    </div>
-                                                </x-slot>
+                                            <label for="state">Seleccione etado del activo</label>
+                                            <select name="state" class="form-control" required>
+                                                <option value="{{ old('state') }}">{{ old('state') }}</option>
                                                 <option value="Bueno">Bueno</option>
                                                 <option value="Regular">Regular</option>
                                                 <option value="Malo">Malo</option>
                                                 <option value="Inoperativo">Inoperativo</option>
                                                 <option value="Obsoleto">Obsoleto</option>
-                                            </x-adminlte-select>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-input-date type="date" name="admission_date"
-                                                label="Fecha de ingreso" label-class="text-primary"
-                                                value="{{ old('admission_date') }}"
-                                                placeholder="Ingrese la fecha de ingreso..." required>
-                                            </x-adminlte-input-date>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <x-adminlte-input type="text" name="model" label="Modelo"
-                                                placeholder="Ingrese el modelo del activo..." label-class="text-primary"
-                                                value="{{ old('model') }}">
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="zmdi zmdi-card text-primary"></i>
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <x-adminlte-input type="text" name="series" label="Serie"
-                                                placeholder="Ingrese la serie del activo..." label-class="text-primary"
-                                                value="{{ old('series') }}">
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="zmdi zmdi-map text-primary"></i>
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
+                                            <label for="admission_date">Fecha de ingreso</label>
+                                            <input type="date" name="admission_date" class="form-control"
+                                                value="{{ old('admission_date') }}" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-select name="category_id" label="Seleccione Categoria" label-class="text-primary"
-                                                value="{{ old('category') }}" required>
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="fas fa-map text-primary"></i>
-                                                    </div>
-                                                </x-slot>
+                                            <label for="model">Modelo</label>
+                                            <input type="text" name="model" placeholder="Ingrese el modelo del activo"
+                                                class="form-control" value="{{ old('model') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="series">Serie</label>
+                                            <input type="text" name="series" placeholder="Ingrese la serie del activo"
+                                                class="form-control" value="{{ old('series') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="category_id">Seleccione categoría</label>
+                                            <select name="category_id" class="form-control" required>
+                                                <option value="{{ old('category_id') }}">{{ old('category_id') }}</option>
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
-                                            </x-adminlte-select>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-select name="location_id" label="Seleccione Ubicación" label-class="text-primary"
-                                                value="{{ old('location') }}" required>
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="fas fa-google text-primary"></i>
-                                                    </div>
-                                                </x-slot>
+                                            <label for="location_id">Seleccione ubicación</label>
+                                            <select name="location_id" class="form-control" required>
+                                                <option value="{{ old('location_id') }}">{{ old('location_id') }}</option>
                                                 @foreach ($locations as $location)
                                                     <option value="{{ $location->id }}">{{ $location->name }}</option>
                                                 @endforeach
-                                            </x-adminlte-select>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-textarea name="observations" label="Observaciones" rows=5
-                                                label-class="text-primary" placeholder="Ingrese su observación...">
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="fas fa-lg fa-file-alt text-primary"></i>
-                                                    </div>
-                                                </x-slot>
-                                                {{ old('observations') }}
-                                            </x-adminlte-textarea>
+                                            <label for="description">Descripción</label>
+                                            <textarea name="description" rows=3 class="form-control" placeholder="Ingrese descripción">{{ old('description') }}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-textarea name="description" label="Descripción" rows=5
-                                                label-class="text-primary" placeholder="Ingrese descripción...">
-                                                <x-slot name="prependSlot">
-                                                    <div class="input-group-text">
-                                                        <i class="fas fa-lg fa-file-alt text-primary"></i>
-                                                    </div>
-                                                </x-slot>
-                                                {{ old('description') }}
-                                            </x-adminlte-textarea>
+                                            <label for="observations">Observaciones</label>
+                                            <textarea name="observations"rows=3 class="form-control" placeholder="Ingrese su observación">{{ old('observations') }}</textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <x-adminlte-input-file-krajee name="image" label="Imagen"
-                                                label-class="text-primary" value="{{ old('image') }}" accept="image/*"/>
+                                            <label for="image">Ingrese una imagen</label>
+                                            <input type="file" name="image" class="form-control"
+                                                value="{{ old('image') }}" accept="image/*" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <div class="col-md-12">
-                                    <div class="btn-group pull-right me-2">
-                                        <button type="submit" class="btn btn-sm btn-primary" title="Guardar">
-                                            <i class="zmdi zmdi-save mr-2"></i><span class="hidden-xs">Guardar</span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group pull-right me-2">
-                                        <a href="{{ route('asset.index', []) }}" class="btn btn-sm btn-secondary"
-                                            title="Cancelar">
-                                            <i class="zmdi zmdi-undo mr-2"></i><span class="hidden-xs">Cancelar</span>
-                                        </a>
-                                    </div>
+                                <div class="btn-group pull-right me-2">
+                                    <button type="submit" class="btn btn-sm btn-primary" title="Guardar">
+                                        <i class="zmdi zmdi-save mr-2"></i><span class="hidden-xs">Guardar</span>
+                                    </button>
+                                </div>
+                                <div class="btn-group pull-right me-2">
+                                    <a href="{{ route('asset.index') }}" class="btn btn-sm btn-secondary"
+                                        title="Cancelar">
+                                        <i class="zmdi zmdi-undo mr-2"></i><span class="hidden-xs">Cancelar</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

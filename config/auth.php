@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'sanctum' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -69,9 +73,6 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-
-        // ---------------------------PROVIDERS DE LARAVEL PERMISSIONS------------------------------------------------------
-        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*
