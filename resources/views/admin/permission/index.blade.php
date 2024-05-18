@@ -102,7 +102,7 @@
                         <div class="col-md-12">
                             {{-- @can('principal dashboard') --}}
                                 <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('dashboard') }}" class="btn btn-sm btn-secondary">
+                                    <a href="{{ route('admin.index') }}" class="btn btn-sm btn-secondary">
                                         <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
                                     </a>
                                 </div>

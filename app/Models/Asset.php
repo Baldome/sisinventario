@@ -9,7 +9,20 @@ class Asset extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'name', 'sate', 'admission_date', 'model', 'series', 'image', 'description', 'observations', 'category_id', 'location_id'];
+    protected $fillable = [
+        'code',
+        'name',
+        'sate',
+        'category_id',
+        'location_id',
+        'admission_date',
+        'user_id',
+        'model',
+        'series',
+        'image',
+        'description',
+        'observations'
+    ];
 
     public function category()
     {
@@ -19,5 +32,11 @@ class Asset extends Model
     public function location()
     {
         return $this->belongsTo(Location::class); // de muchos a uno
+    }
+
+    // Relación de muchos a uno con la tabla users 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

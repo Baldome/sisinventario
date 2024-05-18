@@ -63,11 +63,11 @@ return [
     |
     */
 
-    'logo' => '<b>SIS</b>Inventario',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>SIS</b> INVENTARIO',
+    'logo_img' => 'vendor/adminlte/dist/img/logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
+    'logo_img_xl_class' => 'brand-image-sm',
     'logo_img_alt' => 'Admin Logo',
 
     /*
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logo.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -113,7 +113,7 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logo.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
@@ -176,7 +176,7 @@ return [
     'classes_auth_body' => '',
     'classes_auth_footer' => '',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn-block btn-primary',
 
     /*
     |--------------------------------------------------------------------------
@@ -318,42 +318,66 @@ return [
 
         //  Menu items: DESDE AQUI EMPIEZA MI CONFIGUACION ----------------------------------------------------------------
         [
-            'text' => 'Administración',
-            'icon' => 'fas fa-fw fa-square',
+            'text' => 'ADMINISTRACION',
+            'icon' => 'fa fa-fw fa-address-card mr-2',
             'submenu' => [
                 [
                     'text' => 'Usuarios',
                     'route' => 'user.index',
-                    'icon' => 'fas fa-user',
+                    'icon' => 'fas fa-fw fa-users mr-2',
                 ],
                 [
                     'text' => 'Roles',
                     'route' => 'role.index',
+                    'icon' => 'fa fa-fw fa-user mr-2',
                 ],
                 [
                     'text' => 'Permisos',
                     'route' => 'permission.index',
+                    'icon' => 'fa fa-fw fa-user-times mr-2',
                 ],
             ],
             // 'can' => 'administración'
         ],
 
         [
+            'header' => 'ADMINISTRACIÓN DE INVENTARIOS',
+            'icon' => 'fa fa-tag'
+            // 'icon' => 'fa fa-fw fa-cart-flatbed'
+        ],
+        [
             'text' => 'Ubicaciones',
             'route' => 'location.index',
-            'icon' => 'far fa-fw fa-map',
+            'icon' => 'fa fa-fw fa-map-marker mr-2',
             // 'label' => 4,
             // 'label_color' => 'success',
         ],
         [
             'text' => 'Categorias',
             'route' => 'category.index',
-            'icon' => 'fa fa-tag',
+            'icon' => 'fa fa-fw fa-tag mr-2',
         ],
         [
-            'text' => 'Inventario',
+            'text' => 'Activos',
             'route' => 'asset.index',
-            'icon' => 'far fa-fw fa-newspaper',
+            'icon' => 'far fa-fw fa-newspaper mr-2',
+        ],
+        // [
+        //     'text' => 'Asignacion',
+        //     'route' => 'asset.createAssignAssetToUser',
+        //     'icon' => 'fa fa-fw fa-share mr-2',
+        // ],
+        [
+            'header' => 'ADMINISTRACIÓN DE HERRAMIENTAS',
+            'icon' => 'fa fa-fw fa-tag mr-2'
+            // 'icon' => 'fa fa-fw fa-cart-flatbed'
+        ],
+        [
+            'text' => 'Herramientas',
+            'url' => '#',
+            'icon' => 'fa fa-fw fa-cogs mr-2',
+            // 'label' => 4,
+            // 'label_color' => 'success',
         ],
         //  End Menu items: AQUI TERMINA MI CONFIGUACION ----------------------------------------------------------------
 

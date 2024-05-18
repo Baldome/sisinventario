@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
-use Illuminate\Routing\Controller as BaseController; 
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
@@ -17,15 +17,15 @@ class UserController extends BaseController
 
     use AuthorizesRequests;
 
-    public function __construct()
-    {
-        $this->middleware('can:listar usuarios')->only('index');
-        $this->middleware('can:crear usuario')->only('create');
-        $this->middleware('can:editar usuario')->only('edit');
-        $this->middleware('can:eliminar usuario')->only('destroy');
-        $this->middleware('can:visualizar usuario')->only('show');
-    }
-    
+    // public function __construct()
+    // {
+    //     $this->middleware('can:listar usuarios')->only('index');
+    //     $this->middleware('can:crear usuario')->only('create');
+    //     $this->middleware('can:editar usuario')->only('edit');
+    //     $this->middleware('can:eliminar usuario')->only('destroy');
+    //     $this->middleware('can:visualizar usuario')->only('show');
+    // }
+
     /**
      * Display a listing of the resource.
      */
@@ -41,7 +41,7 @@ class UserController extends BaseController
      */
     public function create()
     {
-        $roles = Role::pluck('name', 'name')->all();
+        $roles = Role::all();
         return view('admin.user.create', compact('roles'));
     }
 
@@ -55,6 +55,7 @@ class UserController extends BaseController
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
+            'role_id' => 'required',
             'code' => 'required|numeric|unique:users,code',
             'ci' => 'required|numeric|unique:users,ci',
             'ci_dep' => 'required|string',
@@ -62,18 +63,16 @@ class UserController extends BaseController
             'state' => 'required|in:Activo,Inactivo',
             'birth_date' => 'required|date',
             'gender' => 'required|string|in:Hombre,Mujer',
-            'roles' => 'required',
             'photo' => 'image|max:1024',
         ]);
 
         try {
-            $image = $request->file('photo')->store('public/images/users');
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'profile_photo_path' => Storage::url($image),
                 'code' => $request->code,
+                'rol_id' => $request->role_id,
                 'ci' => $request->ci,
                 'ci_dep' => $request->ci_dep,
                 'last_name' => $request->last_name,
@@ -83,9 +82,14 @@ class UserController extends BaseController
                 'phone' => $request->phone,
                 'address' => $request->address,
             ];
-
+            // Agrega una foto de perfil si se carga 
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo')->store('public/images/users');
+                $data['profile_photo_path'] = Storage::url($image);
+            }
             $user = User::create($data);
-            $user->syncRoles($request->roles);
+            // Asigna el rol seleccionado al usuario
+            $user->assignRole(Role::find($request->role_id)->name);
 
             return redirect()->route('user.index')
                 ->with('message', 'Registro exitoso!')
@@ -112,14 +116,9 @@ class UserController extends BaseController
      */
     public function edit(User $user)
     {
-        $roles = Role::pluck('name', 'name')->all();
-        $user_role = $user->roles->pluck('name', 'name')->all();
-        return view('admin.user.edit', compact('user', 'roles', 'user_role'));
-        if (!empty($request->password)) {
-            $data += [
-                'password' => Hash::make($request->password),
-            ];
-        }
+        $user = User::findOrFail($user->id);
+        $roles = Role::all();
+        return view('admin.user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -131,6 +130,7 @@ class UserController extends BaseController
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'confirmed'], // Cambiado a nullable para permitir actualizar sin cambiar contraseña
+            'role_id' => ['required'],
             'code' => ['required', 'numeric', 'unique:users,code,' . $user->id],
             'ci' => ['required', 'numeric', 'unique:users,ci,' . $user->id],
             'ci_dep' => ['required', 'string'],
@@ -138,7 +138,6 @@ class UserController extends BaseController
             'state' => ['required', 'in:Activo,Inactivo'],
             'birth_date' => ['required', 'date'],
             'gender' => ['required', 'string', 'in:Hombre,Mujer'],
-            'roles' => ['required'],
             'photo' => ['nullable', 'image', 'max:512'], // Cambiado a nullable para permitir no cambiar la foto
         ]);
 
@@ -146,6 +145,7 @@ class UserController extends BaseController
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
+                'role_id' => $request->role_id,
                 'code' => $request->code,
                 'ci' => $request->ci,
                 'ci_dep' => $request->ci_dep,
@@ -171,7 +171,7 @@ class UserController extends BaseController
             }
 
             $user->update($data);
-            $user->syncRoles($request->roles);
+            $user->assignRole(Role::find($request->role_id)->name);
 
             return redirect()->route('user.index')
                 ->with('message', 'Actualización correcta!')

@@ -35,6 +35,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return view('admin.index');
     }
 }

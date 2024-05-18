@@ -13,28 +13,32 @@
 @section('content')
     <div class="card">
         <div class="card-header">
+            <span
+                class="text-bg-dark text-lg">{{ Auth::user()->hasRole('Administrador') ? 'Todos los Activos' : 'Mis Activos' }}</span>
             <div class="card-tools">
                 {{-- @can('crear activo') --}}
-                    <div class="btn-group pull-right me-2">
-                        <a href="{{ route('asset.create', []) }}" class="btn btn-sm btn-primary" title="Crear">
-                            <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
-                        </a>
-                    </div>
+                <div class="btn-group pull-right me-2">
+                    <a href="{{ route('asset.create') }}" class="btn btn-sm btn-primary" title="Crear">
+                        <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
+                    </a>
+                </div>
                 {{-- @endcan --}}
             </div>
         </div>
         <div class="card-body">
             @php
                 $heads = [
-                    'Nro',
+                    '#',
                     'Imagen',
                     'Código',
                     'Nombre',
+                    auth()->user()->can('ver activos asignados') ? 'Usuario asignado' : null,
                     'Estado',
                     'Categoria',
                     'Ubicación',
-                    ['label' => 'Acciones', 'no-export' => true, 'width' => 15],
+                    ['label' => 'Acciones', 'no-export' => true, 'width' => 16],
                 ];
+                $heads = array_filter($heads); // Eliminar elementos nulos
                 $btnEdit = '';
                 $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
@@ -63,10 +67,50 @@
                         </td>
                         <td>{{ $asset->code }}</td>
                         <td>{{ $asset->name }}</td>
+                        @can('ver activos asignados')
+                            <td>
+                                @if ($asset->user)
+                                    @if ($asset->user->role_id === 1)
+                                        <span class="badge text-sm bg-success">{{ $asset->user->name }}</span>
+                                    @endif
+                                    @if ($asset->user->role_id === 2)
+                                        <span class="badge text-sm bg-primary">{{ $asset->user->name }}</span>
+                                    @endif
+                                    @if ($asset->user->role_id === 3)
+                                        <span class="badge text-sm bg-cyan">{{ $asset->user->name }}</span>
+                                    @endif
+                                    @if ($asset->user->role_id === 4)
+                                        <span class="badge text-sm bg-warning">{{ $asset->user->name }}</span>
+                                    @endif
+                                    @if ($asset->user->role_id === 5)
+                                        <span class="badge text-sm bg-info">{{ $asset->user->name }}</span>
+                                    @endif
+                                    @if ($asset->user->role_id === 6)
+                                        <span class="badge text-sm bg-secondary">{{ $asset->user->name }}</span>
+                                    @endif
+                                    @if ($asset->user->role_id === 7)
+                                        <span class="badge text-sm bg-light">{{ $asset->user->name }}</span>
+                                    @endif
+                                @else
+                                    <span class="badge text-sm bg-danger">Sin asignar</span>
+                                @endif
+                            </td>
+                        @endcan
                         <td>{{ $asset->state }}</td>
                         <td>{{ $asset->category->name }}</td>
                         <td>{{ $asset->location->name }}</td>
-                        <td><a href="{{ route('asset.edit', [$asset]) }}"
+                        <td>
+                            @if ($asset->user)
+                                <span class="badge text-xs bg-success" title="Asignado">
+                                    <i class="fa fa-lg fa-check"></i>
+                                </span>
+                            @else
+                                <a href="{{ route('asset.createAssignAssetToUser') }}"
+                                    class="btn btn-xs btn-default text-warning mx-1 shadow" title="Asignar activo">
+                                    <i class="fa fa-lg fa-fw fa-share" aria-hidden="true"></i>
+                                </a>
+                            @endif
+                            <a href="{{ route('asset.edit', $asset) }}"
                                 class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
                                 <i class="fa fa-lg fa-fw fa-pen"></i>
                             </a>
@@ -110,7 +154,7 @@
                 <div class="col-md-12">
                     {{-- @can('principal dashboard') --}}
                     <div class="btn-group pull-right me-2">
-                        <a href="{{ route('dashboard') }}" class="btn btn-sm btn-secondary">
+                        <a href="{{ route('admin.index') }}" class="btn btn-sm btn-secondary">
                             <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
                         </a>
                     </div>

@@ -177,12 +177,12 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <div class="mb-3">
-                                                <label for="roles">Asignar rol</label>
-                                                <select name="roles[]" class="form-control" id="roles" multiple>
+                                                <label for="role_id">Seleccionar un rol para asignar</label>
+                                                <select name="role_id" class="form-control" id="role_id">
                                                     @foreach ($roles as $role)
-                                                        <option value="{{ $role }}"
-                                                            {{ in_array($role, $user_role) ? 'selected' : '' }}>
-                                                            {{ $role }}
+                                                        <option value="{{ $role->id }}"
+                                                            {{ $role->id === $user->roles->first()->id ? 'selected' : '' }}>
+                                                            {{ $role->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -191,15 +191,17 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
+                                            <label for="address">Dirección</label>
+                                            <textarea name="address" id="address" cols="30" rows="4" class="form-control">{{ $user->address }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group text-center">
+                                            <img src="{{ asset($user->profile_photo_path) }}" alt="Foto de perfil"
+                                                width="150">
                                         </div>
                                     </div>
                                     <div class="row justify-content-center">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <img src="{{ asset($user->profile_photo_path) }}" alt="Foto de perfil"
-                                                    width="150">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">

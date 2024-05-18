@@ -17,11 +17,11 @@
                 <div class="card-header with-border">
                     <div class="card-tools">
                         {{-- @can('crear categoría') --}}
-                            <div class="btn-group pull-right me-2">
-                                <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary">
-                                    <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
-                                </a>
-                            </div>
+                        <div class="btn-group pull-right me-2">
+                            <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary">
+                                <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
+                            </a>
+                        </div>
                         {{-- @endcan --}}
                     </div>
                 </div>
@@ -64,45 +64,45 @@
                                 <td>{{ $category->description }}</td>
                                 <td>
                                     {{-- @can('editar categoría') --}}
-                                        <a href="{{ route('category.edit', $category) }}"
-                                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
-                                            <i class="fa fa-lg fa-fw fa-pen"></i>
-                                        </a>
+                                    <a href="{{ route('category.edit', $category) }}"
+                                        class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
+                                        <i class="fa fa-lg fa-fw fa-pen"></i>
+                                    </a>
                                     {{-- @endcan --}}
                                     {{-- @can('eliminar categoría') --}}
-                                        <form style="display: inline" action="{{ route('category.destroy', $category) }}"
-                                            method="post" onclick="ask{{ $category->id }}(event)"
-                                            id="myform{{ $category->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            {!! $btnDelete !!}
-                                        </form>
-                                        <script>
-                                            function ask{{ $category->id }}(event) {
-                                                event.preventDefault();
-                                                Swal.fire({
-                                                    title: 'Eliminar registro',
-                                                    text: '¿Desea eliminar este registro?',
-                                                    icon: 'question',
-                                                    showDenyButton: true,
-                                                    confirmButtonText: 'Eliminar',
-                                                    confirmButtonColor: 'red',
-                                                    denyButtonColor: '#270a0a',
-                                                    denyButtonText: 'Cancelar',
-                                                }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        var form = $('#myform{{ $category->id }}');
-                                                        form.submit();
-                                                    }
-                                                });
-                                            }
-                                        </script>
+                                    <form style="display: inline" action="{{ route('category.destroy', $category) }}"
+                                        method="post" onclick="ask{{ $category->id }}(event)"
+                                        id="myform{{ $category->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        {!! $btnDelete !!}
+                                    </form>
+                                    <script>
+                                        function ask{{ $category->id }}(event) {
+                                            event.preventDefault();
+                                            Swal.fire({
+                                                title: 'Eliminar registro',
+                                                text: '¿Desea eliminar este registro?',
+                                                icon: 'question',
+                                                showDenyButton: true,
+                                                confirmButtonText: 'Eliminar',
+                                                confirmButtonColor: 'red',
+                                                denyButtonColor: '#270a0a',
+                                                denyButtonText: 'Cancelar',
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    var form = $('#myform{{ $category->id }}');
+                                                    form.submit();
+                                                }
+                                            });
+                                        }
+                                    </script>
                                     {{-- @endcan --}}
                                     {{-- @can('visualizar categoría') --}}
-                                        <a href="{{ route('category.show', [$category]) }}"
-                                            class="btn btn-xs btn-default text-teal mx-1 shadow" title="Detalles">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
+                                    <a href="{{ route('category.show', [$category]) }}"
+                                        class="btn btn-xs btn-default text-teal mx-1 shadow" title="Detalles">
+                                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                                    </a>
                                     {{-- @endcan --}}
                                 </td>
                             </tr>
@@ -113,7 +113,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="btn-group pull-right me-2">
-                                <a href="{{ route('dashboard', []) }}" class="btn btn-sm btn-secondary" title="Principal">
+                                <a href="{{ route('admin.index') }}" class="btn btn-sm btn-secondary" title="Principal">
                                     <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
                                 </a>
                             </div>

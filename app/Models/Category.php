@@ -11,7 +11,8 @@ class Category extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public function asset () {
+    public function asset()
+    {
         return $this->hasMany(Asset::class); // relacion de uno a muchos
     }
 }

@@ -185,10 +185,10 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <div class="mb-3">
-                                                <label for="roles">Asignar rol</label>
-                                                <select name="roles[]" class="form-control" id="roles" multiple>
+                                                <label for="role">Seleccione un rol para asignar</label>
+                                                <select name="role_id" class="form-control" id="role">
                                                     @foreach ($roles as $role)
-                                                        <option value="{{ $role }}">{{ $role }}</option>
+                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

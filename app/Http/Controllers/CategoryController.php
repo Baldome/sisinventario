@@ -30,7 +30,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:categories,name',
         ]);
 
         $category = new Category();
@@ -66,13 +66,13 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:assets,name,' . $category->id,
         ]);
 
         $category->name = $request->input('name');
         $category->description = $request->input('description');
 
-        $category->save();
+        $category->update();
 
         return redirect()->route('category.index')
             ->with('message', 'Actualización correcta!')

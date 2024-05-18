@@ -33,7 +33,7 @@ class LocationController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:locations,name',
         ]);
 
         $location = new Location();
@@ -75,14 +75,13 @@ class LocationController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:locations,name,' . $location->id,
         ]);
 
-        //$location = Location::find($location);
         $location->name = $request->input('name');
         $location->description = $request->input('description');
 
-        $location->save();
+        $location->update();
 
         return redirect()->route('location.index')
             ->with('message', 'Actualización correcta!')

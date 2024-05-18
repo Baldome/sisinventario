@@ -30,6 +30,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_photo_path',
+        'role_id',
         'code',
         'ci',
         'ci_dep',
@@ -76,5 +77,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relación de uno a muchos con la tabla Assets 
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
     }
 }

@@ -129,6 +129,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="image">Ingrese una imagen</label>
+                                            <input type="hidden" name="old_image"
+                                                value="{{ $asset->image }}">
                                             <input type="file" name="image" class="form-control"
                                                 value="{{ $asset->image }}" accept="image/*" />
                                         </div>

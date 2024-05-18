@@ -36,7 +36,7 @@
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                        {{-- <a href="{{ route('welcome') }}" class="signup-image-link">Cancelar</a> --}}
+                        <a href="{{ url('/') }}" class="signup-image-link">Cancelar</a>
                     </div>
 
                     <div class="signin-form">

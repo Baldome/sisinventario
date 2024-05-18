@@ -1,4 +1,4 @@
-import './bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle';
 // icons the fontawesome
 import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
 import '@fortawesome/fontawesome-free/scss/brands.scss';

@@ -55,7 +55,7 @@
                                 <td>{{ $role->name }}</td>
                                 <td>
                                     @foreach ($role->permissions as $permission)
-                                        <label class="badge bg-primary mx-1">{{ $permission->name }}</label>
+                                        <span class="badge bg-primary mx-1">{{ $permission->name }}</span>
                                     @endforeach
                                 </td>
                                 <td><a href="{{ url('admin/role/' . $role->id . '/assign-permissions-to-role') }}"
@@ -105,7 +105,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="btn-group pull-right me-2">
-                                <a href="{{ route('dashboard') }}" class="btn btn-sm btn-secondary" title="Principal">
+                                <a href="{{ route('admin.index') }}" class="btn btn-sm btn-secondary" title="Principal">
                                     <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
                                 </a>
                             </div>
