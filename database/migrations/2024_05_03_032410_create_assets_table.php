@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->string('name');
+            $table->integer('code')->unique();
+            $table->string('name')->unique();
             $table->string('state');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('location_id');
@@ -26,10 +26,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('observations')->nullable();
             $table->timestamps();
-            
-            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade');
-            $table->foreign('location_id')->references('id')->on('locations')->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

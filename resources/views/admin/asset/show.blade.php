@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <h4>Detalle del activo : <span>{{ $asset->name }}</span></h4>
+            <h4><b>DETALLES DEL ACTIVO</b></h4>
         </div>
     </div>
 @stop
@@ -17,34 +17,33 @@
                 <div class="col-md-12">
                     <div class="card card-border col-md-12">
                         <div class="card-header with-border">
-                            <h3 class="card-title">Datos registrados</h3>
+                            <h3 class="card-title">Datos registrados del activo: <b>{{ $asset->name }}</b></h3>
                             <div class="card-tools">
                                 {{-- @can('eliminar activo') --}}
-                                    <form style="display: inline" action="{{ route('asset.destroy', [$asset]) }}" method="POST"
-                                        onclick="ask{{ $asset->id }}(event)" id="myform{{ $asset->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <div class="btn-group pull-right me-2">
-                                            <a class="btn btn-sm btn-danger delete">
-                                                <i class="zmdi zmdi-delete mr-2"></i><span class="hidden-xs">Eliminar</span>
-                                            </a>
-                                        </div>
-                                    </form>
+                                <form style="display: inline" action="{{ route('asset.destroy', [$asset]) }}" method="POST"
+                                    onclick="ask{{ $asset->id }}(event)" id="myform{{ $asset->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="btn-group pull-right me-2">
+                                        <a class="btn btn-sm btn-danger delete">
+                                            <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                        </a>
+                                    </div>
+                                </form>
                                 {{-- @endcan --}}
                                 {{-- @can('editar activo') --}}
-                                    <div class="btn-group pull-right me-2">
-                                        <a href="{{ route('asset.edit', [$asset]) }}" class="btn btn-sm btn-primary">
-                                            <i class="zmdi zmdi-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                                        </a>
-                                    </div>
+                                <div class="btn-group pull-right me-2">
+                                    <a href="{{ route('asset.edit', [$asset]) }}" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
+                                    </a>
+                                </div>
                                 {{-- @endcan --}}
                                 {{-- @can('listar activos') --}}
-                                    <div class="btn-group pull-right">
-                                        <a href="{{ route('asset.index', []) }}" class="btn btn-sm btn-secondary">
-                                            <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span
-                                                class="hidden-xs">Listar</span>
-                                        </a>
-                                    </div>
+                                <div class="btn-group pull-right">
+                                    <a href="{{ route('asset.index', []) }}" class="btn btn-sm btn-secondary">
+                                        <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
+                                    </a>
+                                </div>
                                 {{-- @endcan --}}
                             </div>
                         </div>
@@ -77,7 +76,8 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label style="text-align: end" class="col-sm-4 form-label">Fecha agregada</label>
+                                            <label style="text-align: end" class="col-sm-4 form-label">Fecha
+                                                agregada</label>
                                             <div class="col-sm-8 show-value">
                                                 {{ $asset->admission_date }}
                                             </div>
@@ -125,7 +125,8 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label style="text-align: end" class="col-sm-4 form-label">Fecha actualizada</label>
+                                            <label style="text-align: end" class="col-sm-4 form-label">Fecha
+                                                actualizada</label>
                                             <div class="col-sm-8 show-value">
                                                 {{ $asset->updated_at }}
                                             </div>
@@ -133,7 +134,8 @@
                                     </div>
                                     <div class="col-md-4 justify-content-center">
                                         <div class="row justify-content-center">
-                                            <img src="{{ $asset->image }}" alt="Imagen del activo" width="200">
+                                            <label for="image" class="text-center">IMAGEN</label>
+                                            <img src="{{ $asset->image }}" alt="Imagen del activo" width="100px">
                                         </div>
                                     </div>
                                 </div>

@@ -27,6 +27,7 @@ class AuthController extends Controller
             'google_id' => $googleUser->id,
         ], [
             'name' => $googleUser->name,
+            'username' => $googleUser->userName,
             'email' => $googleUser->email,
             'email_verified_at' => $date,
             'google_id' => $googleUser->id,

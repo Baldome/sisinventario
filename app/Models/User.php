@@ -11,6 +11,9 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @method static bool hasRole($roles)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -35,13 +38,11 @@ class User extends Authenticatable
         'ci',
         'ci_dep',
         'last_name',
-        'state',
+        'is_active',
         'birth_date',
         'gender',
         'phone',
         'address',
-        'google_id',
-        'google_token',
         'email_verified_at',
     ];
 
@@ -80,8 +81,18 @@ class User extends Authenticatable
     }
 
     // Relación de uno a muchos con la tabla Assets 
-    public function assets()
+    public function asset()
     {
         return $this->hasMany(Asset::class);
+    }
+
+    public function tools()
+    {
+        return $this->hasMany(Tool::class);
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'borrower_user_id');
     }
 }

@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h4>Detalle de categoría : <span>{{ $category->name }}</span></h4>
+            <h4><b>DETALLES DE LA CATEGORÍA</b></h4>
         </div>
     </div>
 @stop
@@ -17,7 +17,7 @@
                 <div class="col-md-12">
                     <div class="card card-border col-md-12">
                         <div class="card-header with-border">
-                            <h3 class="card-title">Datos registrados</h3>
+                            <h3 class="card-title">Datos registrados de la categoría: <b>{{ $category->name }}</b> </h3>
                             <div class="card-tools">
                                 <form style="display: inline" action="{{ route('category.destroy', $category) }}"
                                     method="POST" onclick="ask{{ $category->id }}(event)" id="myform{{ $category->id }}">

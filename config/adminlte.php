@@ -318,8 +318,8 @@ return [
 
         //  Menu items: DESDE AQUI EMPIEZA MI CONFIGUACION ----------------------------------------------------------------
         [
-            'text' => 'ADMINISTRACION',
-            'icon' => 'fa fa-fw fa-address-card mr-2',
+            'text' => 'GESTIÓN DE USUARIOS',
+            'icon' => 'fas fa-fw fa-warehouse',
             'submenu' => [
                 [
                     'text' => 'Usuarios',
@@ -339,18 +339,13 @@ return [
             ],
             // 'can' => 'administración'
         ],
-
         [
-            'header' => 'ADMINISTRACIÓN DE INVENTARIOS',
-            'icon' => 'fa fa-tag'
-            // 'icon' => 'fa fa-fw fa-cart-flatbed'
+            'header' => 'GESTIÓN DE INVENTARIOS',
         ],
         [
             'text' => 'Ubicaciones',
             'route' => 'location.index',
             'icon' => 'fa fa-fw fa-map-marker mr-2',
-            // 'label' => 4,
-            // 'label_color' => 'success',
         ],
         [
             'text' => 'Categorias',
@@ -362,22 +357,36 @@ return [
             'route' => 'asset.index',
             'icon' => 'far fa-fw fa-newspaper mr-2',
         ],
-        // [
-        //     'text' => 'Asignacion',
-        //     'route' => 'asset.createAssignAssetToUser',
-        //     'icon' => 'fa fa-fw fa-share mr-2',
-        // ],
         [
-            'header' => 'ADMINISTRACIÓN DE HERRAMIENTAS',
-            'icon' => 'fa fa-fw fa-tag mr-2'
-            // 'icon' => 'fa fa-fw fa-cart-flatbed'
+            'header' => 'GESTIÓN DE HERRAMIENTAS',
         ],
         [
             'text' => 'Herramientas',
-            'url' => '#',
-            'icon' => 'fa fa-fw fa-cogs mr-2',
-            // 'label' => 4,
-            // 'label_color' => 'success',
+            'route' => 'tools.index',
+            'icon' => 'fa fa-fw fa-screwdriver-wrench mr-2',
+        ],
+        [
+            'text' => 'Tus préstamos',
+            'route' => 'loans.index',
+            'icon' => 'fa fa-fw fa-share-from-square mr-2',
+        ],
+        [
+            'text' => 'Devolver préstamos',
+            'route' => 'loans.return',
+            'icon' => 'fa fa-fw fa-reply-all mr-2',
+        ],
+        [
+            'text' => 'Unidades',
+            'route' => 'units.index',
+            'icon' => 'fa fa-fw fa-note-sticky mr-2',
+        ],
+        [
+            'header' => 'GESTIÓN DE LA INSTITUCIÓN',
+        ],
+        [
+            'text' => 'Configuraciones',
+            'route' => 'settings.index',
+            'icon' => 'fa fa-fw fa-gear mr-2',
         ],
         //  End Menu items: AQUI TERMINA MI CONFIGUACION ----------------------------------------------------------------
 

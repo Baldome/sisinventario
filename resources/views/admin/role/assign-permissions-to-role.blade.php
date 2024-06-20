@@ -4,15 +4,15 @@
 
 @section('content_header')
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h4>Rol : <span class="text-bold">{{ $role->name }}</span></h4>
+        <div class="col-md-10">
+            <h4>Rol: <span class="text-bold">{{ $role->name }}</span></h4>
         </div>
     </div>
 @stop
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card card-border col-md-12">
                 <form action="{{ route('role.createPermissionsToRole', $role->id) }}" method="POST">
                     @csrf
@@ -41,12 +41,12 @@
                             <div class="col-md-12 mb-2">
                                 <div class="btn-group pull-right me-2">
                                     <button type="submit" class="btn btn-sm btn-primary">
-                                        <i class="zmdi zmdi-save mr-2"></i><span class="hidden-xs">Asignar</span>
+                                        <i class="fa-solid fa-save mr-2"></i><span class="hidden-xs">Asignar</span>
                                     </button>
                                 </div>
                                 <div class="btn-group pull-right me-2">
                                     <a href="{{ route('role.index') }}" class="btn btn-sm btn-secondary">
-                                        <i class="zmdi zmdi-undo mr-2"></i><span class="hidden-xs">Cancelar</span>
+                                        <i class="fa-solid fa-ban mr-2"></i><span class="hidden-xs">Cancelar</span>
                                     </a>
                                 </div>
                             </div>
@@ -62,5 +62,4 @@
 @stop
 
 @section('js')
-    <script></script>
 @stop

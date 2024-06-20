@@ -4,35 +4,36 @@
 
 @section('content_header')
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h4>Administración de roles</h4>
+        <div class="col-md-6">
+            <h4><b>ADMINISTRACIÓN DE ROLES</b></h4>
         </div>
     </div>
 @stop
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card card-border col-md-12">
                 <div class="card-header with-border">
                     <div class="card-tools">
                         <div class="btn-group pull-right me-2">
-                            <a href="{{ route('role.create') }}" class="btn btn-sm btn-primary">
-                                <i class="zmdi zmdi-plus mr-2"></i><span class="hidden-xs">Crear</span>
-                            </a>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#createRoleModal">
+                                <i class="fa-solid fa-plus mr-2"></i>Crear nuevo rol
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     @php
                         $heads = [
-                            'Nro',
+                            '#',
                             'Nombre',
-                            ['label' => 'Permisos', 'no-export' => true, 'width' => 50],
+                            'Permisos',
                             ['label' => 'Acciones', 'no-export' => true, 'width' => 16],
                         ];
 
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar">
+                        $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1" title="Eliminar">
                                       <i class="fa fa-lg fa-fw fa-trash"></i>
                                       </button>';
                         $config = [
@@ -42,7 +43,7 @@
                         ];
                     @endphp
                     <x-adminlte-datatable id="table" :heads="$heads" :config="$config" striped hoverable bordered
-                        compressed>
+                        compressed with-buttons>
                         @php
                             $counter = 0;
                         @endphp
@@ -53,19 +54,17 @@
                             <tr>
                                 <td>{{ $counter }}</td>
                                 <td>{{ $role->name }}</td>
-                                <td>
-                                    @foreach ($role->permissions as $permission)
-                                        <span class="badge bg-primary mx-1">{{ $permission->name }}</span>
-                                    @endforeach
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#permissionsModal{{ $role->id }}">
+                                        <i class="fa-solid fa-eye mr-2"></i>Ver permisos
+                                    </button>
                                 </td>
-                                <td><a href="{{ url('admin/role/' . $role->id . '/assign-permissions-to-role') }}"
-                                        class="btn btn-xs btn-default text-warning mx-1 shadow" title="Asignar Permisos">
-                                        <i class="fa fa-lg fa-fw fa-share" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="{{ route('role.edit', $role) }}"
-                                        class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar">
+                                <td style="text-align: center; align-content: center">
+                                    <button class="btn btn-xs btn-default text-primary" data-bs-toggle="modal"
+                                        data-bs-target="#editRoleModal{{ $role->id }}" title="Editar">
                                         <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </a>
+                                    </button>
                                     <form style="display: inline" action="{{ route('role.destroy', $role) }}" method="post"
                                         onclick="ask{{ $role->id }}(event)" id="myform{{ $role->id }}">
                                         @csrf
@@ -92,12 +91,94 @@
                                             });
                                         }
                                     </script>
-                                    <a href="{{ route('role.show', $role) }}"
-                                        class="btn btn-xs btn-default text-teal mx-1 shadow" title="Detalles">
+                                    <a href="{{ route('role.show', $role) }}" class="btn btn-xs btn-default text-teal"
+                                        title="Detalles">
                                         <i class="fa fa-lg fa-fw fa-eye"></i>
                                     </a>
                                 </td>
                             </tr>
+                            <!-- Modal permissions-->
+                            <div class="modal fade" id="permissionsModal{{ $role->id }}" tabindex="-1"
+                                aria-labelledby="permissionsModalLabel{{ $role->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="permissionsModalLabel{{ $role->id }}">Permisos
+                                                del rol <b>{{ $role->name }}</b></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if ($role->permissions->isEmpty())
+                                                <p>No hay permisos asignados a este rol.</p>
+                                            @else
+                                                @foreach ($role->permissions as $permission)
+                                                    <p class="badge text-sm bg-primary m-1">{{ $permission->name }}</p>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{ url('admin/role/' . $role->id . '/assign-permissions-to-role') }}"
+                                                class="btn btn-sm btn-primary">
+                                                <i class="fa-solid fa-share mr-2" aria-hidden="true"></i>Asignar Permisos
+                                            </a>
+                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                data-bs-dismiss="modal"><i class="fa-solid fa-ban mr-2"></i>Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal edit role-->
+                            <div class="modal fade" id="editRoleModal{{ $role->id }}" tabindex="-1"
+                                aria-labelledby="editRoleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editRoleModalLabel"><b>Editar rol</b></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('role.update', $role) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label for="name">Nombre rol</label>
+                                                        <div class="form-group input-group">
+                                                            <span class="input-group-text"><i
+                                                                    class="fa-solid fa-user-lock"></i></span>
+                                                            <input type="text" name="name" class="form-control"
+                                                                placeholder="Ingrese nombre del rol"
+                                                                value="{{ $role->name }}" required>
+                                                            @error('name')
+                                                                <small style="color: red">{{ $message }}</small>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group pull-right me-2">
+                                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                                <i class="fa-solid fa-pen-to-square mr-2"></i><span
+                                                                    class="hidden-xs">Actualizar</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-group pull-right me-2">
+                                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                                data-bs-dismiss="modal"><i
+                                                                    class="fa-solid fa-ban mr-2"></i>Cancelar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </x-adminlte-datatable>
                 </div>
@@ -106,10 +187,59 @@
                         <div class="col-md-12">
                             <div class="btn-group pull-right me-2">
                                 <a href="{{ route('admin.index') }}" class="btn btn-sm btn-secondary" title="Principal">
-                                    <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
+                                    <i class="fa-solid fa-house mr-2"></i><span class="hidden-xs">Principal</span>
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal create role-->
+            <div class="modal fade" id="createRoleModal" tabindex="-1" aria-labelledby="createRoleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createRoleModalLabel"><b>Crear nuevo rol</b></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('role.store') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="name">Nombre rol</label>
+                                        <div class="form-group input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-user-lock"></i></span>
+                                            <input type="text" name="name" class="form-control"
+                                                placeholder="Ingrese nombre del rol" value="{{ old('name') }}"
+                                                required>
+                                        </div>
+                                        @error('name')
+                                            <small style="color: red">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="btn-group pull-right me-2">
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                <i class="fa-solid fa-save mr-2"></i><span
+                                                    class="hidden-xs">Guardar</span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group pull-right me-2">
+                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                data-bs-dismiss="modal"><i
+                                                    class="fa-solid fa-ban mr-2"></i>Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -118,6 +248,15 @@
 @stop
 
 @section('css')
+    <style>
+        input:invalid {
+            border-color: red;
+        }
+
+        select:invalid {
+            border-color: red;
+        }
+    </style>
 @stop
 
 @section('js')

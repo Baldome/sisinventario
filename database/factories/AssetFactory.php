@@ -20,9 +20,9 @@ class AssetFactory extends Factory
     {
         return [
             'image' => Storage::url('public/images/assets/computer.png'),
-            'code' => strtoupper(Str::random(10)), // Código aleatorio de 10 caracteres
-            'name' => $this->faker->word, // Nombre aleatorio
-            'user_id' => rand(1, 7), // ID de usuario entre 1 y 7
+            'code' => $this->faker->unique()->numberBetween(10000, 99999),
+            'name' => $this->faker->unique()->word, // Nombre aleatorio
+            'user_id' => optional()->rand(1, 7), // ID de usuario entre 1 y 7
             'state' => $this->faker->randomElement(['Bueno', 'Regular', 'Malo', 'Inoperativo', 'Obsoleto']), // Estado aleatorio
             'admission_date' => now(),
             'model' => $this->faker->word,

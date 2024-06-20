@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1>Detalle del usuario : {{ $user->name }}</h1>
+            <h1><b>DETALLES DEL USUARIO</b></h1>
         </div>
     </div>
 @stop
@@ -17,7 +17,9 @@
                 <div class="col-md-12">
                     <div class="card card-border col-md-12">
                         <div class="card-header with-border">
-                            <h3 class="card-title">Datos registrados</h3>
+                            <h3 class="card-title text-lg">Datos registrados del usuario:
+                                <b>{{ $user->name . ' ' . $user->last_name }}</b>
+                            </h3>
                             <div class="card-tools">
                                 {{-- @can('eliminar usuario') --}}
                                 <form style="display: inline" action="{{ route('user.destroy', $user) }}" method="POST"
@@ -93,7 +95,7 @@
                                         <div class="row">
                                             <label style="text-align: end" class="col-sm-4 form-label">Estado</label>
                                             <div class="col-sm-8 show-value">
-                                                @if ($user->state === 'Activo')
+                                                @if ($user->is_active)
                                                     <span class="badge bg-success mx-1">Activo</span>
                                                 @else
                                                     <span class="badge bg-danger mx-1">Inactivo</span>

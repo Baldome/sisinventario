@@ -52,7 +52,6 @@ class RoleController extends Controller
                 ->with('message', 'Ocurrió un error al registrar el rol')
                 ->with('icon', 'error');
         }
-
     }
 
 
@@ -153,5 +152,12 @@ class RoleController extends Controller
                 ->with('message', 'Ocurrió un error al asignar')
                 ->with('icon', 'error');
         }
+    }
+
+    public function getPermissions(Role $role)
+    {
+        return response()->json([
+            'permissions' => $role->permissions
+        ]);
     }
 }

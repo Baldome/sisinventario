@@ -51,7 +51,7 @@ class AssetController extends Controller
     {
         $request->validate([
             'code' => 'required|numeric|unique:assets,code|min:15',
-            'name' => 'required|max:255',
+            'name' => 'required',
             'state' => 'required|max:255',
             'admission_date' => 'required|date',
             'image' => 'image|max:5012',
@@ -60,17 +60,19 @@ class AssetController extends Controller
         ]);
         try {
             $asset = new Asset();
-            $asset->code = $request->input('code');
-            $asset->name = $request->input('name');
-            $asset->state = $request->input('state');
-            $asset->category_id = $request->input('category_id');
-            $asset->location_id = $request->input('location_id');
-            $asset->admission_date = $request->input('admission_date');
-            $asset->user_id = $request->input('user_id');
-            $asset->model = $request->input('model');
-            $asset->series = $request->input('series');
-            $asset->description = $request->input('description');
-            $asset->observations = $request->input('observations');
+            $asset->code = $request->code;
+            $asset->name = $request->name;
+            $asset->state = $request->state;
+            $asset->category_id = $request->category_id;
+            $asset->location_id = $request->location_id;
+            $asset->admission_date = $request->admission_date;
+            if ($request->filled('user_id')) {
+                $asset->user_id = $request->user_id;
+            }
+            $asset->model = $request->model;
+            $asset->series = $request->series;
+            $asset->description = $request->description;
+            $asset->observations = $request->observations;
             // Agrega una imagen si se carga 
             if ($request->hasFile('image')) {
                 $image = $request->file('image')->store('public/images/assets');
@@ -123,19 +125,21 @@ class AssetController extends Controller
             'location_id' => 'required',
         ]);
         try {
-            $asset->code = $request->input('code');
-            $asset->name = $request->input('name');
-            $asset->state = $request->input('state');
-            $asset->category_id = $request->input('category_id');
-            $asset->location_id = $request->input('location_id');
-            $asset->admission_date = $request->input('admission_date');
-            $asset->user_id = $request->input('user_id');
-            $asset->model = $request->input('model');
-            $asset->series = $request->input('series');
-            $image = $request->file('image')->store('public/images/assets');
-            $asset->image = Storage::url($image);
-            $asset->description = $request->input('description');
-            $asset->observations = $request->input('observations');
+            $asset->code = $request->code;
+            $asset->name = $request->name;
+            $asset->state = $request->state;
+            $asset->category_id = $request->category_id;
+            $asset->location_id = $request->location_id;
+            $asset->admission_date = $request->admission_date;
+            if ($request->filled('user_id')) {
+                $asset->user_id = $request->user_id;
+            } else {
+                $asset->user_id = null;
+            }
+            $asset->model = $request->model;
+            $asset->series = $request->series;
+            $asset->description = $request->description;
+            $asset->observations = $request->observations;
             // Agrega una imagen si se carga una nueva
             if ($request->hasFile('image')) {
                 $image = $request->file('image')->store('public/images/assets');
@@ -168,24 +172,23 @@ class AssetController extends Controller
             ->with('icon', 'success');
     }
 
-    public function createAssignAssetToUser()
+    public function createAssignAssetToUser($id)
     {
         // return 'HOla';
-        $unassignedAssets = Asset::doesntHave('user')->get();
+        $asset = Asset::with('category', 'location')->findOrFail($id);
         $users = User::all();
-        return view('admin.asset.assign', compact('unassignedAssets', 'users'));
+        return view('admin.asset.assign-asset-to-user', compact('asset', 'users'));
     }
 
-    public function assignAssetToUser(Request $request)
+    public function assignAssetToUser(Request $request, $id)
     {
         $request->validate([
             'user_id' => 'required',
-            'asset_id' => 'required',
         ]);
         try {
-            $asset = Asset::findOrFail($request->input('asset_id'));
+            $asset = Asset::findOrFail($id);
 
-            $asset->user_id = $request->input('user_id');
+            $asset->user_id = $request->user_id;
             $asset->update();
 
             return redirect()->route('asset.index')

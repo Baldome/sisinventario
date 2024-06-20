@@ -25,11 +25,11 @@
         @csrf
         <div class="row">
             <div class="col-md-12">
-                {{-- Email field --}}
+                {{-- User field --}}
                 <div class="input-group mb-4">
-                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                        value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
+                        value="{{ old('email') }}" placeholder="Usuario" autofocus>
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -38,9 +38,9 @@
                 </div>
                 {{-- Password field --}}
                 <div class="input-group mb-4">
-                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
                     <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                         placeholder="{{ __('adminlte::adminlte.password') }}">
+                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
                 </div>
                 @error('password')
                     <span class="invalid-feedback" role="alert">
@@ -59,16 +59,12 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
+            <div class="row mb-4">
+                <div class="col-12">
                     <button type=submit class="btn btn-block btn-primary {{ config('adminlte.classes_auth_btn') }}">
                         <i class="fa-solid fa-right-to-bracket mr-2"></i>
                         {{ __('adminlte::adminlte.sign_in') }}
                     </button>
-                </div>
-                <div class="col-6">
-                    <a href="{{ url('/') }}" class="btn btn-block btn-secondary"><i
-                            class="fa-solid fa-xmark mr-2"></i>Cancelar</a>
                 </div>
             </div>
         </div>
@@ -77,13 +73,13 @@
 
 @section('auth_footer')
     {{-- Password reset link --}}
-    @if ($password_reset_url)
+    {{-- @if ($password_reset_url)
         <p class="my-0">
             <a href="{{ $password_reset_url }}">
                 {{ __('adminlte::adminlte.i_forgot_my_password') }}
             </a>
         </p>
-    @endif
+    @endif --}}
 
     {{-- Register link --}}
     {{-- @if ($register_url)

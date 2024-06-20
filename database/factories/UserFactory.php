@@ -45,11 +45,8 @@ class UserFactory extends Factory
             'gender' => $this->faker->randomElement(['Hombre', 'Mujer']),
             'phone' => $this->faker->numberBetween(10000000, 99999999), // Genera un número de teléfono aleatorio de 10 dígitos
             'address' => $this->faker->address,
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-            'current_team_id' => null,
         ];
     }
 

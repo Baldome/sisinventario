@@ -20,6 +20,8 @@ class PermissionSeeder extends Seeder
             'crear activo',
             'eliminar activo',
             'visualizar activo',
+            'ver activos asignados',
+            'ver herramientas asignados'
         ];
 
         foreach ($permissions as $permission) {

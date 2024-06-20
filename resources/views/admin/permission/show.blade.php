@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h4>Detalle del permiso</h4>
+            <h4><b>DETALLES DE PERMISO</b></h4>
         </div>
     </div>
 @stop
@@ -15,7 +15,7 @@
         <div class="col-md-6">
             <div class="card card-border col-md-12">
                 <div class="card-header with-border">
-                    <h3 class="card-title">Datos registrados</h3>
+                    <h3 class="card-title">Datos registrados del permiso: <b>{{ $permission->name }}</b></h3>
                     <div class="card-tools">
                         <form style="display: inline" action="{{ route('permission.destroy', $permission) }}" method="POST"
                             onclick="ask{{ $permission->id }}(event)" id="myform{{ $permission->id }}">

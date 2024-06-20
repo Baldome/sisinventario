@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -16,15 +17,13 @@ return new class extends Migration {
             $table->integer('ci')->unique();
             $table->string('ci_dep');
             $table->string('last_name');
-            $table->string('state');
+            $table->boolean('is_active');
             $table->date('birth_date')->nullable();
             $table->string('gender');
             $table->integer('phone')->nullable();
             $table->string('address')->nullable();
-            $table->string('google_id')->nullable();
-            $table->string('google_token')->nullable();
 
-            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -44,8 +43,6 @@ return new class extends Migration {
             $table->string('gender');
             $table->integer('phone');
             $table->string('address');
-            $table->dropColumn('google_id');
-            $table->dropColumn('google_token');
         });
     }
 };

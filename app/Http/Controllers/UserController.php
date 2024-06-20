@@ -55,12 +55,11 @@ class UserController extends BaseController
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
-            'role_id' => 'required',
             'code' => 'required|numeric|unique:users,code',
             'ci' => 'required|numeric|unique:users,ci',
             'ci_dep' => 'required|string',
             'last_name' => 'required|string|max:255',
-            'state' => 'required|in:Activo,Inactivo',
+            'is_active' => 'required',
             'birth_date' => 'required|date',
             'gender' => 'required|string|in:Hombre,Mujer',
             'photo' => 'image|max:1024',
@@ -72,24 +71,27 @@ class UserController extends BaseController
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'code' => $request->code,
-                'rol_id' => $request->role_id,
                 'ci' => $request->ci,
                 'ci_dep' => $request->ci_dep,
                 'last_name' => $request->last_name,
-                'state' => $request->state,
+                'is_active' => $request->is_active,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender,
                 'phone' => $request->phone,
                 'address' => $request->address,
             ];
-            // Agrega una foto de perfil si se carga 
-            if ($request->hasFile('photo')) {
-                $image = $request->file('photo')->store('public/images/users');
-                $data['profile_photo_path'] = Storage::url($image);
+            // Añadir el rol si está presente en la solicitud
+            if ($request->filled('role_id')) {
+                $data['rol_id'] = $request->role_id;
             }
+
+            // Crear el usuario
             $user = User::create($data);
-            // Asigna el rol seleccionado al usuario
-            $user->assignRole(Role::find($request->role_id)->name);
+
+            // Asignar el rol al usuario
+            if ($request->filled('role_id')) {
+                $user->assignRole(Role::find($request->role_id)->name);
+            }
 
             return redirect()->route('user.index')
                 ->with('message', 'Registro exitoso!')
@@ -130,12 +132,11 @@ class UserController extends BaseController
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'confirmed'], // Cambiado a nullable para permitir actualizar sin cambiar contraseña
-            'role_id' => ['required'],
             'code' => ['required', 'numeric', 'unique:users,code,' . $user->id],
             'ci' => ['required', 'numeric', 'unique:users,ci,' . $user->id],
             'ci_dep' => ['required', 'string'],
             'last_name' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'in:Activo,Inactivo'],
+            'is_active' => ['required'],
             'birth_date' => ['required', 'date'],
             'gender' => ['required', 'string', 'in:Hombre,Mujer'],
             'photo' => ['nullable', 'image', 'max:512'], // Cambiado a nullable para permitir no cambiar la foto
@@ -145,12 +146,11 @@ class UserController extends BaseController
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
-                'role_id' => $request->role_id,
                 'code' => $request->code,
                 'ci' => $request->ci,
                 'ci_dep' => $request->ci_dep,
                 'last_name' => $request->last_name,
-                'state' => $request->state,
+                'is_active' => $request->is_active,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender,
                 'phone' => $request->phone,
@@ -168,6 +168,9 @@ class UserController extends BaseController
                 $data['profile_photo_path'] = Storage::url($image);
             } elseif ($request->filled('old_photo')) {
                 $data['profile_photo_path'] = $request->old_photo;
+            }
+            if ($request->filled('role_id')) {
+                $data['rol_id'] = $request->role_id;
             }
 
             $user->update($data);

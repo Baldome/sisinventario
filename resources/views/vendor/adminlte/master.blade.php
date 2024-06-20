@@ -14,6 +14,8 @@
 
     {{-- Bootstrap y fontawesome --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Other head elements --}}
+    @vite('resources/css/app.css')
 
     {{-- Title --}}
     <title>

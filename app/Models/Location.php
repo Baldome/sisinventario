@@ -13,6 +13,11 @@ class Location extends Model
 
     public function asset()
     {
-        return $this->hasMany(Asset::class); // relacion de uno a muchos
+        return $this->hasMany(Asset::class); // relation de uno a much
+    }
+
+    public function tool()
+    {
+        return $this->hasMany(Tool::class); // relation de uno a much
     }
 }
