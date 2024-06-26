@@ -9,11 +9,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class LoanController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class LoanController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar prestamos')->only('index');
+        $this->middleware('can:crear prestamo')->only('create');
+        $this->middleware('can:devolver prestamo')->only('edit');
+        $this->middleware('can:visualizar prestamo')->only('show');
+        // $this->middleware('can:listar tus prestamos')->only('return');
+    }
+
     public function index()
     {
         $user = auth()->user();

@@ -13,19 +13,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header whit-border">
                     <span class="title text-lg">Datos registrados de la institución</span>
-                    <div class="card-tools">
-                        {{-- @can('listar configuraciones') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('settings.index') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Visualizar datos de la
-                                    institción</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
                 </div>
                 <form action="{{ route('settings.update', $setting) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -60,7 +50,7 @@
                                         <label for="phone_number">NÚMERO TELEFÓNICO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i
-                                                    class="fa-solid fa-ellipsis-vertical ml-1 mr-1"></i></span>
+                                                    class="fa-solid fa-phone ml-1 mr-1"></i></span>
                                             <input name="phone_number" type="text" min=1 class="form-control"
                                                 value="{{ $setting->phone_number }}" required>
                                         </div>
@@ -73,7 +63,7 @@
                                     <div class="col-sm-4">
                                         <label for="cell_phone">CELULAR</label>
                                         <div class="form-group input-group">
-                                            <span class="input-group-text"><i class="fa-solid fa-call"></i></span>
+                                            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
                                             <input type="text" name="cell_phone" class="form-control"
                                                 value="{{ $setting->cell_phone }}">
                                         </div>
@@ -84,7 +74,7 @@
                                     <div class="col-sm-4">
                                         <label for="email">CORREO ELECTRÓNICO</label>
                                         <div class="form-group input-group">
-                                            <span class="input-group-text"><i class="fa-solid fa-email"></i></span>
+                                            <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
                                             <input type="email" name="email" class="form-control"
                                                 value="{{ $setting->email }}">
                                         </div>
@@ -95,7 +85,7 @@
                                     <div class="col-sm-4">
                                         <label for="website">SITIO WEB</label>
                                         <div class="form-group input-group">
-                                            <span class="input-group-text"><i class="fa-solid fa-tag"></i></span>
+                                            <span class="input-group-text"><i class="fa-solid fa-link"></i></span>
                                             <input type="text" name="website" class="form-control"
                                                 value="{{ $setting->website }}">
                                         </div>
@@ -108,7 +98,7 @@
                                     <div class="col-sm-4">
                                         <label for="address">DIRECCIÓN</label>
                                         <div class="form-group input-group">
-                                            <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span>
+                                            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
                                             <textarea name="address" rows=3 class="form-control">{{ $setting->address }}</textarea>
                                         </div>
                                         @error('address')
@@ -118,6 +108,7 @@
                                     <div class="col-sm-4">
                                         <label for="state">ESTADO</label>
                                         <div class="form-group input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-list"></i></span>
                                             <select name="state" class="form-control" required>
                                                 <option value="{{ true }}"
                                                     {{ $setting->state === 'Activo' ? 'selected' : '' }}>Activo</option>
@@ -131,7 +122,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-sm-4">
-                                        <label for="logo">IMAGEN</label>
+                                        <label for="logo">LOGO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-image"></i></span>
                                             <input type="hidden" name="old_logo" value="{{ $setting->logo }}">

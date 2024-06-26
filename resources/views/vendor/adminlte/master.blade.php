@@ -23,6 +23,8 @@
         @yield('title', config('adminlte.title', 'SIS INVENTARIO'))
         @yield('title_postfix', config('adminlte.title_postfix', ''))
     </title>
+    {{-- Favicon --}}
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 
     {{-- Custom stylesheets (pre AdminLTE) --}}
     @yield('adminlte_css_pre')
@@ -51,6 +53,12 @@
 
     {{-- Sweetalert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- ChartJS --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Incluye el complemento de datalabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 
     {{-- Livewire Styles --}}
     @if (config('adminlte.livewire'))

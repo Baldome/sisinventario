@@ -15,40 +15,39 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-border col-md-12">
+                    <div class="card card-outline card-primary shadow col-md-12">
                         <div class="card-header with-border">
                             <h3 class="card-title text-lg">Datos registrados del usuario:
                                 <b>{{ $user->name . ' ' . $user->last_name }}</b>
                             </h3>
                             <div class="card-tools">
-                                {{-- @can('eliminar usuario') --}}
-                                <form style="display: inline" action="{{ route('user.destroy', $user) }}" method="POST"
-                                    onclick="ask{{ $user->id }}(event)" id="myform{{ $user->id }}">
-                                    @csrf
-                                    @method('DELETE')
+                                @can('eliminar usuario')
+                                    <form style="display: inline" action="{{ route('user.destroy', $user) }}" method="POST"
+                                        onclick="ask{{ $user->id }}(event)" id="myform{{ $user->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="btn-group pull-right me-2">
+                                            <a class="btn btn-sm btn-danger delete" title="Eliminar">
+                                                <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                            </a>
+                                        </div>
+                                    </form>
+                                @endcan
+                                @can('editar usuario')
                                     <div class="btn-group pull-right me-2">
-                                        <a class="btn btn-sm btn-danger delete" title="Eliminar">
-                                            <i class="zmdi zmdi-delete mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                        <a href="{{ route('user.edit', [$user]) }}" class="btn btn-sm btn-primary"
+                                            title="Editar">
+                                            <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
                                         </a>
                                     </div>
-                                </form>
-                                {{-- @endcan --}}
-                                {{-- @can('editar usuario') --}}
-                                <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('user.edit', [$user]) }}" class="btn btn-sm btn-primary"
-                                        title="Editar">
-                                        <i class="zmdi zmdi-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
-                                {{-- @can('listar usuarios') --}}
-                                <div class="btn-group pull-right">
-                                    <a href="{{ route('user.index') }}" class="btn btn-sm btn-secondary" title="Listar">
-                                        <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span
-                                            class="hidden-xs">Listar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
+                                @endcan
+                                @can('listar usuarios')
+                                    <div class="btn-group pull-right">
+                                        <a href="{{ route('user.index') }}" class="btn btn-sm btn-secondary" title="Listar">
+                                            <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
+                                        </a>
+                                    </div>
+                                @endcan
                             </div>
                         </div>
                         <div class="form-horizontal">
@@ -153,8 +152,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="row justify-content-center align-items-center">
+                                        <div class="row" style="text-align: center">
                                             <div class="col-sm-12 show-value">
+                                                <label class="form-label">Foto de
+                                                    perfil</label>
                                                 <img src="{{ $user->profile_photo_path }}" alt="Foto de perfil"
                                                     width="250">
                                             </div>

@@ -13,18 +13,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
+            <div class="card card-outline card-primary shadow col-12">
                 <div class="card-header">
                     <span class="title text-bold text-lg">Crear una nueva herramienta</span>
-                    <div class="card-tools">
-                        {{-- @can('listar herramientas') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('tools.index') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar herramientas</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
                 </div>
                 <form action="{{ route('tools.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -61,15 +52,20 @@
                                             <span class="input-group-text"><i
                                                     class="fa-solid fa-ellipsis-vertical ml-1 mr-1"></i></span>
                                             <select name="state" class="form-control" required>
-                                                @if (old('state'))
-                                                    <option value="{{ old('state') }}">{{ old('state') }}</option>
-                                                @endif
-                                                <option value="">Seleccione el estado de la herramienta</option>
-                                                <option value="Bueno">Bueno</option>
-                                                <option value="Regular">Regular</option>
-                                                <option value="Malo">Malo</option>
-                                                <option value="Inoperativo">Inoperativo</option>
-                                                <option value="Obsoleto">Obsoleto</option>
+                                                <option disabled {{ old('state') === 'Bueno' ? '' : 'selected' }}>Seleccione
+                                                    el estado de la herramienta</option>
+                                                <option value="Bueno" {{ old('state') === 'Bueno' ? 'selected' : '' }}>
+                                                    Bueno
+                                                </option>
+                                                <option value="Regular" {{ old('state') === 'Regular' ? 'selected' : '' }}>
+                                                    Regular</option>
+                                                <option value="Malo" {{ old('state') === 'Malo' ? 'selected' : '' }}>Malo
+                                                </option>
+                                                <option value="Inoperativo"
+                                                    {{ old('state') === 'Inoperativo' ? 'selected' : '' }}>Inoperativo
+                                                </option>
+                                                <option value="Obsoleto"
+                                                    {{ old('state') === 'Obsoleto' ? 'selected' : '' }}>Obsoleto</option>
                                             </select>
                                         </div>
                                         @error('state')
@@ -83,13 +79,13 @@
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-tag"></i></span>
                                             <select name="category_id" class="form-control" required>
-                                                @if (old('category_id'))
-                                                    <option value="{{ old('category_id') }}">{{ old('category_id') }}
-                                                    </option>
-                                                @endif
-                                                <option value="">Seleccione la categoría</option>
+                                                <option value="" disabled {{ old('category_id') ? '' : 'selected' }}>
+                                                    Seleccione la categoria</option>
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->id }}"
+                                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -102,13 +98,13 @@
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
                                             <select name="location_id" class="form-control" required>
-                                                @if (old('location_id'))
-                                                    <option value="{{ old('location_id') }}">{{ old('location_id') }}
-                                                    </option>
-                                                @endif
-                                                <option value="">Seleccione la ubicación</option>
+                                                <option value="" disabled {{ old('location_id') ? '' : 'selected' }}>
+                                                    Seleccione la ubicación</option>
                                                 @foreach ($locations as $location)
-                                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                                    <option value="{{ $location->id }}"
+                                                        {{ old('location_id') == $location->id ? 'selected' : '' }}>
+                                                        {{ $location->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -121,12 +117,13 @@
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-brands fa-unity"></i></span>
                                             <select name="unit_id" class="form-control" required>
-                                                @if (old('unit_id'))
-                                                    <option value="{{ old('unit_id') }}">{{ old('unit_id') }}</option>
-                                                @endif
-                                                <option value="">Seleccione la unidad</option>
+                                                <option value="" disabled {{ old('unit_id') ? '' : 'selected' }}>
+                                                    Seleccione la unidad</option>
                                                 @foreach ($units as $unit)
-                                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                    <option value="{{ $unit->id }}"
+                                                        {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
+                                                        {{ $unit->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             @error('unit_id')
@@ -151,8 +148,7 @@
                                     <div class="col-sm-4">
                                         <label for="admission_date">FECHA INGRESO</label>
                                         <div class="form-group input-group">
-                                            <span class="input-group-text"><i
-                                                    class="fa-solid fa-calendar-days"></i></span>
+                                            <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
                                             <input type="date" name="admission_date" class="form-control"
                                                 placeholder="Ingrese la fecha de ingreso de la herramienta"
                                                 value="{{ old('admission_date') }}">
@@ -166,12 +162,14 @@
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
                                             <select name="user_id" class="form-control">
-                                                @if (old('user_id'))
-                                                    <option value="{{ old('user_id') }}">{{ old('user_id') }}</option>
-                                                @endif
-                                                <option value="">Seleccione al usuario asignado</option>
+                                                <option value="" disabled {{ old('user_id') ? '' : 'selected' }}>
+                                                    Seleccione a qué usuario pertenece</option>
+                                                <option value="">Sin asignar</option>
                                                 @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                    <option value="{{ $user->id }}"
+                                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                        {{ $user->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>

@@ -5,11 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class UnitController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class UnitController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar unidades')->only('index');
+        $this->middleware('can:crear unidad')->only('create');
+        $this->middleware('can:editar unidad')->only('edit');
+        $this->middleware('can:eliminar unidad')->only('destroy');
+        $this->middleware('can:visualizar unidad')->only('show');
+    }
+
+
     public function index()
     {
         $units = Unit::all();

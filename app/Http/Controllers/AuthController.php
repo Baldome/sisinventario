@@ -8,9 +8,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
-class AuthController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class AuthController extends BaseController
 {
-    //
+    use AuthorizesRequests;
 
     public function redirect()
     {

@@ -13,31 +13,46 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
-                    <h3 class="card-title">Datos registrados del usuario: <b>{{ $role->name }}</b>
+                    <h3 class="card-title">Datos registrados del rol: <b>{{ $role->name }}</b>
                     </h3>
                     <div class="card-tools">
-                        <form style="display: inline" action="{{ route('role.destroy', $role) }}" method="POST"
-                            onclick="ask{{ $role->id }}(event)" id="myform{{ $role->id }}">
-                            @csrf
-                            @method('DELETE')
+                        @can('asignar permisos al rol')
                             <div class="btn-group pull-right me-2">
-                                <a class="btn btn-sm btn-danger delete">
-                                    <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                <a href="{{ url('admin/role/' . $role->id . '/assign-permissions-to-role') }}"
+                                    class="btn btn-sm btn-warning">
+                                    <i class="fa-solid fa-share mr-2"></i><b class="hidden-xs">Asignar
+                                        Permisos</b>
                                 </a>
                             </div>
-                        </form>
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('role.edit', $role) }}" class="btn btn-sm btn-primary edit">
-                                <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                            </a>
-                        </div>
-                        <div class="btn-group pull-right">
-                            <a href="{{ route('role.index') }}" class="btn btn-sm btn-secondary details">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
-                            </a>
-                        </div>
+                        @endcan
+                        @can('eliminar rol')
+                            <form style="display: inline" action="{{ route('role.destroy', $role) }}" method="POST"
+                                onclick="ask{{ $role->id }}(event)" id="myform{{ $role->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="btn-group pull-right me-2">
+                                    <a class="btn btn-sm btn-danger delete">
+                                        <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                    </a>
+                                </div>
+                            </form>
+                        @endcan
+                        {{-- @can('editar rol')
+                            <div class="btn-group pull-right me-2">
+                                <a href="{{ route('role.edit', $role) }}" class="btn btn-sm btn-primary edit">
+                                    <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
+                                </a>
+                            </div>
+                        @endcan --}}
+                        @can('listar roles')
+                            <div class="btn-group pull-right">
+                                <a href="{{ route('role.index') }}" class="btn btn-sm btn-secondary details">
+                                    <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
+                                </a>
+                            </div>
+                        @endcan
                     </div>
                 </div>
                 <div class="form-horizontal">

@@ -17,14 +17,14 @@ class UserController extends BaseController
 
     use AuthorizesRequests;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('can:listar usuarios')->only('index');
-    //     $this->middleware('can:crear usuario')->only('create');
-    //     $this->middleware('can:editar usuario')->only('edit');
-    //     $this->middleware('can:eliminar usuario')->only('destroy');
-    //     $this->middleware('can:visualizar usuario')->only('show');
-    // }
+    public function __construct()
+    {
+        $this->middleware('can:listar usuarios')->only('index');
+        $this->middleware('can:crear usuario')->only('create');
+        $this->middleware('can:editar usuario')->only('edit');
+        $this->middleware('can:eliminar usuario')->only('destroy');
+        $this->middleware('can:visualizar usuario')->only('show');
+    }
 
     /**
      * Display a listing of the resource.
@@ -87,6 +87,14 @@ class UserController extends BaseController
 
             // Crear el usuario
             $user = User::create($data);
+
+            // Agrega una imagen si se carga 
+            if ($request->hasFile('photo')) {
+                $name = $user->id . '.' . $request->file('photo')->getClientOriginalExtension();
+                $image = $request->file('photo')->storeAs('public/images/users', $name);
+                $user->profile_photo_path = Storage::url($image);
+                $user->save();
+            }
 
             // Asignar el rol al usuario
             if ($request->filled('role_id')) {
@@ -164,7 +172,11 @@ class UserController extends BaseController
 
             // Actualizar foto de perfil si se carga una nueva
             if ($request->hasFile('photo')) {
-                $image = $request->file('photo')->store('public/images/users');
+                if ($user->profile_photo_path) {
+                    Storage::disk('public')->delete($user->profile_photo_path);
+                }
+                $name = $user->id . '.' . $request->file('photo')->getClientOriginalExtension();
+                $image = $request->file('photo')->storeAs('public/images/users', $name);
                 $data['profile_photo_path'] = Storage::url($image);
             } elseif ($request->filled('old_photo')) {
                 $data['profile_photo_path'] = $request->old_photo;
@@ -193,6 +205,9 @@ class UserController extends BaseController
     public function destroy(User $user)
     {
         try {
+            if ($user->profile_photo_path) {
+                Storage::disk('public')->delete($user->profile_photo_path);
+            }
             $user->delete();
 
             return redirect()->route('user.index')

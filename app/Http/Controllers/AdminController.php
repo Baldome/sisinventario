@@ -11,15 +11,26 @@ use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class AdminController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class AdminController extends BaseController
 {
+    use AuthorizesRequests;
+
+    // public function __construct()
+    // {
+    //     $this->middleware('can:listar usuarios')->only('index');
+    // }
+
     public function index()
     {
         $user = Auth::user();
-        $users = User::all();
+        $users = User::all(); 
         $categories = Category::all();
         $locations = Location::all();
         $assets = Asset::all();
@@ -29,6 +40,33 @@ class AdminController extends Controller
         $units = Unit::all();
         $loans = Loan::all();
 
-        return view('dashboard', compact('users', 'categories', 'locations', 'assets', 'roles', 'permissions', 'tools', 'units', 'loans'));
+
+        $your_loans = DB::table('loans')
+            ->join('tools', 'loans.tool_id', '=', 'tools.id')
+            ->where('tools.user_id', '=', $user->id)
+            ->select(
+                'tools.*',
+                'loans.id as loan_id',
+                'loans.date_time_loan',
+                'loans.date_time_return',
+                'loans.expected_return_date',
+                'loans.borrower_user_id',
+                'loans.isBorrowed',
+                'loans.observations'
+            )
+            ->get();
+
+        return view('dashboard', compact(
+            'users',
+            'categories',
+            'locations',
+            'assets',
+            'roles',
+            'permissions',
+            'tools',
+            'units',
+            'loans',
+            'your_loans'
+        ));
     }
 }

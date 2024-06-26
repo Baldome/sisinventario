@@ -16,9 +16,9 @@
             <form action="{{ route('asset.assignAssetToUser', $asset->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <div class="card mb-4">
+                <div class="card card-outline shadow mb-4">
                     <div class="card-body">
-                        <div class="card mb-4">
+                        <div class="card card-outline card-primary mb-4">
                             <div class="card-header">
                                 <h5>Asignar activo: <b>{{ $asset->name }}</b></h5>
                             </div>
@@ -64,7 +64,7 @@
                             </div>
                         </div>
 
-                        <div class="card mb-4">
+                        <div class="card card-outline card-primary mb-4 col-12">
                             <div class="card-header">
                                 <h5><b>Asignar al Usuario</b></h5>
                             </div>

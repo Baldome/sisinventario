@@ -10,11 +10,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class AssetController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class AssetController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
+
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar activos')->only('index');
+        $this->middleware('can:crear activo')->only('create');
+        $this->middleware('can:editar activo')->only('edit');
+        $this->middleware('can:eliminar activo')->only('destroy');
+        $this->middleware('can:visualizar activo')->only('show');
+        $this->middleware('can:asignar activo')->only('createAssignAssetToUser');
+    }
+
     public function index()
     {
         $categories = Category::all();
@@ -68,19 +84,21 @@ class AssetController extends Controller
             $asset->admission_date = $request->admission_date;
             if ($request->filled('user_id')) {
                 $asset->user_id = $request->user_id;
+            } else {
+                $asset->user_id = null;
             }
             $asset->model = $request->model;
             $asset->series = $request->series;
             $asset->description = $request->description;
             $asset->observations = $request->observations;
+            $asset->save();
             // Agrega una imagen si se carga 
             if ($request->hasFile('image')) {
-                $image = $request->file('image')->store('public/images/assets');
+                $name = $asset->id . '.' . $request->file('image')->getClientOriginalExtension();
+                $image = $request->file('image')->storeAs('public/images/assets', $name);
                 $asset->image = Storage::url($image);
+                $asset->save();
             }
-
-            $asset->save();
-
             return redirect()->route('asset.index')
                 ->with('message', 'Registro exitoso!')
                 ->with('icon', 'success');
@@ -142,8 +160,13 @@ class AssetController extends Controller
             $asset->observations = $request->observations;
             // Agrega una imagen si se carga una nueva
             if ($request->hasFile('image')) {
-                $image = $request->file('image')->store('public/images/assets');
+                if ($asset->image) {
+                    Storage::disk('public')->delete($asset->image);
+                }
+                $name = $asset->id . '.' . $request->file('image')->getClientOriginalExtension();
+                $image = $request->file('image')->storeAs('public/images/assets', $name);
                 $asset->image = Storage::url($image);
+                $asset->save();
             } else {
                 $request->old_image;
             }
@@ -165,6 +188,9 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
+        if ($asset->image) {
+            Storage::disk('public')->delete($asset->image);
+        }
         $asset->delete();
 
         return redirect()->route('asset.index')

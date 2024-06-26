@@ -22,7 +22,7 @@ class ToolFactory extends Factory
             'code' => $this->faker->unique()->numberBetween(10000, 99999),
             'name' => $this->faker->unique()->name(),
             'state' => $this->faker->randomElement(['Bueno', 'Regular', 'Malo', 'Inoperativo', 'Obsoleto']),
-            'user_id' => optional()->rand(1, 7),
+            'user_id' => rand(1, 7),
             'unit_id' => rand(1, 30),
             'category_id' => rand(1, 30),
             'location_id' => rand(1, 30),

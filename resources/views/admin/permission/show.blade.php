@@ -13,30 +13,36 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <h3 class="card-title">Datos registrados del permiso: <b>{{ $permission->name }}</b></h3>
                     <div class="card-tools">
-                        <form style="display: inline" action="{{ route('permission.destroy', $permission) }}" method="POST"
-                            onclick="ask{{ $permission->id }}(event)" id="myform{{ $permission->id }}">
-                            @csrf
-                            @method('DELETE')
+                        @can('eliminar permiso')
+                            <form style="display: inline" action="{{ route('permission.destroy', $permission) }}" method="POST"
+                                onclick="ask{{ $permission->id }}(event)" id="myform{{ $permission->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="btn-group pull-right me-2">
+                                    <a class="btn btn-sm btn-danger delete">
+                                        <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                    </a>
+                                </div>
+                            </form>
+                        @endcan
+                        {{-- @can('editar permiso')
                             <div class="btn-group pull-right me-2">
-                                <a class="btn btn-sm btn-danger delete">
-                                    <i class="zmdi zmdi-delete mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                <a href="{{ route('permission.edit', $permission) }}" class="btn btn-sm btn-primary edit">
+                                    <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
                                 </a>
                             </div>
-                        </form>
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('permission.edit', $permission) }}" class="btn btn-sm btn-primary edit">
-                                <i class="zmdi zmdi-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                            </a>
-                        </div>
-                        <div class="btn-group pull-right">
-                            <a href="{{ route('permission.index') }}" class="btn btn-sm btn-secondary details">
-                                <i class="zmdi zmdi-format-list-bulleted mr-2"></i><span class="hidden-xs">Listar</span>
-                            </a>
-                        </div>
+                        @endcan --}}
+                        @can('listar permisos')
+                            <div class="btn-group pull-right">
+                                <a href="{{ route('permission.index') }}" class="btn btn-sm btn-secondary details">
+                                    <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
+                                </a>
+                            </div>
+                        @endcan
                     </div>
                 </div>
 

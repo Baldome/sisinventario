@@ -35,7 +35,6 @@ Route::middleware([
     Route::resource('/admin/asset', AssetController::class)->names('asset');
     Route::get('/admin/asset/{id}/assign-asset-to-user', [AssetController::class, 'createAssignAssetToUser'])->name('asset.createAssignAssetToUser');
     Route::put('/admin/asset/{id}/assign-asset-to-user', [AssetController::class, 'assignAssetToUser'])->name('asset.assignAssetToUser');
-    // Route::put('/admin/asset', [AssetController::class, 'assignAssetToUser'])->name('asset.assignAssetToUser');
 
     Route::resource('/admin/permission', PermissionController::class)->names('permission');
 
@@ -43,7 +42,6 @@ Route::middleware([
     Route::get('/admin/role/{id}/assign-permissions-to-role', [RoleController::class, 'createPermissionsToRole'])->name('role.createPermissionsToRole');
     Route::put('/admin/role/{id}/assign-permissions-to-role', [RoleController::class, 'assignPermissionsToRole'])->name('role.assignPermissionsToRole');
     Route::get('/admin/role/{role}/permissions', [RoleController::class, 'getPermissions']);
-
 
     Route::resource('/admin/user', UserController::class)->names('user');
 

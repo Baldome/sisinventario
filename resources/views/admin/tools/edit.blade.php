@@ -13,18 +13,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header whit-border">
                     <span class="title text-lg">Actualizar datos de la herramienta: <b>{{ $tool->name }}</b></span>
-                    <div class="card-tools">
-                        {{-- @can('listar herramientas') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('tools.index') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar herramientas</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
                 </div>
                 <form action="{{ route('tools.update', $tool) }}" method="POST" enctype="multipart/form-data">
                     @csrf

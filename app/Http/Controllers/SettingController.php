@@ -6,11 +6,19 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class SettingController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class SettingController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:administracion')->only('index');
+        $this->middleware('can:administracion')->only('edit');
+    }
+
     public function index()
     {
         $settings = Setting::all();
@@ -64,6 +72,9 @@ class SettingController extends Controller
             $setting->state = $request->state;
             // Agrega una imagen si se carga una nueva
             if ($request->hasFile('logo')) {
+                if ($setting->logo) {
+                    Storage::disk('public')->delete($setting->logo);
+                }
                 $image = $request->file('logo')->store('public/images/settings');
                 $setting->logo = Storage::url($image);
             } else {

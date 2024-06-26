@@ -13,7 +13,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <div class="card-tools">
                         {{-- @can('crear unidad') --}}
@@ -32,10 +32,10 @@
                             '#',
                             'Nombre',
                             'Descripción',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 11],
+                            ['label' => 'Acciones', 'no-export' => true, 'width' => 14],
                         ];
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger" title="Eliminar">
-                                      <i class="fa fa-lg fa-fw fa-trash"></i>
+                        $btnDelete = '<button class="btn btn-sm shadow btn-default text-danger" title="Eliminar">
+                                      <i class="fa-solid fa-trash"></i>
                                       </button>';
                         $config = [
                             'language' => [
@@ -44,7 +44,7 @@
                         ];
                     @endphp
                     <x-adminlte-datatable id="table7" :heads="$heads" head-theme="light" :config="$config" striped
-                        hoverable bordered compressed>
+                        hoverable bordered compressed with-buttons>
                         @php
                             $counter = 0;
                         @endphp
@@ -57,47 +57,47 @@
                                 <td>{{ $unit->name }}</td>
                                 <td>{{ $unit->description }}</td>
                                 <td style="text-align: center; align-content: center">
-                                    {{-- @can('editar unidad') --}}
-                                    <button class="btn btn-xs btn-default text-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editUnitModal{{ $unit->id }}" title="Editar">
-                                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </button>
-                                    {{-- @endcan --}}
-                                    {{-- @can('eliminar unidad') --}}
-                                    <form style="display: inline" action="{{ route('units.destroy', $unit) }}"
-                                        method="post" onclick="ask{{ $unit->id }}(event)"
-                                        id="myform{{ $unit->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $unit->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $unit->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    {{-- @endcan --}}
-                                    {{-- @can('visualizar unidad') --}}
-                                    <a href="{{ route('units.show', $unit) }}" class="btn btn-xs btn-default text-teal"
-                                        title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                                    </a>
-                                    {{-- @endcan --}}
+                                    @can('editar unidad')
+                                        <button class="btn btn-sm shadow btn-default text-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editUnitModal{{ $unit->id }}" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                    @endcan
+                                    @can('eliminar unidad')
+                                        <form style="display: inline" action="{{ route('units.destroy', $unit) }}"
+                                            method="post" onclick="ask{{ $unit->id }}(event)"
+                                            id="myform{{ $unit->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $unit->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $unit->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                    @endcan
+                                    @can('visualizar unidad')
+                                        <a href="{{ route('units.show', $unit) }}"
+                                            class="btn btn-sm shadow btn-default text-teal" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                             <!-- Modal edit unit-->

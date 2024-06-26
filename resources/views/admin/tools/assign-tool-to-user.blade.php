@@ -16,8 +16,8 @@
             <form action="{{ route('tools.assignToolToUser', $tool->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <div class="card p-3">
-                    <div class="card card-border col-md-12">
+                <div class="card shadow p-4">
+                    <div class="card card-outline card-primary shadow col-md-12">
                         <div class="card-header">
                             <h5>Asignar la herramienta: <span>{{ $tool->name }}</span></h5>
                         </div>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="card card-border col-md-12">
+                    <div class="card card-outline card-primary shadow col-md-12">
                         <div class="card-header">
                             <h5>Datos de usuario</h5>
                         </div>

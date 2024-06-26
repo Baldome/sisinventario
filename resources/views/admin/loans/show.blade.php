@@ -15,9 +15,11 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-border col-md-12">
+                    <div class="card card-outline card-primary shadow col-md-12">
                         <div class="card-header with-border">
-                            <h3 class="card-title">Datos registrados del préstamo: <b>{{ $loan->name }}</b></h3>
+                            <h3 class="card-title">Datos registrados de la herramientas prestada:
+                                <b>{{ $loan->tool->name }}</b>
+                            </h3>
                             <div class="card-tools">
                                 <div class="btn-group pull-right">
                                     <a href="{{ route('loans.index') }}" class="btn btn-sm btn-primary" title="Listar">

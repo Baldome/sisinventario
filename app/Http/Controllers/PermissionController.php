@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
-class PermissionController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class PermissionController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar permisos')->only('index');
+        $this->middleware('can:crear permiso')->only('create');
+        $this->middleware('can:editar permiso')->only('edit');
+        $this->middleware('can:eliminar permiso')->only('destroy');
+        $this->middleware('can:visualizar permiso')->only('show');
+    }
+
     public function index()
     {
         $permissions = Permission::get();

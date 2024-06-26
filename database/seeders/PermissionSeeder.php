@@ -14,14 +14,68 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            //administracion
             'administracion',
+            'ver activos asignados',
+            'ver herramientas asignados',
+            //usuarios
+            'listar usuarios',
+            'editar usuario',
+            'crear usuario',
+            'eliminar usuario',
+            'visualizar usuario',
+            //roles
+            'listar roles',
+            'editar rol',
+            'crear rol',
+            'eliminar rol',
+            'visualizar rol',
+            'ver permisos asignados',
+            'asignar permisos al rol',
+            //permisos
+            'listar permisos',
+            'editar permiso',
+            'crear permiso',
+            'eliminar permiso',
+            'visualizar permiso',
+            //ubicaciones
+            'listar ubicaciones',
+            'editar ubicacion',
+            'crear ubicacion',
+            'eliminar ubicacion',
+            'visualizar ubicacion',
+            //categorias
+            'listar categorias',
+            'editar categoria',
+            'crear categoria',
+            'eliminar categoria',
+            'visualizar categoria',
+            //activos
             'listar activos',
             'editar activo',
             'crear activo',
             'eliminar activo',
             'visualizar activo',
-            'ver activos asignados',
-            'ver herramientas asignados'
+            'asignar activo',
+            //herramientas
+            'listar herramientas',
+            'editar herramienta',
+            'crear herramienta',
+            'eliminar herramienta',
+            'visualizar herramienta',
+            'asignar herramienta',
+            //prestamos
+            'listar prestamos',
+            'devolver prestamo',
+            'crear prestamo',
+            'visualizar prestamo',
+            'listar tus prestamo',
+            //unidades
+            'listar unidades',
+            'editar unidad',
+            'crear unidad',
+            'eliminar unidad',
+            'visualizar unidad',
         ];
 
         foreach ($permissions as $permission) {

@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h4><b>ADMINISTRACIÓN DE PERMISOS</b></h4>
+            <h4><b>LISTADO DE PERMISOS</b></h4>
         </div>
     </div>
 @stop
@@ -13,16 +13,16 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <div class="card-tools">
                         {{-- @can('crear permiso') --}}
-                        <div class="btn-group pull-right me-2">
+                        {{-- <div class="btn-group pull-right me-2">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#createPermissionModal">
                                 <i class="fa-solid fa-plus mr-2"></i>Crear nuevo permiso
                             </button>
-                        </div>
+                        </div> --}}
                         {{-- @endcan --}}
                     </div>
                 </div>
@@ -30,8 +30,8 @@
                     @php
                         $heads = ['Nro', 'Nombre', ['label' => 'Acciones', 'no-export' => true, 'width' => 16]];
 
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger" title="Eliminar">
-                                      <i class="fa fa-lg fa-fw fa-trash"></i>
+                        $btnDelete = '<button class="btn btn-sm btn-default shadow text-danger" title="Eliminar">
+                                      <i class="fa-solid fa-trash"></i>
                                       </button>';
                         $config = [
                             'language' => [
@@ -52,47 +52,47 @@
                                 <td>{{ $counter }}</td>
                                 <td>{{ $permission->name }}</td>
                                 <td style="text-align: center; align-content: center">
-                                    {{-- @can('editar permiso') --}}
-                                    <button class="btn btn-xs btn-default text-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editPermissionModal{{ $permission->id }}" title="Editar">
-                                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </button>
-                                    {{-- @endcan
-                                    @can('eliminar permiso') --}}
-                                    <form style="display: inline" action="{{ route('permission.destroy', $permission) }}"
-                                        method="post" onclick="ask{{ $permission->id }}(event)"
-                                        id="myform{{ $permission->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $permission->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $permission->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    {{-- @endcan
-                                    @can('visualizar permiso') --}}
-                                    <a href="{{ route('permission.show', $permission) }}"
-                                        class="btn btn-xs btn-default text-teal" title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                                    </a>
-                                    {{-- @endcan --}}
+                                    @can('editar permiso')
+                                        <button class="btn btn-sm btn-default shadow text-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editPermissionModal{{ $permission->id }}" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                    @endcan
+                                    @can('eliminar permiso')
+                                        <form style="display: inline" action="{{ route('permission.destroy', $permission) }}"
+                                            method="post" onclick="ask{{ $permission->id }}(event)"
+                                            id="myform{{ $permission->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $permission->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $permission->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                    @endcan
+                                    @can('visualizar permiso')
+                                        <a href="{{ route('permission.show', $permission) }}"
+                                            class="btn btn-sm btn-default shadow text-teal" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                             <!-- Modal edit permission-->
@@ -155,7 +155,7 @@
                             {{-- @can('principal dashboard') --}}
                             <div class="btn-group pull-right me-2">
                                 <a href="{{ route('admin.index') }}" class="btn btn-sm btn-secondary">
-                                    <i class="zmdi zmdi-menu mr-2"></i><span class="hidden-xs">Principal</span>
+                                    <i class="fa-solid fa-house mr-2"></i><span class="hidden-xs">Principal</span>
                                 </a>
                             </div>
                             {{-- @endcan --}}

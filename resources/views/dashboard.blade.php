@@ -31,7 +31,7 @@
                     <div class="icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <a href="{{ url('/admin/usuarios', []) }}" class="small-box-footer">
+                    <a href="{{ route('user.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -55,7 +55,7 @@
                     <div class="icon">
                         <i class="fas"><i class="fa fa-user"></i></i>
                     </div>
-                    <a href="{{ url('/admin/roles', []) }}" class="small-box-footer">
+                    <a href="{{ route('role.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="icon">
                         <i class="fas"><i class="fa fa-user-times"></i></i>
                     </div>
-                    <a href="{{ url('/admin/permissions', []) }}" class="small-box-footer">
+                    <a href="{{ route('permission.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -103,7 +103,7 @@
                     <div class="icon">
                         <i class="fas"><i class="fa fa-tag"></i></i>
                     </div>
-                    <a href="{{ url('/admin/category', []) }}" class="small-box-footer">
+                    <a href="{{ route('category.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -127,7 +127,7 @@
                     <div class="icon">
                         <i class="fas"><i class="fa fa-map-marker"></i></i>
                     </div>
-                    <a href="{{ url('/admin/location', []) }}" class="small-box-footer">
+                    <a href="{{ route('location.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -151,7 +151,7 @@
                     <div class="icon">
                         <i class="fas"><i class="fa fa-newspaper"></i></i>
                     </div>
-                    <a href="{{ url('/admin/asset', []) }}" class="small-box-footer">
+                    <a href="{{ route('asset.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -175,7 +175,7 @@
                     <div class="icon">
                         <i class="fas"><i class="fa-solid fa-tools"></i></i>
                     </div>
-                    <a href="{{ url('/admin/tools') }}" class="small-box-footer">
+                    <a href="{{ route('tools.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -199,9 +199,147 @@
                     <div class="icon">
                         <i class="fas"><i class="fa-solid fa-share-from-square"></i></i>
                     </div>
-                    <a href="{{ url('/admin/loans') }}" class="small-box-footer">
+                    <a href="{{ route('loans.index') }}" class="small-box-footer">
                         Mas información<i class="fas fa-arrow-circle-right"></i>
                     </a>
+                </div>
+            </div>
+
+            {{-- CharJS --}}
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header with-border">
+                                <h3 class="card-title">Tus Préstamos por meses</h3>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <canvas id="myChart1"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        @php
+                            $meses = [
+                                '01' => 0,
+                                '02' => 0,
+                                '03' => 0,
+                                '04' => 0,
+                                '05' => 0,
+                                '06' => 0,
+                                '07' => 0,
+                                '08' => 0,
+                                '09' => 0,
+                                '10' => 0,
+                                '11' => 0,
+                                '12' => 0,
+                            ];
+
+                            foreach ($your_loans as $your_loan) {
+                                $fecha = strtotime($your_loan->date_time_loan);
+                                $mes = date('m', $fecha);
+                                if (isset($meses[$mes])) {
+                                    $meses[$mes]++;
+                                }
+                            }
+
+                            $reporte_meses = json_encode(array_values($meses));
+                        @endphp
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var datos = <?= $reporte_meses ?>;
+                                const ctx1 = document.getElementById('myChart1').getContext('2d');
+
+                                new Chart(ctx1, {
+                                    type: 'line',
+                                    data: {
+                                        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+                                            'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                                        ],
+                                        datasets: [{
+                                            label: 'Tus préstamos por meses',
+                                            data: datos,
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    },
+                                });
+                            });
+                        </script>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card card-outline card-info">
+                            <div class="card-header with-border">
+                                <h3 class="card-title">Préstamos</h3>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <canvas id="myChart2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        @php
+                            $devueltos = 0;
+                            $sin_devolver = 0;
+                            foreach ($your_loans as $your_loan) {
+                                if ($your_loan->isBorrowed) {
+                                    $sin_devolver++;
+                                } else {
+                                    $devueltos++;
+                                }
+                            }
+                            $datos = json_encode([$devueltos, $sin_devolver]);
+                        @endphp
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var datos = <?= $datos ?>;
+                                console.log(datos);
+                                const ctx2 = document.getElementById('myChart2').getContext('2d');
+                                new Chart(ctx2, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [
+                                            'Herramientas devueltas',
+                                            'Herramientas prestadas sin devolver'
+                                        ],
+                                        datasets: [{
+                                            label: 'Estado de los préstamos',
+                                            data: datos,
+                                            backgroundColor: [
+                                                'rgb(255, 99, 132)',
+                                                'rgb(54, 162, 235)'
+                                            ],
+                                            hoverOffset: 4
+                                        }]
+                                    },
+                                    options: {
+                                        plugins: {
+                                            datalabels: {
+                                                color: '#fff', // Puedes ajustar el color del texto según sea necesario
+                                                font: {
+                                                    weight: 'bold',
+                                                    size: 20
+                                                },
+                                                formatter: function(value, context) {
+                                                    return value;
+                                                },
+                                                anchor: 'end', // Posición del texto
+                                                align: 'start', // Alineación del texto
+                                                offset: 10 // Espacio entre el borde y el texto
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>

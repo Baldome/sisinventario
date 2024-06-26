@@ -15,36 +15,36 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-border col-md-12">
+                    <div class="card card-outline card-primary shadow col-md-12">
                         <div class="card-header with-border">
                             <h3 class="card-title">Datos registrados del activo: <b>{{ $asset->name }}</b></h3>
                             <div class="card-tools">
-                                {{-- @can('eliminar activo') --}}
-                                <form style="display: inline" action="{{ route('asset.destroy', [$asset]) }}" method="POST"
-                                    onclick="ask{{ $asset->id }}(event)" id="myform{{ $asset->id }}">
-                                    @csrf
-                                    @method('DELETE')
+                                @can('eliminar activo')
+                                    <form style="display: inline" action="{{ route('asset.destroy', [$asset]) }}" method="POST"
+                                        onclick="ask{{ $asset->id }}(event)" id="myform{{ $asset->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="btn-group pull-right me-2">
+                                            <a class="btn btn-sm btn-danger delete">
+                                                <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                            </a>
+                                        </div>
+                                    </form>
+                                @endcan
+                                @can('editar activo')
                                     <div class="btn-group pull-right me-2">
-                                        <a class="btn btn-sm btn-danger delete">
-                                            <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                        <a href="{{ route('asset.edit', [$asset]) }}" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
                                         </a>
                                     </div>
-                                </form>
-                                {{-- @endcan --}}
-                                {{-- @can('editar activo') --}}
-                                <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('asset.edit', [$asset]) }}" class="btn btn-sm btn-primary">
-                                        <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
-                                {{-- @can('listar activos') --}}
-                                <div class="btn-group pull-right">
-                                    <a href="{{ route('asset.index', []) }}" class="btn btn-sm btn-secondary">
-                                        <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
+                                @endcan
+                                @can('listar activos')
+                                    <div class="btn-group pull-right">
+                                        <a href="{{ route('asset.index', []) }}" class="btn btn-sm btn-secondary">
+                                            <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
+                                        </a>
+                                    </div>
+                                @endcan
                             </div>
                         </div>
                         <div class="form-horizontal">
@@ -132,10 +132,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 justify-content-center">
-                                        <div class="row justify-content-center">
-                                            <label for="image" class="text-center">IMAGEN</label>
-                                            <img src="{{ $asset->image }}" alt="Imagen del activo" width="100px">
+                                    <div class="col-4">
+                                        <div class="row" style="text-align: center">
+                                            <div class="col-sm-12 show-value">
+                                                <label class="form-label mb-4">Imagen</label><br>
+                                                <img src="{{ $asset->image }}" alt="Imagen" width="300">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

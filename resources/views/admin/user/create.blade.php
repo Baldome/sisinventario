@@ -13,18 +13,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-barder col-md-12">
+            <div class="card card-outline card-primary col-md-12 shadow">
                 <div class="card-header whit-border">
                     <b>LLENE LOS DATOS DEL NUEVO USUARIO</b>
-                    <div class="card-tools">
-                        {{-- @can('listar usuarios') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar usuarios</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
                 </div>
                 <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -71,15 +62,15 @@
                                                             <option value="{{ old('ci_dep') }}">{{ old('ci_dep') }}
                                                             </option>
                                                         @endif
-                                                        <option value="LP">La Paz</option>
-                                                        <option value="SC">Santa Cruz</option>
-                                                        <option value="CB">Cochabamba</option>
-                                                        <option value="OR">Oruro</option>
-                                                        <option value="PT">Potosí</option>
-                                                        <option value="TJ">Tarija</option>
-                                                        <option value="BN">Beni</option>
-                                                        <option value="PA">Pando</option>
-                                                        <option value="CH">Chuquisaca</option>
+                                                        <option value="LP">LP</option>
+                                                        <option value="SC">SC</option>
+                                                        <option value="CB">CB</option>
+                                                        <option value="OR">OR</option>
+                                                        <option value="PT">PT</option>
+                                                        <option value="TJ">TJ</option>
+                                                        <option value="BN">BN</option>
+                                                        <option value="PA">PA</option>
+                                                        <option value="CH">CH</option>
                                                     </select>
                                                 </div>
                                                 @error('ci_dep')

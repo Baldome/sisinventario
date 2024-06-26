@@ -13,15 +13,17 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <div class="card-tools">
-                        <div class="btn-group pull-right me-2">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#createRoleModal">
-                                <i class="fa-solid fa-plus mr-2"></i>Crear nuevo rol
-                            </button>
-                        </div>
+                        @can('crear rol')
+                            <div class="btn-group pull-right me-2">
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createRoleModal">
+                                    <i class="fa-solid fa-plus mr-2"></i>Crear nuevo rol
+                                </button>
+                            </div>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -30,11 +32,11 @@
                             '#',
                             'Nombre',
                             'Permisos',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 16],
+                            ['label' => 'Acciones', 'no-export' => true, 'width' => 18],
                         ];
 
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1" title="Eliminar">
-                                      <i class="fa fa-lg fa-fw fa-trash"></i>
+                        $btnDelete = '<button class="btn btn-sm btn-default shadow text-danger mx-1" title="Eliminar">
+                                      <i class="fa-solid fa-trash"></i>
                                       </button>';
                         $config = [
                             'language' => [
@@ -55,46 +57,54 @@
                                 <td>{{ $counter }}</td>
                                 <td>{{ $role->name }}</td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#permissionsModal{{ $role->id }}">
-                                        <i class="fa-solid fa-eye mr-2"></i>Ver permisos
-                                    </button>
+                                    @can('ver permisos asignados')
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#permissionsModal{{ $role->id }}">
+                                            <i class="fa-solid fa-eye mr-2"></i>Ver permisos
+                                        </button>
+                                    @endcan
                                 </td>
                                 <td style="text-align: center; align-content: center">
-                                    <button class="btn btn-xs btn-default text-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editRoleModal{{ $role->id }}" title="Editar">
-                                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </button>
-                                    <form style="display: inline" action="{{ route('role.destroy', $role) }}" method="post"
-                                        onclick="ask{{ $role->id }}(event)" id="myform{{ $role->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $role->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $role->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    <a href="{{ route('role.show', $role) }}" class="btn btn-xs btn-default text-teal"
-                                        title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                                    </a>
+                                    @can('editar rol')
+                                        <button class="btn btn-sm btn-default shadow text-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editRoleModal{{ $role->id }}" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                    @endcan
+                                    @can('eliminar rol')
+                                        <form style="display: inline" action="{{ route('role.destroy', $role) }}" method="post"
+                                            onclick="ask{{ $role->id }}(event)" id="myform{{ $role->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $role->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $role->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                    @endcan
+                                    @can('visualizar rol')
+                                        <a href="{{ route('role.show', $role) }}"
+                                            class="btn btn-sm btn-default shadow text-teal" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                             <!-- Modal permissions-->
@@ -104,7 +114,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="permissionsModalLabel{{ $role->id }}">Permisos
-                                                del rol <b>{{ $role->name }}</b></h5>
+                                                del rol: <b>{{ $role->name }}</b></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -118,10 +128,12 @@
                                             @endif
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="{{ url('admin/role/' . $role->id . '/assign-permissions-to-role') }}"
-                                                class="btn btn-sm btn-primary">
-                                                <i class="fa-solid fa-share mr-2" aria-hidden="true"></i>Asignar Permisos
-                                            </a>
+                                            @can('asignar permisos al rol')
+                                                <a href="{{ url('admin/role/' . $role->id . '/assign-permissions-to-role') }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="fa-solid fa-share mr-2" aria-hidden="true"></i>Asignar Permisos
+                                                </a>
+                                            @endcan
                                             <button type="button" class="btn btn-secondary btn-sm"
                                                 data-bs-dismiss="modal"><i class="fa-solid fa-ban mr-2"></i>Cerrar</button>
                                         </div>

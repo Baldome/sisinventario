@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>SIS</b> INVENTARIO',
+    'logo' => '<b>SIS INVENTARIO</b>',
     'logo_img' => 'vendor/adminlte/dist/img/logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -318,26 +318,34 @@ return [
 
         //  Menu items: DESDE AQUI EMPIEZA MI CONFIGUACION ----------------------------------------------------------------
         [
+            'text' => 'Inicio',
+            'route' => 'admin.index',
+            'icon' => 'fa-solid fa-house mr-2',
+        ],
+        [
             'text' => 'GESTIÓN DE USUARIOS',
-            'icon' => 'fas fa-fw fa-warehouse',
+            'icon' => 'fas fa-fw fa-warehouse mr-2',
             'submenu' => [
                 [
                     'text' => 'Usuarios',
                     'route' => 'user.index',
                     'icon' => 'fas fa-fw fa-users mr-2',
+                    'can' => 'listar usuarios'
                 ],
                 [
                     'text' => 'Roles',
                     'route' => 'role.index',
                     'icon' => 'fa fa-fw fa-user mr-2',
+                    'can' => 'listar roles'
                 ],
                 [
                     'text' => 'Permisos',
                     'route' => 'permission.index',
                     'icon' => 'fa fa-fw fa-user-times mr-2',
+                    'can' => 'listar permisos'
                 ],
             ],
-            // 'can' => 'administración'
+            //'can' => 'administracion'
         ],
         [
             'header' => 'GESTIÓN DE INVENTARIOS',
@@ -382,11 +390,13 @@ return [
         ],
         [
             'header' => 'GESTIÓN DE LA INSTITUCIÓN',
+            'can' => 'administracion'
         ],
         [
             'text' => 'Configuraciones',
             'route' => 'settings.index',
             'icon' => 'fa fa-fw fa-gear mr-2',
+            'can' => 'administracion'
         ],
         //  End Menu items: AQUI TERMINA MI CONFIGUACION ----------------------------------------------------------------
 

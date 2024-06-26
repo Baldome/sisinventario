@@ -13,7 +13,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <b>
                         <h3 class="card-title"><b>Tus herramientas prestadas</b></h3>
@@ -59,7 +59,7 @@
                                     </a>
                                     <a href="{{ route('loans.show', [$loan->loan_id]) }}"
                                         class="btn btn-sm btn-default text-warning mx-1 shadow" title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        <i class="fa-solid fa-eye"></i>
                                     </a>
                                 </td>
                             </tr>

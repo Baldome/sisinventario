@@ -4,7 +4,7 @@
 
 @section('content_header')
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <h4><b>EDITAR ACTIVO</b></h4>
         </div>
     </div>
@@ -12,19 +12,10 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card card-border col-md-12">
+        <div class="col-md-10">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header whit-border">
                     <span class="title text-lg">Actualizar datos del activo: <b>{{ $asset->name }}</b></span>
-                    <div class="card-tools">
-                        {{-- @can('listar activos') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('asset.index') }}" class="btn btn-sm btn-secondary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar activos</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
                 </div>
                 <form action="{{ route('asset.update', $asset) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -192,17 +183,17 @@
                             <div class="col-md-12">
                                 <div class="btn-group pull-right me-2">
                                     <button type="submit" class="btn btn-sm btn-primary" title="Guardar">
-                                        <i class="fa-solid fa-save mr-2"></i><span class="hidden-xs">Actualizar</span>
+                                        <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Actualizar</span>
                                     </button>
                                 </div>
-                                {{-- @can('listar activos') --}}
-                                <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('asset.index') }}" class="btn btn-sm btn-secondary"
-                                        title="Cancelar">
-                                        <i class="fa-solid fa-ban mr-2"></i><span class="hidden-xs">Cancelar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
+                                @can('listar activos')
+                                    <div class="btn-group pull-right me-2">
+                                        <a href="{{ route('asset.index') }}" class="btn btn-sm btn-secondary"
+                                            title="Cancelar">
+                                            <i class="fa-solid fa-ban mr-2"></i><span class="hidden-xs">Cancelar</span>
+                                        </a>
+                                    </div>
+                                @endcan
                             </div>
                         </div>
                     </div>

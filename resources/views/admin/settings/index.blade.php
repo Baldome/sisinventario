@@ -15,15 +15,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @foreach ($settings as $setting)
-                    <div class="card card-widget widget-user shadow">
-                        <div class="widget-user-header bg-yellow">
+                    <div class="card card-outline card-widget widget-user card-primary shadow">
+                        <div class="widget-user-header">
                             <h2 class="widget-user-username mb-2"><b>{{ $setting->name }}</b></h2>
                             <h5 class="widget-user-desc"><b>MI TELEFÉRICO</b></h5>
                         </div>
                         <div class="widget-user-image mt-2">
                             <img class="img-circle elevation-2" src="{{ $setting->logo }}" alt="Logo institución">
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer bg-transparent">
                             <div class="row mb-2">
                                 <div class="col-sm-3 border-right">
                                     <div class="description-block">

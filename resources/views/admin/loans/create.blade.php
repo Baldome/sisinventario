@@ -14,9 +14,9 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <form action="{{ route('loans.store') }}" method="POST" enctype="multipart/form-data">
-                <div class="card p-3">
+                <div class="card shadow justify-content-center align-items-center p-4">
                     @csrf
-                    <div class="card col-12">
+                    <div class="card card-outline card-primary shadow col-11">
                         <div class="card-header">
                             <h5>Prestar la herramienta: <b>{{ $tool->name }}</b></h5>
                         </div>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="card col-12">
+                    <div class="card card-outline card-primary shadow col-11">
                         <div class="card-header">
                             <h5><b>Datos de prestamo</b></h5>
                         </div>

@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             'address' => 'Camino Manzano,Bueno de San Pedro',
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-        ])->assignRole('Usuario Andrea');
+        ])->assignRole('Usuario');
 
         User::create([
             'name' => 'Richard Angel',
@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('11111'),
             'code' => 726262,
-            'role_id' => 3,
+            'role_id' => 2,
             'ci' => 8482328,
             'ci_dep' => 'LP',
             'last_name' => 'Quispe Coarite',
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'address' => 'Camino Manzano,Bueno de San Pedro',
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-        ])->assignRole('Usuario Richard');
+        ])->assignRole('Usuario');
 
         User::create([
             'name' => 'Aram',
@@ -78,7 +78,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('11111'),
             'code' => 23642162,
-            'role_id' => 4,
+            'role_id' => 2,
             'ci' => 67820928,
             'ci_dep' => 'LP',
             'last_name' => 'Lanza Marca',
@@ -89,7 +89,7 @@ class UserSeeder extends Seeder
             'address' => 'Camino Manzano,Bueno de San Pedro',
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-        ])->assignRole('Usuario Aram');
+        ])->assignRole('Usuario');
 
         User::create([
             'name' => 'Eddy',
@@ -97,7 +97,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('11111'),
             'code' => 7264202,
-            'role_id' => 5,
+            'role_id' => 2,
             'ci' => 35820928,
             'ci_dep' => 'LP',
             'last_name' => 'Alí Marca',
@@ -108,7 +108,7 @@ class UserSeeder extends Seeder
             'address' => 'Camino Manzano,Bueno de San Pedro',
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-        ])->assignRole('Usuario Eddy');
+        ])->assignRole('Usuario');
 
         User::create([
             'name' => 'Valerio',
@@ -116,7 +116,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('11111'),
             'code' => 4664200,
-            'role_id' => 6,
+            'role_id' => 2,
             'ci' => 56823928,
             'ci_dep' => 'LP',
             'last_name' => 'Mujía Marca',
@@ -127,7 +127,7 @@ class UserSeeder extends Seeder
             'address' => 'Camino Manzano,Bueno de San Pedro',
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-        ])->assignRole('Usuario Valerio');
+        ])->assignRole('Usuario');
 
         User::create([
             'name' => 'Julio',
@@ -135,7 +135,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('11111'),
             'code' => 10642910,
-            'role_id' => 7,
+            'role_id' => 2,
             'ci' => 91123928,
             'ci_dep' => 'CB',
             'last_name' => 'Mujía Marca',
@@ -146,6 +146,6 @@ class UserSeeder extends Seeder
             'address' => 'Camino Manzano,Bueno de San Pedro',
             'remember_token' => Str::random(10),
             'profile_photo_path' => Storage::url('public/images/users/avatar.png'),
-        ])->assignRole('Usuario Julio');
+        ])->assignRole('Usuario');
     }
 }

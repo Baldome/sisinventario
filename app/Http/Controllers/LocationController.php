@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
-class LocationController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class LocationController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar ubicaciones')->only('index');
+        $this->middleware('can:crear ubicacion')->only('create');
+        $this->middleware('can:editar ubicacion')->only('edit');
+        $this->middleware('can:eliminar ubicacion')->only('destroy');
+        $this->middleware('can:visualizar ubicacion')->only('show');
+    }
+
     public function index()
     {
         //

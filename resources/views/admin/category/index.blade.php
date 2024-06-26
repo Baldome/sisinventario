@@ -13,7 +13,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <div class="card-tools">
                         {{-- @can('crear categoría') --}}
@@ -32,11 +32,11 @@
                             'Nro',
                             'Nombre',
                             'Descripción',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 11],
+                            ['label' => 'Acciones', 'no-export' => true, 'width' => 14],
                         ];
                         $btnEdit = '';
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger" title="Eliminar">
-                                      <i class="fa fa-lg fa-fw fa-trash"></i>
+                        $btnDelete = '<button class="btn btn-sm shadow btn-default text-danger" title="Eliminar">
+                                      <i class="fa-solid fa-trash"></i>
                                       </button>';
                         $btnDetails = '';
                         $config = [
@@ -46,7 +46,7 @@
                         ];
                     @endphp
                     <x-adminlte-datatable id="table7" :heads="$heads" head-theme="light" :config="$config" striped
-                        hoverable bordered compressed>
+                        hoverable bordered compressed with-buttons>
                         @php
                             $counter = 0;
                         @endphp
@@ -59,47 +59,47 @@
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->description }}</td>
                                 <td style="text-align: center; align-content: center">
-                                    {{-- @can('editar categoría') --}}
-                                    <button class="btn btn-xs btn-default text-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editcategoryModal{{ $category->id }}" title="Editar">
-                                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </button>
-                                    {{-- @endcan --}}
-                                    {{-- @can('eliminar categoría') --}}
-                                    <form style="display: inline" action="{{ route('category.destroy', $category) }}"
-                                        method="post" onclick="ask{{ $category->id }}(event)"
-                                        id="myform{{ $category->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $category->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $category->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    {{-- @endcan --}}
-                                    {{-- @can('visualizar categoría') --}}
-                                    <a href="{{ route('category.show', $category) }}"
-                                        class="btn btn-xs btn-default text-teal" title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                                    </a>
-                                    {{-- @endcan --}}
+                                    @can('editar categoria')
+                                        <button class="btn btn-sm shadow btn-default text-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editcategoryModal{{ $category->id }}" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                    @endcan
+                                    @can('eliminar categoria')
+                                        <form style="display: inline" action="{{ route('category.destroy', $category) }}"
+                                            method="post" onclick="ask{{ $category->id }}(event)"
+                                            id="myform{{ $category->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $category->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $category->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                    @endcan
+                                    @can('visualizar categoria')
+                                        <a href="{{ route('category.show', $category) }}"
+                                            class="btn btn-sm shadow btn-default text-teal" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                             <!-- Modal edit category-->

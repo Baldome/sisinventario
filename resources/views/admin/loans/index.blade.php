@@ -13,7 +13,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <h3 class="card-title"><b>Tus herramientas prestadas y devueltos</b></h3>
                 </div>

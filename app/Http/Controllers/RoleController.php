@@ -7,14 +7,23 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
-{
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-    // public function __construct()
-    // {
-    //     /**  */
-    //     $this->middleware('permission:Listar rol', ['only' => ['destroy']]);
-    // }
+class RoleController extends BaseController
+{
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar roles')->only('index');
+        $this->middleware('can:crear rol')->only('create');
+        $this->middleware('can:editar rol')->only('edit');
+        $this->middleware('can:eliminar rol')->only('destroy');
+        $this->middleware('can:visualizar rol')->only('show');
+        $this->middleware('can:asignar permisos al rol')->only('createPermissionsToRole');
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -152,12 +161,5 @@ class RoleController extends Controller
                 ->with('message', 'Ocurrió un error al asignar')
                 ->with('icon', 'error');
         }
-    }
-
-    public function getPermissions(Role $role)
-    {
-        return response()->json([
-            'permissions' => $role->permissions
-        ]);
     }
 }

@@ -13,18 +13,18 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header">
                     <span
                         class="text-lg"><b>{{ Auth::user()->hasRole('Administrador') ? 'Todas las Herramientas' : 'Mis Herramientas' }}</b></span>
                     <div class="card-tools">
-                        {{-- @can('crear activo') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('tools.create') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-plus mr-2"></i><span class="hidden-xs">Crear nueva herramienta</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
+                        @can('crear activo')
+                            <div class="btn-group pull-right me-2">
+                                <a href="{{ route('tools.create') }}" class="btn btn-sm btn-primary">
+                                    <i class="fa-solid fa-plus mr-2"></i><span class="hidden-xs">Crear nueva herramienta</span>
+                                </a>
+                            </div>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -39,11 +39,11 @@
                             'Unidad',
                             'Categoria',
                             'Ubicación',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 16],
+                            ['label' => 'Acciones', 'no-export' => true, 'width' => 18],
                         ];
                         $heads = array_filter($heads);
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger shadow" title="Eliminar">
-                                      <i class="fa fa-lg fa-fw fa-trash"></i>
+                        $btnDelete = '<button class="btn btn-sm btn-default text-danger shadow" title="Eliminar">
+                                      <i class="fa-solid fa-trash"></i>
                                       </button>';
                         $config = [
                             'language' => [
@@ -72,33 +72,33 @@
                                 @can('ver herramientas asignados')
                                     <td style="text-align: center; align-content: center">
                                         @if ($tool->user)
-                                            @switch($tool->user->role_id)
+                                            @switch($tool->user->id)
                                                 @case(1)
-                                                    <span class="badge text-sm bg-success">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-success">{{ $tool->user->name }}</span>
                                                 @break
 
                                                 @case(2)
-                                                    <span class="badge text-sm bg-primary">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-primary">{{ $tool->user->name }}</span>
                                                 @break
 
                                                 @case(3)
-                                                    <span class="badge text-sm bg-cyan">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-cyan">{{ $tool->user->name }}</span>
                                                 @break
 
                                                 @case(4)
-                                                    <span class="badge text-sm bg-warning">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-warning">{{ $tool->user->name }}</span>
                                                 @break
 
                                                 @case(5)
-                                                    <span class="badge text-sm bg-info">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-danger">{{ $tool->user->name }}</span>
                                                 @break
 
                                                 @case(6)
-                                                    <span class="badge text-sm bg-secondary">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-secondary">{{ $tool->user->name }}</span>
                                                 @break
 
                                                 @case(7)
-                                                    <span class="badge text-sm bg-light">{{ $tool->user->name }}</span>
+                                                    <span class="badge text-sm text-black">{{ $tool->user->name }}</span>
                                                 @break
                                             @endswitch
                                         @else
@@ -116,47 +116,53 @@
                                 <td>{{ $tool->location->name }}</td>
                                 <td style="text-align: center; align-content: center">
                                     @if ($isLoaned)
-                                        <span class="btn btn-xs btn-default text-red shadow"><b>Prestado</b></span>
+                                        <span class="btn btn-sm btn-default text-red shadow"><b>Prestado</b></span>
                                     @else
                                         <a href="{{ route('loans.create', $tool->id) }}"
-                                            class="btn btn-xs btn-default text-warning shadow"><i
+                                            class="btn btn-sm btn-default text-warning shadow"><i
                                                 class="fa-solid fa-share-from-square mr-2"></i><b>Prestar</b></a>
                                     @endif
-                                    <a href="{{ route('tools.edit', $tool) }}"
-                                        class="btn btn-xs btn-default text-primary shadow" title="Editar">
-                                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </a>
-                                    <form style="display: inline" action="{{ route('tools.destroy', [$tool]) }}"
-                                        method="post" onclick="ask{{ $tool->id }}(event)"
-                                        id="myform{{ $tool->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $tool->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $tool->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    <a href="{{ route('tools.show', [$tool]) }}"
-                                        class="btn btn-xs btn-default text-teal shadow" title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                                    </a>
+                                    @can('editar herramienta')
+                                        <a href="{{ route('tools.edit', $tool) }}"
+                                            class="btn btn-sm btn-default text-primary shadow" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </a>
+                                    @endcan
+                                    @can('eliminar herramienta')
+                                        <form style="display: inline" action="{{ route('tools.destroy', [$tool]) }}"
+                                            method="post" onclick="ask{{ $tool->id }}(event)"
+                                            id="myform{{ $tool->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $tool->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $tool->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                    @endcan
+                                    @can('visualizar herramienta')
+                                        <a href="{{ route('tools.show', [$tool]) }}"
+                                            class="btn btn-sm btn-default text-teal shadow" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

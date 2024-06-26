@@ -12,8 +12,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ToolController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
+class ToolController extends BaseController
 {
+
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar herramientas')->only('index');
+        $this->middleware('can:crear herramienta')->only('create');
+        $this->middleware('can:editar herramienta')->only('edit');
+        $this->middleware('can:eliminar herramienta')->only('destroy');
+        $this->middleware('can:visualizar herramienta')->only('show');
+        $this->middleware('can:asignar herramienta')->only('createAssignToolToUser');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -79,8 +96,10 @@ class ToolController extends Controller
             $tool->description = $request->description;
             $tool->observations = $request->observations;
             if ($request->hasFile('image')) {
-                $image = $request->file('image')->store('public/images/tools');
+                $name = $tool->id . '.' . $request->file('image')->getClientOriginalExtension();
+                $image = $request->file('image')->storeAs('public/images/tools', $name);
                 $tool->image = Storage::url($image);
+                $tool->save();
             }
 
             $tool->save();
@@ -148,10 +167,12 @@ class ToolController extends Controller
             $tool->observations = $request->observations;
             if ($request->hasFile('image')) {
                 if ($tool->image) {
-                    Storage::delete($tool->image);
+                    Storage::disk('public')->delete($tool->image);
                 }
-                $image = $request->file('image')->store('public/images/tools');
+                $name = $tool->id . '.' . $request->file('image')->getClientOriginalExtension();
+                $image = $request->file('image')->store('public/images/tools', $name);
                 $tool->image = Storage::url($image);
+                $tool->save();
             } else {
                 $request->old_image;
             }
@@ -175,7 +196,7 @@ class ToolController extends Controller
     {
         try {
             if ($tool->image) {
-                Storage::delete($tool->image);
+                Storage::disk('public')->delete($tool->image);
             }
             $tool->delete();
 
@@ -217,43 +238,4 @@ class ToolController extends Controller
                 ->with('icon', 'error');
         }
     }
-
-    // public function createLoan($id)
-    // {
-    //     // return 'HOla';
-    //     $tool = Tool::with('category', 'location', 'unit')->findOrFail($id);
-    //     $users = User::where('id', '!=', auth()->id())->get();
-    //     return view('admin.tools.lend-tool', compact('tool', 'users'));
-    // }
-
-    // public function assignLoan(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'borrower_user_id' => 'required',
-    //         'date_time_loan' => 'required|date',
-    //         'expected_return_date' => 'date|after:date_time_loan',
-    //     ]);
-
-    //     try {
-    //         $tool = Tool::findOrFail($id);
-
-    //         // Crear un nuevo préstamo
-    //         $loan = new Loan();
-    //         $loan->tool_id = $tool->id;
-    //         $loan->borrower_user_id = $request->borrower_user_id;
-    //         $loan->date_time_loan = $request->date_time_loan;
-    //         $loan->expected_return_date = $request->expected_return_date;
-    //         $loan->state = 1;
-    //         $loan->observations = $request->observations;
-    //         $loan->save();
-
-    //         return redirect()->route('tools.index')
-    //             ->with('message', 'Asignación correcta!')
-    //             ->with('icon', 'success');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()
-    //             ->with('message', 'Ocurrió un error al prestar la herramienta')
-    //             ->with('icon', 'error');
-    //     }
-    // }
 }

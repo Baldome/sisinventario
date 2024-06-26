@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+class CategoryController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('can:listar usuarios')->only('index');
+        $this->middleware('can:crear usuario')->only('create');
+        $this->middleware('can:editar usuario')->only('edit');
+        $this->middleware('can:eliminar usuario')->only('destroy');
+        $this->middleware('can:visualizar usuario')->only('show');
+    }
+
     public function index()
     {
         $categories = Category::all();

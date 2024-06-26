@@ -4,7 +4,7 @@
 
 @section('content_header')
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <h4><b>CREAR NUEVO ACTIVO</b></h4>
         </div>
     </div>
@@ -12,19 +12,10 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card card-border col-md-12">
+        <div class="col-md-10">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header whit-border">
-                    <span class="title text-lg"><b>Crear nuevo activo</b></span>
-                    <div class="card-tools">
-                        {{-- @can('listar activos') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('asset.index') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar activos</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
+                    <span class="title text-lg"><b>Ingrese datos del nuevo activo</b></span>
                 </div>
                 <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf {{-- Guarda los datos para y genera un token  --}}
@@ -157,9 +148,8 @@
                                         <label for="model">MODELO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-cube"></i></span>
-                                            <input type="text" name="model"
-                                                placeholder="Ingrese el modelo del activo" class="form-control"
-                                                value="{{ old('model') }}">
+                                            <input type="text" name="model" placeholder="Ingrese el modelo del activo"
+                                                class="form-control" value="{{ old('model') }}">
                                         </div>
                                         @error('model')
                                             <small style="color: red">{{ $message }}</small>

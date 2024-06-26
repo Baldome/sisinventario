@@ -15,10 +15,26 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-border col-md-12">
+                    <div class="card card-outline card-primary shadow col-md-12">
                         <div class="card-header with-border">
                             <h3 class="card-title">Datos registrados de la herramienta: <b>{{ $tool->name }}</b></h3>
                             <div class="card-tools">
+                                {{-- @can('prestar herramienta') --}}
+                                @php
+                                    $isLoaned = $tool->loans->where('isBorrowed', 1)->isNotEmpty();
+                                @endphp
+                                @if ($isLoaned)
+                                    <div class="btn-group pull-right me-2">
+                                        <span class="btn btn-sm btn-default text-red shadow"><b>Prestado</b></span>
+                                    </div>
+                                @else
+                                    <div class="btn-group pull-right me-2">
+                                        <a href="{{ route('loans.create', $tool->id) }}"
+                                            class="btn btn-sm btn-warning shadow"><i
+                                                class="fa-solid fa-share-from-square mr-2"></i><b>Prestar</b></a>
+                                    </div>
+                                @endif
+                                {{-- @endcan --}}
                                 {{-- @can('eliminar herramienta') --}}
                                 <form style="display: inline" action="{{ route('tools.destroy', [$tool]) }}" method="POST"
                                     onclick="ask{{ $tool->id }}(event)" id="myform{{ $tool->id }}">
@@ -86,7 +102,44 @@
                                             <label style="text-align: end" class="col-sm-4 form-label">Usuario
                                                 asignado</label>
                                             <div class="col-sm-8 show-value">
-                                                {{ $tool->user->name }}
+                                                @if ($tool->user)
+                                                    @switch($tool->user->id)
+                                                        @case(1)
+                                                            <span class="badge text-sm text-success">{{ $tool->user->name }}</span>
+                                                        @break
+
+                                                        @case(2)
+                                                            <span class="badge text-sm text-primary">{{ $tool->user->name }}</span>
+                                                        @break
+
+                                                        @case(3)
+                                                            <span class="badge text-sm text-cyan">{{ $tool->user->name }}</span>
+                                                        @break
+
+                                                        @case(4)
+                                                            <span class="badge text-sm text-warning">{{ $tool->user->name }}</span>
+                                                        @break
+
+                                                        @case(5)
+                                                            <span class="badge text-sm text-danger">{{ $tool->user->name }}</span>
+                                                        @break
+
+                                                        @case(6)
+                                                            <span
+                                                                class="badge text-sm text-secondary">{{ $tool->user->name }}</span>
+                                                        @break
+
+                                                        @case(7)
+                                                            <span class="badge text-sm text-black">{{ $tool->user->name }}</span>
+                                                        @break
+                                                    @endswitch
+                                                @else
+                                                    <a href="{{ route('tools.createAssignToolToUser', $tool->id) }}"
+                                                        class="btn btn-sm btn-default text-danger shadow"><i
+                                                            class="fa-solid fa-share-from-square mr-2"></i>
+                                                        <b>Asignar</b>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">

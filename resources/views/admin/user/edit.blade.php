@@ -13,19 +13,10 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card card-barder col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header">
                     <span class="title text-lg">Editar datos del usuario:
                         <b>{{ $user->name . ' ' . $user->last_name }}</b></span>
-                    <div class="card-tools">
-                        {{-- @can('listar usuarios') --}}
-                        <div class="btn-group pull-right me-2">
-                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">
-                                <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar usuarios</span>
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-                    </div>
                 </div>
                 <form action="{{ route('user.update', $user) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -64,16 +55,24 @@
                                                 <span class="input-group-text"><i
                                                         class="fa-solid fa-address-card"></i></span>
                                                 <select name="ci_dep" class="form-control" @readonly(true) required>
-                                                    <option value="{{ $user->ci_dep }}">{{ $user->ci_dep }}</option>
-                                                    <option value="LP">LP</option>
-                                                    <option value="SC">SC</option>
-                                                    <option value="CB">CB</option>
-                                                    <option value="OR">OR</option>
-                                                    <option value="PT">PT</option>
-                                                    <option value="TJ">TJ</option>
-                                                    <option value="BN">BN</option>
-                                                    <option value="PA">PA</option>
-                                                    <option value="CH">CH</option>
+                                                    <option value="LP" {{ $user->ci_dep === 'LP' ? 'selected' : '' }}>LP
+                                                    </option>
+                                                    <option value="SC" {{ $user->ci_dep === 'SC' ? 'selected' : '' }}>SC
+                                                    </option>
+                                                    <option value="CB" {{ $user->ci_dep === 'CB' ? 'selected' : '' }}>CB
+                                                    </option>
+                                                    <option value="OR" {{ $user->ci_dep === 'OR' ? 'selected' : '' }}>
+                                                        OR</option>
+                                                    <option value="PT" {{ $user->ci_dep === 'PT' ? 'selected' : '' }}>
+                                                        PT</option>
+                                                    <option value="TJ" {{ $user->ci_dep === 'TJ' ? 'selected' : '' }}>
+                                                        TJ</option>
+                                                    <option value="BN" {{ $user->ci_dep === 'BN' ? 'selected' : '' }}>
+                                                        BN</option>
+                                                    <option value="PA" {{ $user->ci_dep === 'PA' ? 'selected' : '' }}>
+                                                        PA</option>
+                                                    <option value="CH" {{ $user->ci_dep === 'CH' ? 'selected' : '' }}>
+                                                        CH</option>
                                                 </select>
                                                 @error('ci_dep')
                                                     <small style="color: red">{{ $message }}</small>
@@ -111,9 +110,10 @@
                                     <div class="form-group input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-user-check"></i></span>
                                         <select name="is_active" class="form-control" required>
-                                            <option value="{{ $user->is_active }}">{{ $user->is_active }}</option>
-                                            <option value="{{ true }}">Activo</option>
-                                            <option value="{{ false }}">Inactivo</option>
+                                            <option value="1" {{ $user->is_active === 1 ? 'selected' : '' }}>Activo
+                                            </option>
+                                            <option value="0" {{ $user->is_active === 0 ? 'selected' : '' }}>Inactivo
+                                            </option>
                                         </select>
                                         @error('last_name')
                                             <small style="color: red">{{ $message }}</small>
@@ -174,9 +174,10 @@
                                     <div class="form-group input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-venus"></i></span>
                                         <select name="gender" class="form-control" required>
-                                            <option value="{{ $user->gender }}">{{ $user->gender }}</option>
-                                            <option value="Hombre">Hombre</option>
-                                            <option value="Mujer">Mujer</option>
+                                            <option value="Hombre" {{ $user->gender === 'Hombre' ? 'selected' : '' }}>
+                                                Hombre</option>
+                                            <option value="Mujer" {{ $user->gender === 'Mujer' ? 'selected' : '' }}>
+                                                Mujer</option>
                                         </select>
                                         @error('gender')
                                             <small style="color: red">{{ $message }}</small>

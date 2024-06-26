@@ -13,7 +13,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card card-border col-md-12">
+            <div class="card card-outline card-primary shadow col-md-12">
                 <div class="card-header with-border">
                     <div class="card-tools">
                         {{-- @can('crear ubicación') --}}
@@ -32,11 +32,11 @@
                             'Nro',
                             'Nombre',
                             'Descripción',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 11],
+                            ['label' => 'Acciones', 'no-export' => true, 'width' => 14],
                         ];
                         $btnEdit = '';
-                        $btnDelete = '<button class="btn btn-xs btn-default text-danger" title="Eliminar">
-                                      <i class="fa fa-lg fa-fw fa-trash"></i>
+                        $btnDelete = '<button class="btn btn-sm shadow btn-default text-danger" title="Eliminar">
+                                      <i class="fa-solid fa-trash"></i>
                                       </button>';
                         $btnDetails = '';
                         $config = [
@@ -46,7 +46,7 @@
                         ];
                     @endphp
                     <x-adminlte-datatable id="table7" :heads="$heads" head-theme="light" :config="$config" striped
-                        hoverable bordered compressed>
+                        hoverable bordered compressed with-buttons>
                         @php
                             $counter = 0;
                         @endphp
@@ -59,47 +59,47 @@
                                 <td>{{ $location->name }}</td>
                                 <td>{{ $location->description }}</td>
                                 <td style="text-align: center; align-content: center">
-                                    {{-- @can('editar ubicación') --}}
-                                    <button class="btn btn-xs btn-default text-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editLocationModal{{ $location->id }}" title="Editar">
-                                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                                    </button>
-                                    {{-- @endcan --}}
-                                    {{-- @can('eliminar ubicación') --}}
-                                    <form style="display: inline" action="{{ route('location.destroy', $location) }}"
-                                        method="post" onclick="ask{{ $location->id }}(event)"
-                                        id="myform{{ $location->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $location->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $location->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    {{-- @endcan --}}
-                                    {{-- @can('visualizar ubicación') --}}
-                                    <a href="{{ route('location.show', $location) }}"
-                                        class="btn btn-xs btn-default text-teal" title="Detalles">
-                                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                                    </a>
-                                    {{-- @endcan --}}
+                                    @can('editar ubicacion')
+                                        <button class="btn btn-sm shadow btn-default text-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editLocationModal{{ $location->id }}" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                    @endcan
+                                    @can('eliminar ubicacion')
+                                        <form style="display: inline" action="{{ route('location.destroy', $location) }}"
+                                            method="post" onclick="ask{{ $location->id }}(event)"
+                                            id="myform{{ $location->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $location->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $location->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                    @endcan
+                                    @can('visualizar ubicacion')
+                                        <a href="{{ route('location.show', $location) }}"
+                                            class="btn btn-sm shadow btn-default text-teal" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                             <!-- Modal edit location-->
