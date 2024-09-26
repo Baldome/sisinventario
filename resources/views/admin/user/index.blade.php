@@ -31,7 +31,6 @@
                         $heads = [
                             '#',
                             'Imagen',
-                            'Código',
                             'Nombres',
                             'Apellidos',
                             'Email',
@@ -67,7 +66,6 @@
                                         <img src="{{ $user->profile_photo_path }}" alt="Foto de perfil" width="50px">
                                     </span>
                                 </td>
-                                <td>{{ $user->code }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>{{ $user->email }}</td>

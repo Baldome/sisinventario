@@ -345,25 +345,33 @@ return [
                     'can' => 'listar permisos'
                 ],
             ],
-            //'can' => 'administracion'
         ],
         [
             'header' => 'GESTIÓN DE INVENTARIOS',
         ],
         [
+            'text' => 'Activos',
+            'route' => 'asset.index',
+            'icon' => 'far fa-fw fa-newspaper mr-2',
+            'can' => 'listar activos'
+        ],
+        [
             'text' => 'Ubicaciones',
             'route' => 'location.index',
             'icon' => 'fa fa-fw fa-map-marker mr-2',
+            'can' => 'listar ubicaciones'
         ],
         [
             'text' => 'Categorias',
             'route' => 'category.index',
             'icon' => 'fa fa-fw fa-tag mr-2',
+            'can' => 'listar categorias'
         ],
         [
-            'text' => 'Activos',
-            'route' => 'asset.index',
-            'icon' => 'far fa-fw fa-newspaper mr-2',
+            'text' => 'Estados',
+            'route' => 'states.index',
+            'icon' => 'fa fa-fw fa-pen-fancy mr-2',
+            'can' => 'listar estados'
         ],
         [
             'header' => 'GESTIÓN DE HERRAMIENTAS',
@@ -372,21 +380,35 @@ return [
             'text' => 'Herramientas',
             'route' => 'tools.index',
             'icon' => 'fa fa-fw fa-screwdriver-wrench mr-2',
+            'can' => 'listar herramientas'
+        ],
+        [
+            'text' => 'Préstamos',
+            'route' => 'loans.index',
+            'icon' => 'fa fa-fw fa-share-from-square mr-2',
+            'can' => 'listar prestamos'
         ],
         [
             'text' => 'Tus préstamos',
-            'route' => 'loans.index',
-            'icon' => 'fa fa-fw fa-share-from-square mr-2',
-        ],
-        [
-            'text' => 'Devolver préstamos',
             'route' => 'loans.return',
             'icon' => 'fa fa-fw fa-reply-all mr-2',
+            'can' => 'listar tus prestamos'
         ],
         [
             'text' => 'Unidades',
             'route' => 'units.index',
-            'icon' => 'fa fa-fw fa-note-sticky mr-2',
+            'icon' => 'fa fa-fw fa-unity mr-2',
+            'can' => 'listar unidades'
+        ],
+        [
+            'header' => 'GESTIÓN DE REPORTES',
+            'can' => 'reportes'
+        ],
+        [
+            'text' => 'Reportes',
+            'route' => 'reports.index',
+            'icon' => 'fa fa-fw fa-file-pdf mr-2',
+            'can' => 'reportes'
         ],
         [
             'header' => 'GESTIÓN DE LA INSTITUCIÓN',
@@ -398,73 +420,6 @@ return [
             'icon' => 'fa fa-fw fa-gear mr-2',
             'can' => 'administracion'
         ],
-        //  End Menu items: AQUI TERMINA MI CONFIGUACION ----------------------------------------------------------------
-
-        // ['header' => 'account_settings'],
-        // [
-        //     'text' => 'profile',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-user',
-        // ],
-        // [
-        //     'text' => 'change_password',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-lock',
-        // ],
-        // [
-        //     'text' => 'multilevel',
-        //     'icon' => 'fas fa-fw fa-share',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //             'submenu' => [
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                 ],
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                     'submenu' => [
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                     ],
-        //                 ],
-        //             ],
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //     ],
-        // ],
-        // ['header' => 'labels'],
-        // [
-        //     'text' => 'important',
-        //     'icon_color' => 'red',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'warning',
-        //     'icon_color' => 'yellow',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'information',
-        //     'icon_color' => 'cyan',
-        //     'url' => '#',
-        // ],
     ],
 
     /*

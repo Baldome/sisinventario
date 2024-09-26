@@ -12,7 +12,7 @@ class Tool extends Model
     protected $fillable = [
         'code',
         'name',
-        'state',
+        'state_id',
         'image',
         'user_id',
         'unit_id',
@@ -51,5 +51,10 @@ class Tool extends Model
     public function currentLoan()
     {
         return $this->hasOne(Loan::class)->where('state', 1);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
     }
 }

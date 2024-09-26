@@ -41,25 +41,20 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label for="state">ESTADO</label>
+                                        <label for="state_id">ESTADO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i
                                                     class="fa-solid fa-ellipsis-vertical ml-1 mr-1"></i></span>
-                                            <select name="state" class="form-control" required>
-                                                <option value="Bueno" {{ $asset->state === 'Bueno' ? 'selected' : '' }}>
-                                                    Bueno</option>
-                                                <option value="Regular" {{ $asset->state === 'Regular' ? 'selected' : '' }}>
-                                                    Regular</option>
-                                                <option value="Malo" {{ $asset->state === 'Malo' ? 'selected' : '' }}>Malo
-                                                </option>
-                                                <option value="Inoperativo"
-                                                    {{ $asset->state === 'Inoperativo' ? 'selected' : '' }}>Inoperativo
-                                                </option>
-                                                <option value="Obsoleto"
-                                                    {{ $asset->state === 'Obsoleto' ? 'selected' : '' }}>Obsoleto</option>
+                                            <select name="state_id" class="form-control" required>
+                                                @foreach ($states as $state)
+                                                    <option value="{{ $state->id }}"
+                                                        {{ $state->id === $asset->state_id ? 'selected' : '' }}>
+                                                        {{ $state->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
-                                        @error('state')
+                                        @error('state_id')
                                             <small style="color: red">{{ $message }}</small>
                                         @enderror
                                     </div>

@@ -34,7 +34,6 @@ class User extends Authenticatable
         'password',
         'profile_photo_path',
         'role_id',
-        'code',
         'ci',
         'ci_dep',
         'last_name',

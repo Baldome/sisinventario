@@ -6,8 +6,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -56,4 +58,12 @@ Route::middleware([
     Route::get('/admin/prestamos/devolucion', [LoanController::class, 'return'])->name('loans.return');
 
     Route::resource('/admin/settings', SettingController::class)->names('settings');
+
+    Route::resource('/admin/reports', ReportController::class)->except('create', 'store', 'show', 'edit', 'update', 'destroy')->names('reports');
+    Route::get('/admin/reports/assets', [ReportController::class, 'generateReportAsset'])->name('reports.generateReportAsset');
+    Route::get('/admin/reports/tools', [ReportController::class, 'generateReportTool'])->name('reports.generateReportTool');
+    Route::get('/admin/reports/reports-dates', [ReportController::class, 'generateReportForDates'])->name('reports.generateReportForDates');
+    Route::get('/admin/reports/loans', [ReportController::class, 'generateReportLoan'])->name('reports.generateReportLoan');
+
+    Route::resource('/admin/states', StateController::class)->names('states');
 });

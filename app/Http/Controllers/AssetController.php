@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\Category;
 use App\Models\Location;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,8 +57,9 @@ class AssetController extends BaseController
     {
         $categories = Category::all();
         $locations = Location::all();
+        $states = State::all();
         $users = User::all();
-        return view('admin.asset.create', compact('categories', 'locations', 'users'));
+        return view('admin.asset.create', compact('categories', 'locations', 'users', 'states'));
     }
 
     /**
@@ -68,7 +70,7 @@ class AssetController extends BaseController
         $request->validate([
             'code' => 'required|numeric|unique:assets,code|min:15',
             'name' => 'required',
-            'state' => 'required|max:255',
+            'state_id' => 'required|max:255',
             'admission_date' => 'required|date',
             'image' => 'image|max:5012',
             'category_id' => 'required',
@@ -78,7 +80,7 @@ class AssetController extends BaseController
             $asset = new Asset();
             $asset->code = $request->code;
             $asset->name = $request->name;
-            $asset->state = $request->state;
+            $asset->state_id = $request->state_id;
             $asset->category_id = $request->category_id;
             $asset->location_id = $request->location_id;
             $asset->admission_date = $request->admission_date;
@@ -124,8 +126,9 @@ class AssetController extends BaseController
     {
         $categories = Category::all();
         $locations = Location::all();
+        $states = State::all();
         $users = User::all();
-        return view('admin.asset.edit', compact('asset', 'categories', 'locations', 'users'));
+        return view('admin.asset.edit', compact('asset', 'categories', 'locations', 'states', 'users'));
     }
 
     /**
@@ -136,7 +139,7 @@ class AssetController extends BaseController
         $request->validate([
             'code' => 'required|numeric|min:15|unique:assets,code,' . $asset->id,
             'name' => 'required|max:255',
-            'state' => 'required|max:255',
+            'state_id' => 'required',
             'admission_date' => 'required|date',
             'image' => 'image|max:5012',
             'category_id' => 'required',
@@ -145,7 +148,7 @@ class AssetController extends BaseController
         try {
             $asset->code = $request->code;
             $asset->name = $request->name;
-            $asset->state = $request->state;
+            $asset->state_id = $request->state_id;
             $asset->category_id = $request->category_id;
             $asset->location_id = $request->location_id;
             $asset->admission_date = $request->admission_date;

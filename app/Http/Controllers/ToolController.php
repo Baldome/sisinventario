@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Loan;
 use App\Models\Location;
+use App\Models\State;
 use App\Models\Tool;
 use App\Models\Unit;
 use App\Models\User;
@@ -39,16 +40,17 @@ class ToolController extends BaseController
         $units = Unit::all();
         $categories = Category::all();
         $locations = Location::all();
+        $states = State::all();
         $users = User::all();
         $user = Auth::user();
 
         if ($user->hasRole('Administrador')) {
-            $tools = Tool::with(['unit', 'category', 'location', 'user', 'loans'])->get();
+            $tools = Tool::with(['unit', 'category', 'location', 'user', 'loans', 'state'])->get();
         } else {
-            $tools = Tool::with(['unit', 'category', 'location', 'user', 'loans'])->where('user_id', $user->id)->get();
+            $tools = Tool::with(['unit', 'category', 'location', 'user', 'loans', 'state'])->where('user_id', $user->id)->get();
         }
 
-        return view('admin.tools.index', compact('tools', 'units', 'categories', 'locations', 'users'));
+        return view('admin.tools.index', compact('tools', 'units', 'categories', 'locations', 'users', 'states'));
     }
 
     /**
@@ -58,9 +60,10 @@ class ToolController extends BaseController
     {
         $categories = Category::all();
         $locations = Location::all();
+        $states = State::all();
         $users = User::all();
         $units = Unit::all();
-        return view('admin.tools.create', compact('categories', 'locations', 'users', 'units'));
+        return view('admin.tools.create', compact('categories', 'locations', 'users', 'units', 'states'));
     }
 
     /**
@@ -72,7 +75,7 @@ class ToolController extends BaseController
         $request->validate([
             'code' => 'required|numeric|unique:tools,code|min:15',
             'name' => 'required|max:255',
-            'state' => 'required',
+            'state_id' => 'required',
             'image' => 'image|max:5012',
             'unit_id' => 'required',
             'category_id' => 'required',
@@ -84,7 +87,7 @@ class ToolController extends BaseController
             $tool = new Tool();
             $tool->code = $request->code;
             $tool->name = $request->name;
-            $tool->state = $request->state;
+            $tool->state_id = $request->state_id;
             if ($request->filled('user_id')) {
                 $tool->user_id = $request->user_id;
             }
@@ -129,9 +132,10 @@ class ToolController extends BaseController
     {
         $categories = Category::all();
         $locations = Location::all();
+        $states = State::all();
         $users = User::all();
         $units = Unit::all();
-        return view('admin.tools.edit', compact('tool', 'categories', 'locations', 'users', 'units'));
+        return view('admin.tools.edit', compact('tool', 'categories', 'locations', 'users', 'units', 'states'));
     }
 
     /**
@@ -142,45 +146,44 @@ class ToolController extends BaseController
         $request->validate([
             'code' => 'required|numeric|min:15|unique:tools,code,' . $tool->id,
             'name' => 'required|max:255',
-            'state' => 'required',
-            'image' => 'image|max:5012',
-            'user_id' => 'required',
-            'unit_id' => 'required',
-            'category_id' => 'required',
-            'location_id' => 'required',
-            'amount' => 'required|numeric',
+            'state_id' => 'required|exists:states,id',
+            'image' => 'nullable|image|max:5120', // Deja la imagen opcional
+            'user_id' => 'nullable|exists:users,id',
+            'unit_id' => 'required|exists:units,id',
+            'category_id' => 'required|exists:categories,id',
+            'location_id' => 'required|exists:locations,id',
+            'amount' => 'required|numeric|min:1',
         ]);
+
         try {
             $tool->code = $request->code;
             $tool->name = $request->name;
-            $tool->state = $request->state;
-            if ($request->filled('user_id')) {
-                $tool->user_id = $request->user_id;
-            } else {
-                $tool->user_id = null;
-            }
+            $tool->state_id = $request->state_id;
             $tool->unit_id = $request->unit_id;
             $tool->category_id = $request->category_id;
             $tool->location_id = $request->location_id;
             $tool->amount = $request->amount;
-            $tool->description = $request->description;
-            $tool->observations = $request->observations;
+            $tool->description = $request->description ?? $tool->description; // Deja el valor anterior si está vacío
+            $tool->observations = $request->observations ?? $tool->observations;
+
+            // Manejo de la imagen
             if ($request->hasFile('image')) {
+                // Elimina la imagen anterior si existe
                 if ($tool->image) {
-                    Storage::disk('public')->delete($tool->image);
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $tool->image));
                 }
-                $name = $tool->id . '.' . $request->file('image')->getClientOriginalExtension();
-                $image = $request->file('image')->store('public/images/tools', $name);
-                $tool->image = Storage::url($image);
-                $tool->save();
-            } else {
-                $request->old_image;
+
+                // Almacena la nueva imagen
+                $imageName = $tool->id . '.' . $request->file('image')->getClientOriginalExtension();
+                $imagePath = $request->file('image')->storeAs('public/images/tools', $imageName);
+                $tool->image = Storage::url($imagePath); // Guarda la ruta de la nueva imagen
             }
 
-            $tool->update();
+            // Guarda los cambios
+            $tool->save();
 
             return redirect()->route('tools.index')
-                ->with('message', 'Herramienta actualizada correctamente.!')
+                ->with('message', 'Herramienta actualizada correctamente.')
                 ->with('icon', 'success');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -188,6 +191,7 @@ class ToolController extends BaseController
                 ->with('icon', 'error');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -69,13 +69,21 @@ class PermissionSeeder extends Seeder
             'devolver prestamo',
             'crear prestamo',
             'visualizar prestamo',
-            'listar tus prestamo',
+            'listar tus prestamos',
             //unidades
             'listar unidades',
             'editar unidad',
             'crear unidad',
             'eliminar unidad',
             'visualizar unidad',
+            //estados
+            'listar estados',
+            'editar estado',
+            'crear estado',
+            'eliminar estado',
+            'visualizar estado',
+            //reportes
+            'reportes',
         ];
 
         foreach ($permissions as $permission) {

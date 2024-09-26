@@ -21,6 +21,7 @@
                     @php
                         $heads = [
                             '#',
+                            'Imagen',
                             'Nombre herramienta',
                             'Prestado a usuario',
                             'Fecha hora préstamo',
@@ -47,6 +48,9 @@
                             @endphp
                             <tr>
                                 <td>{{ $counter }}</td>
+                                <td><span class="bg-light inline rounded-circle user-image">
+                                    <img src="{{ $loan->image }}" alt="{{ $loan->name }}" width="50px">
+                                </span></td>
                                 <td>{{ $loan->name }}</td>
                                 <td>{{ \App\Models\User::find($loan->borrower_user_id)->name }}</td>
                                 <td>{{ $loan->date_time_loan }}</td>

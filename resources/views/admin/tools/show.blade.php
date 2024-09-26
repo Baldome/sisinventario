@@ -88,7 +88,7 @@
                                         <div class="row">
                                             <label style="text-align: end" class="col-sm-4 form-label">Estado</label>
                                             <div class="col-sm-8 show-value">
-                                                {{ $tool->state }}
+                                                {{ $tool->state->name }}
                                             </div>
                                         </div>
                                         <div class="row">

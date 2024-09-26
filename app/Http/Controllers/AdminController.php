@@ -30,7 +30,7 @@ class AdminController extends BaseController
     public function index()
     {
         $user = Auth::user();
-        $users = User::all(); 
+        $users = User::all();
         $categories = Category::all();
         $locations = Location::all();
         $assets = Asset::all();
@@ -56,6 +56,12 @@ class AdminController extends BaseController
             )
             ->get();
 
+        $activos_por_usuario = DB::table('assets')
+            ->join('users', 'assets.user_id', '=', 'users.id')
+            ->select('users.name', DB::raw('count(assets.id) as activos_count'))
+            ->groupBy('users.name')
+            ->get();
+
         return view('dashboard', compact(
             'users',
             'categories',
@@ -66,7 +72,8 @@ class AdminController extends BaseController
             'tools',
             'units',
             'loans',
-            'your_loans'
+            'your_loans',
+            'activos_por_usuario'
         ));
     }
 }

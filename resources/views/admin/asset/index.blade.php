@@ -98,7 +98,7 @@
                                         @endif
                                     </td>
                                 @endcan
-                                <td>{{ $asset->state }}</td>
+                                <td>{{ $asset->state->name }}</td>
                                 <td>{{ $asset->category->name }}</td>
                                 <td>{{ $asset->location->name }}</td>
                                 <td style="text-align: center; align-content: center">

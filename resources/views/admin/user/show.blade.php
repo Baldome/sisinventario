@@ -61,12 +61,6 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label style="text-align: end" class="col-sm-4 form-label">Código</label>
-                                            <div class="col-sm-8 show-value">
-                                                {{ $user->code }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <label style="text-align: end" class="col-sm-4 form-label">Cédula de
                                                 identidad</label>
                                             <div class="col-sm-8 show-value">

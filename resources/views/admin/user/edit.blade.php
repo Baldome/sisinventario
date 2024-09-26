@@ -25,14 +25,17 @@
                         <div class="row">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label for="code">CÓDIGO</label>
+                                    <label for="role_id">ROL</label>
                                     <div class="form-group input-group">
-                                        <span class="input-group-text"><i class="fa-solid fa-code"></i></span>
-                                        <input class="form-control" name="code" type="number" min=1
-                                            value="{{ $user->code }}" required>
-                                        @error('code')
-                                            <small style="color: red">{{ $message }}</small>
-                                        @enderror
+                                        <span class="input-group-text"><i class="fa-brands fa-jxl"></i></span>
+                                        <select name="role_id" class="form-control" id="role_id">
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}"
+                                                    {{ $role->id === $user->roles->first()->id ? 'selected' : '' }}>
+                                                    {{ $role->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -210,20 +213,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="role_id">ROL</label>
-                                    <div class="form-group input-group">
-                                        <span class="input-group-text"><i class="fa-brands fa-jxl"></i></span>
-                                        <select name="role_id" class="form-control" id="role_id">
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->id }}"
-                                                    {{ $role->id === $user->roles->first()->id ? 'selected' : '' }}>
-                                                    {{ $role->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="col-sm-4">
                                     <label for="address">DIRECCIÓN</label>
                                     <div class="form-group input-group">

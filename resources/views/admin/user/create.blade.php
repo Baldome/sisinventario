@@ -23,15 +23,23 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="code">CÓDIGO</label>
+                                    <div class="col-sm-4">
+                                        <label for="role_id">ROL</label>
                                         <div class="form-group input-group">
-                                            <span class="input-group-text"><i class="fa-solid fa-code"></i></span>
-                                            <input class="form-control" name="code" id="code"
-                                                placeholder="Ingrese el código del usuario" type="number" min=1
-                                                value="{{ old('code') }}" required>
+                                            <span class="input-group-text"><i class="fa-brands fa-jxl"></i></span>
+                                            <select name="role_id" class="form-control" required>
+                                                @if (old('role_id'))
+                                                    <option value="{{ old('role_id') }}">{{ old('role_id') }}</option>
+                                                @endif
+                                                <option value="" disabled selected>Seleccione el rol del usuario
+                                                </option>
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->id }}">{{ $role->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        @error('code')
+                                        @error('role_id')
                                             <small style="color: red">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -225,26 +233,6 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <label for="role_id">ROL</label>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-text"><i class="fa-brands fa-jxl"></i></span>
-                                            <select name="role_id" class="form-control" required>
-                                                @if (old('role_id'))
-                                                    <option value="{{ old('role_id') }}">{{ old('role_id') }}</option>
-                                                @endif
-                                                <option value="" disabled selected>Seleccione el rol del usuario
-                                                </option>
-                                                @foreach ($roles as $role)
-                                                    <option value="{{ $role->id }}">{{ $role->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        @error('role_id')
-                                            <small style="color: red">{{ $message }}</small>
-                                        @enderror
-                                    </div>
                                     <div class="col-sm-4">
                                         <label for="address">DIRECCIÓN</label>
                                         <div class="form-group input-group">

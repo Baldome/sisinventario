@@ -55,7 +55,6 @@ class UserController extends BaseController
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
-            'code' => 'required|numeric|unique:users,code',
             'ci' => 'required|numeric|unique:users,ci',
             'ci_dep' => 'required|string',
             'last_name' => 'required|string|max:255',
@@ -70,7 +69,6 @@ class UserController extends BaseController
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'code' => $request->code,
                 'ci' => $request->ci,
                 'ci_dep' => $request->ci_dep,
                 'last_name' => $request->last_name,
@@ -140,7 +138,6 @@ class UserController extends BaseController
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'confirmed'], // Cambiado a nullable para permitir actualizar sin cambiar contraseña
-            'code' => ['required', 'numeric', 'unique:users,code,' . $user->id],
             'ci' => ['required', 'numeric', 'unique:users,ci,' . $user->id],
             'ci_dep' => ['required', 'string'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -154,7 +151,6 @@ class UserController extends BaseController
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
-                'code' => $request->code,
                 'ci' => $request->ci,
                 'ci_dep' => $request->ci_dep,
                 'last_name' => $request->last_name,

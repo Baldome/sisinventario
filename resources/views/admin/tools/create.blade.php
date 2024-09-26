@@ -47,28 +47,22 @@
                                         @enderror
                                     </div>
                                     <div class="col-sm-4">
-                                        <label for="state">ESTADO</label>
+                                        <label for="state_id">ESTADO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i
                                                     class="fa-solid fa-ellipsis-vertical ml-1 mr-1"></i></span>
-                                            <select name="state" class="form-control" required>
-                                                <option disabled {{ old('state') === 'Bueno' ? '' : 'selected' }}>Seleccione
-                                                    el estado de la herramienta</option>
-                                                <option value="Bueno" {{ old('state') === 'Bueno' ? 'selected' : '' }}>
-                                                    Bueno
-                                                </option>
-                                                <option value="Regular" {{ old('state') === 'Regular' ? 'selected' : '' }}>
-                                                    Regular</option>
-                                                <option value="Malo" {{ old('state') === 'Malo' ? 'selected' : '' }}>Malo
-                                                </option>
-                                                <option value="Inoperativo"
-                                                    {{ old('state') === 'Inoperativo' ? 'selected' : '' }}>Inoperativo
-                                                </option>
-                                                <option value="Obsoleto"
-                                                    {{ old('state') === 'Obsoleto' ? 'selected' : '' }}>Obsoleto</option>
+                                            <select name="state_id" class="form-control" required>
+                                                <option value="" disabled {{ old('state_id') ? '' : 'selected' }}>
+                                                    Seleccione la categoria</option>
+                                                @foreach ($states as $state)
+                                                    <option value="{{ $state->id }}"
+                                                        {{ old('state_id') == $state->id ? 'selected' : '' }}>
+                                                        {{ $state->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
-                                        @error('state')
+                                        @error('state_id')
                                             <small style="color: red">{{ $message }}</small>
                                         @enderror
                                     </div>

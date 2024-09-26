@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('role_id')->nullable();
-            $table->integer('code')->unique();
             $table->integer('ci')->unique();
             $table->string('ci_dep');
             $table->string('last_name');
@@ -33,8 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
-            $table->integer('code');
             $table->integer('ci');
             $table->string('ci_dep');
             $table->string('last_name');

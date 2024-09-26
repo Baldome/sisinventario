@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="form-group col-3">
                                     <label for="state">Estado</label>
-                                    <p>{{ $tool->state }}</p>
+                                    <p>{{ $tool->state->name }}</p>
                                 </div>
                             </div>
                             <div class="row">

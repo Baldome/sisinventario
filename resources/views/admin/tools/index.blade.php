@@ -110,7 +110,7 @@
                                         @endif
                                     </td>
                                 @endcan
-                                <td>{{ $tool->state }}</td>
+                                <td>{{ $tool->state->name }}</td>
                                 <td>{{ $tool->unit->name }}</td>
                                 <td>{{ $tool->category->name }}</td>
                                 <td>{{ $tool->location->name }}</td>

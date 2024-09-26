@@ -277,7 +277,7 @@
                     <div class="col-md-4">
                         <div class="card card-outline card-info">
                             <div class="card-header with-border">
-                                <h3 class="card-title">Préstamos</h3>
+                                <h3 class="card-title">Activos por Usuario</h3>
                             </div>
                             <div class="card-body">
                                 <div>
@@ -285,36 +285,47 @@
                                 </div>
                             </div>
                         </div>
+
                         @php
-                            $devueltos = 0;
-                            $sin_devolver = 0;
-                            foreach ($your_loans as $your_loan) {
-                                if ($your_loan->isBorrowed) {
-                                    $sin_devolver++;
-                                } else {
-                                    $devueltos++;
-                                }
+                            $activos_por_usuario = DB::table('assets')
+                                ->join('users', 'assets.user_id', '=', 'users.id')
+                                ->select('users.name', DB::raw('count(assets.id) as activos_count'))
+                                ->groupBy('users.name')
+                                ->get();
+
+                            $usuarios = [];
+                            $activos = [];
+
+                            foreach ($activos_por_usuario as $usuario) {
+                                $usuarios[] = $usuario->name;
+                                $activos[] = $usuario->activos_count;
                             }
-                            $datos = json_encode([$devueltos, $sin_devolver]);
+
+                            $labels = json_encode($usuarios);
+                            $data = json_encode($activos);
                         @endphp
+
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
-                                var datos = <?= $datos ?>;
-                                console.log(datos);
-                                const ctx2 = document.getElementById('myChart2').getContext('2d');
-                                new Chart(ctx2, {
+                                var labels = <?= $labels ?>;
+                                var data = <?= $data ?>;
+
+                                const ctx1 = document.getElementById('myChart2').getContext('2d');
+
+                                new Chart(ctx1, {
                                     type: 'pie',
                                     data: {
-                                        labels: [
-                                            'Herramientas devueltas',
-                                            'Herramientas prestadas sin devolver'
-                                        ],
+                                        labels: labels,
                                         datasets: [{
-                                            label: 'Estado de los préstamos',
-                                            data: datos,
+                                            label: 'Activos asignados',
+                                            data: data,
                                             backgroundColor: [
                                                 'rgb(255, 99, 132)',
-                                                'rgb(54, 162, 235)'
+                                                'rgb(54, 162, 235)',
+                                                'rgb(255, 205, 86)',
+                                                'rgb(75, 192, 192)',
+                                                'rgb(153, 102, 255)',
+                                                'rgb(201, 203, 207)'
                                             ],
                                             hoverOffset: 4
                                         }]
@@ -322,7 +333,7 @@
                                     options: {
                                         plugins: {
                                             datalabels: {
-                                                color: '#fff', // Puedes ajustar el color del texto según sea necesario
+                                                color: '#fff',
                                                 font: {
                                                     weight: 'bold',
                                                     size: 20
@@ -330,9 +341,9 @@
                                                 formatter: function(value, context) {
                                                     return value;
                                                 },
-                                                anchor: 'end', // Posición del texto
-                                                align: 'start', // Alineación del texto
-                                                offset: 10 // Espacio entre el borde y el texto
+                                                anchor: 'end',
+                                                align: 'start',
+                                                offset: 10
                                             }
                                         }
                                     }
@@ -340,6 +351,85 @@
                             });
                         </script>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="card card-outline card-info">
+                            <div class="card-header with-border">
+                                <h3 class="card-title">Herramientas por Usuario</h3>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <canvas id="myChart3"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        @php
+                            $herramientas_por_usuario = DB::table('tools')
+                                ->join('users', 'tools.user_id', '=', 'users.id')
+                                ->select('users.name', DB::raw('count(tools.id) as herramientas_count'))
+                                ->groupBy('users.name')
+                                ->get();
+
+                            $usuarios = [];
+                            $herramientas = [];
+
+                            foreach ($herramientas_por_usuario as $usuario) {
+                                $usuarios[] = $usuario->name;
+                                $herramientas[] = $usuario->herramientas_count;
+                            }
+
+                            $labels = json_encode($usuarios);
+                            $data = json_encode($herramientas);
+                        @endphp
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var labels = <?= $labels ?>;
+                                var data = <?= $data ?>;
+
+                                const ctx2 = document.getElementById('myChart3').getContext('2d');
+
+                                new Chart(ctx2, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                            label: 'Herramientas asignadas',
+                                            data: data,
+                                            backgroundColor: [
+                                                'rgb(255, 99, 132)',
+                                                'rgb(54, 162, 235)',
+                                                'rgb(255, 205, 86)',
+                                                'rgb(75, 192, 192)',
+                                                'rgb(153, 102, 255)',
+                                                'rgb(201, 203, 207)'
+                                            ],
+                                            hoverOffset: 4
+                                        }]
+                                    },
+                                    options: {
+                                        plugins: {
+                                            datalabels: {
+                                                color: '#fff',
+                                                font: {
+                                                    weight: 'bold',
+                                                    size: 20
+                                                },
+                                                formatter: function(value, context) {
+                                                    return value;
+                                                },
+                                                anchor: 'end',
+                                                align: 'start',
+                                                offset: 10
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+
                 </div>
             </div>
         </div>

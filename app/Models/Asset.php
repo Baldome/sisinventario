@@ -12,7 +12,7 @@ class Asset extends Model
     protected $fillable = [
         'code',
         'name',
-        'sate',
+        'sate_id',
         'category_id',
         'location_id',
         'admission_date',
@@ -38,5 +38,10 @@ class Asset extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
     }
 }

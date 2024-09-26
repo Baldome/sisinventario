@@ -22,7 +22,7 @@ class LoanController extends BaseController
         $this->middleware('can:crear prestamo')->only('create');
         $this->middleware('can:devolver prestamo')->only('edit');
         $this->middleware('can:visualizar prestamo')->only('show');
-        // $this->middleware('can:listar tus prestamos')->only('return');
+        $this->middleware('can:listar tus prestamos')->only('return');
     }
 
     public function index()

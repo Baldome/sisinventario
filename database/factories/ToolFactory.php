@@ -21,7 +21,7 @@ class ToolFactory extends Factory
             'image' => Storage::url('public/images/tools/image.png'),
             'code' => $this->faker->unique()->numberBetween(10000, 99999),
             'name' => $this->faker->unique()->name(),
-            'state' => $this->faker->randomElement(['Bueno', 'Regular', 'Malo', 'Inoperativo', 'Obsoleto']),
+            'state_id' => rand(1, 6),
             'user_id' => rand(1, 7),
             'unit_id' => rand(1, 30),
             'category_id' => rand(1, 30),

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('code')->unique();
             $table->string('name')->unique();
-            $table->string('state');
+            $table->unsignedBigInteger('state_id');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('unit_id');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('observations')->nullable();
             $table->timestamps();
 
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('restrict')->onUpdate('cascade');
