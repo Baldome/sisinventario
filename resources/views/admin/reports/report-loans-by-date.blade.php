@@ -20,11 +20,12 @@
         header {
             position: fixed;
             left: 0px;
-            top: -160px;
+            top: -140px;
             right: 0px;
-            height: 100px;
+            height: 40px;
             color: rgb(79, 129, 188);
             text-align: center;
+            margin: 0 auto;
         }
 
         header table {
@@ -155,13 +156,13 @@
         <table border="0">
             <thead>
                 <tr>
-                    <td><img src="{{ public_path('images/logo-epdb.png') }}" alt="logo-epdb" width="130px"></td>
+                    <td><img src="{{ public_path('images/logo-epdb.png') }}" alt="logo-epdb" width="115px"></td>
                     <td width='450px' style="text-align:center; align-content: center; vertical-align:bottom;">
                         <h4>Estado Plurinacional de Bolivia</h4>
                         <p>Empresa Estatal de Transporte Por Cable "Mi Teleférico"</p>
                         <div class="barra"></div>
                     </td>
-                    <td><img src="{{ public_path('images/logo-teleferico.png') }}" alt="logo-teleferico" width="130px"></td>
+                    <td><img src="{{ public_path('images/logo-teleferico.png') }}" alt="logo-teleferico" width="115px"></td>
                 </tr>
             </thead>
         </table>
@@ -177,7 +178,7 @@
                         <p style="text-decoration: underline">{{ $settings->website }}</p>
                         <p>La Paz - Bolivia</p>
                     </td>
-                    <td><img src="{{ public_path('images/logo-10años.png') }}" alt="logo-teleferico" width="110px"></td>
+                    <td><img src="{{ public_path('images/logo-10años.png') }}" alt="logo-teleferico" width="115px"></td>
                 </tr>
             </thead>
         </table>

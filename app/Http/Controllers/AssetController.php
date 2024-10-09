@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\AssetsImport;
 use App\Models\Asset;
 use App\Models\Category;
 use App\Models\Location;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends BaseController
 {
@@ -30,6 +32,7 @@ class AssetController extends BaseController
         $this->middleware('can:eliminar activo')->only('destroy');
         $this->middleware('can:visualizar activo')->only('show');
         $this->middleware('can:asignar activo')->only('createAssignAssetToUser');
+        $this->middleware('can:importar activos')->only('import');
     }
 
     public function index()
@@ -39,7 +42,7 @@ class AssetController extends BaseController
         $users = User::all();
         $user = Auth::user();
 
-        if ($user->hasRole('Administrador')) {
+        if ($user->hasRole('ADMINISTRADOR')) {
             // Si el usuario es administrador, obtiene todos los activos
             $assets = Asset::with('category', 'location', 'user')->get();
         } else {
@@ -68,7 +71,7 @@ class AssetController extends BaseController
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|numeric|unique:assets,code|min:15',
+            'code' => 'required|unique:assets,code',
             'name' => 'required',
             'state_id' => 'required|max:255',
             'admission_date' => 'required|date',
@@ -137,7 +140,7 @@ class AssetController extends BaseController
     public function update(Request $request, Asset $asset)
     {
         $request->validate([
-            'code' => 'required|numeric|min:15|unique:assets,code,' . $asset->id,
+            'code' => 'required|unique:assets,code,' . $asset->id,
             'name' => 'required|max:255',
             'state_id' => 'required',
             'admission_date' => 'required|date',
@@ -228,5 +231,19 @@ class AssetController extends BaseController
                 ->with('message', 'Ocurrió un error al asignar el activo')
                 ->with('icon', 'error');
         }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required|mimes:csv,txt,xlsx'
+        ]);
+
+        $file = $request->file('import_file');
+        Excel::import(new AssetsImport, $file);
+
+        return redirect()->route('asset.index')
+            ->with('message', 'Se importó exitosamente!')
+            ->with('icon', 'success');
     }
 }

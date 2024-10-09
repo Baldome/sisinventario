@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tools', function (Blueprint $table) {
             $table->id();
-            $table->integer('code')->unique();
-            $table->string('name')->unique();
+            $table->unsignedBigInteger('code')->unique();
+            $table->string('name');
             $table->unsignedBigInteger('state_id');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

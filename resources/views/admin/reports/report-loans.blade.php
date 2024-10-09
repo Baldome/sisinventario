@@ -22,9 +22,9 @@
         header {
             position: fixed;
             left: 0px;
-            top: -160px;
+            top: -140px;
             right: 0px;
-            height: 100px;
+            height: 40px;
             color: rgb(79, 129, 188);
             text-align: center;
         }
@@ -162,13 +162,14 @@
         <table border="0">
             <thead>
                 <tr>
-                    <td><img src="{{ public_path('images/logo-epdb.png') }}" alt="logo-epdb" width="130px"></td>
+                    <td><img src="{{ public_path('images/logo-epdb.png') }}" alt="logo-epdb" width="115px"></td>
                     <td width='450px' style="text-align:center; align-content: center; vertical-align:bottom;">
                         <h4>Estado Plurinacional de Bolivia</h4>
                         <p>Empresa Estatal de Transporte Por Cable "Mi Teleférico"</p>
                         <div class="barra"></div>
                     </td>
-                    <td><img src="{{ public_path('images/logo-teleferico.png') }}" alt="logo-teleferico" width="130px"></td>
+                    <td><img src="{{ public_path('images/logo-teleferico.png') }}" alt="logo-teleferico" width="115px">
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -184,7 +185,8 @@
                         <p style="text-decoration: underline">{{ $settings->website }}</p>
                         <p>La Paz - Bolivia</p>
                     </td>
-                    <td><img src="{{ public_path('images/logo-10años.png') }}" alt="logo-teleferico" width="110px"></td>
+                    <td><img src="{{ public_path('images/logo-10años.png') }}" alt="logo-teleferico" width="115px">
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -209,17 +211,17 @@
                     <tr>
                         <td scope="row">{{ $loop->iteration }}</td>
                         <td><span class="bg-light inline rounded-circle user-image">
-                            <img src="{{ $loan->tool->image }}" alt="{{ $loan->name }}" width="50px">
-                        </span></td>
+                                <img src="{{ $loan->tool->image }}" alt="{{ $loan->name }}" width="50px">
+                            </span></td>
                         <td>{{ $loan->tool->code }}</td>
                         <td>{{ $loan->tool->name }}</td>
                         <td>{{ \App\Models\User::find($loan->borrower_user_id)->name }}</td>
                         <td>{{ $loan->date_time_loan }}</td>
                         <td>
                             @if ($loan->isBorrowed)
-                            <span class="badge text-xs bg-danger">SIN DEVOLVER</span>
+                                <span class="badge text-xs bg-danger">SIN DEVOLVER</span>
                             @else
-                            <span class="badge text-xs bg-green">DEVUELTO</span>
+                                <span class="badge text-xs bg-green">DEVUELTO</span>
                             @endif
                         </td>
                         <td>{{ $loan->tool->location->name }}</td>

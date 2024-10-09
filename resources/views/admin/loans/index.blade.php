@@ -22,14 +22,15 @@
                         $heads = [
                             '#',
                             'Imagen',
-                            'Nombre herramienta',
-                            'Prestado a usuario',
-                            'Fecha hora préstamo',
-                            'Fecha devolución esperada',
-                            'Fecha hora devolución',
-                            'Estado',
-                            'Observaciones',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 8],
+                            'CODIGO HERRAMIENTA',
+                            'NOMBRE HERRAMIENTA',
+                            'PRESTADO AL PERSONAL',
+                            'FECHA DE PRESTAMO',
+                            'FECHA DEVOLUCION ESPERADA',
+                            'FECHA HORA DEVOLUCION',
+                            'ESTADO DEL PRESTAMO',
+                            'OBSERVACIONES',
+                            ['label' => 'ACCIONES', 'no-export' => true, 'width' => 8],
                         ];
                         $config = [
                             'language' => [
@@ -49,8 +50,9 @@
                             <tr>
                                 <td>{{ $counter }}</td>
                                 <td><span class="bg-light inline rounded-circle user-image">
-                                    <img src="{{ $loan->image }}" alt="{{ $loan->name }}" width="50px">
+                                    <img src="{{ $loan->image }}" alt="{{ $loan->code }}" width="50px">
                                 </span></td>
+                                <td>{{ $loan->code }}</td>
                                 <td>{{ $loan->name }}</td>
                                 <td>{{ \App\Models\User::find($loan->borrower_user_id)->name }}</td>
                                 <td>{{ $loan->date_time_loan }}</td>

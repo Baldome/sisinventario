@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ToolsImport;
 use App\Models\Category;
 use App\Models\Loan;
 use App\Models\Location;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class ToolController extends BaseController
 {
@@ -44,7 +45,7 @@ class ToolController extends BaseController
         $users = User::all();
         $user = Auth::user();
 
-        if ($user->hasRole('Administrador')) {
+        if ($user->hasRole('ADMINISTRADOR') || $user->hasRole('ALMACENERO')) {
             $tools = Tool::with(['unit', 'category', 'location', 'user', 'loans', 'state'])->get();
         } else {
             $tools = Tool::with(['unit', 'category', 'location', 'user', 'loans', 'state'])->where('user_id', $user->id)->get();
@@ -241,5 +242,19 @@ class ToolController extends BaseController
                 ->with('message', 'Ocurrió un error al asignar el activo')
                 ->with('icon', 'error');
         }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required|mimes:csv,txt,xlsx'
+        ]);
+
+        $file = $request->file('import_file');
+        Excel::import(new ToolsImport, $file);
+
+        return redirect()->route('tools.index')
+            ->with('message', 'Asignación correcta!')
+            ->with('icon', 'success');
     }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->integer('code')->unique();
-            $table->string('name')->unique();
+            $table->string('code')->unique();
+            $table->string('name');
             $table->unsignedBigInteger('state_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('location_id');

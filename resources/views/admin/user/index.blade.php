@@ -15,13 +15,13 @@
         <div class="col-md-10">
             <div class="card card-outline card-primary col-md-12 shadow">
                 <div class="card-header with-border">
-                    <b>Listado de todos los usuarios</b>
+                    <b>LISTADO DE TODOS LOS USUARIOS</b>
                     <div class="card-tools">
                         <div class="btn-group pull-right me-2">
                             @can('crear usuario')
-                            <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary" title="Crear">
-                                <i class="fa-solid fa-plus mr-2"></i><span class="hidden-xs">Crear nuevo usuario</span>
-                            </a>
+                                <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary" title="Crear">
+                                    <i class="fa-solid fa-plus mr-2"></i><span class="hidden-xs">Crear nuevo usuario</span>
+                                </a>
                             @endcan
                         </div>
                     </div>
@@ -30,15 +30,16 @@
                     @php
                         $heads = [
                             '#',
-                            'Imagen',
-                            'Nombres',
-                            'Apellidos',
-                            'Email',
-                            'Rol',
-                            'Dirección',
-                            'Estado',
-                            'Celular',
-                            ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
+                            'FOTO',
+                            'CI',
+                            'NOMBRES',
+                            'APELLIDOS',
+                            'EMAIL',
+                            'ROL',
+                            'DIRECCION',
+                            'ESTADO',
+                            'TEL CELULAR',
+                            ['label' => 'ACCIONES', 'no-export' => true, 'width' => 10],
                         ];
                         $btnEdit = '';
                         $btnDelete = '<button class="btn btn-sm shadow btn-default text-danger mx-1" title="Eliminar">
@@ -63,9 +64,10 @@
                             <tr>
                                 <td>{{ $counter }}</td>
                                 <td><span class="bg-light inline rounded-circle user-image">
-                                        <img src="{{ $user->profile_photo_path }}" alt="Foto de perfil" width="50px">
+                                        <img src="{{ $user->profile_photo_path }}" alt="{{ $user->ci }}" width="50px">
                                     </span>
                                 </td>
+                                <td>{{ $user->ci . ' ' . $user->ci_dep }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>{{ $user->email }}</td>
@@ -87,45 +89,45 @@
                                 <td>{{ $user->phone }}</td>
                                 <td style="text-align: center; align-content: center">
                                     @can('editar usuario')
-                                    <a href="{{ route('user.edit', [$user]) }}" class="btn btn-sm shadow btn-default text-primary"
-                                        title="Editar">
-                                        <i class="fa-solid fa-edit"></i>
-                                    </a>
+                                        <a href="{{ route('user.edit', [$user]) }}"
+                                            class="btn btn-sm shadow btn-default text-primary" title="Editar">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </a>
                                     @endcan
                                     @can('eliminar usuario')
-                                    <form style="display: inline" action="{{ route('user.destroy', [$user]) }}"
-                                        method="post" onclick="ask{{ $user->id }}(event)"
-                                        id="myform{{ $user->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        {!! $btnDelete !!}
-                                    </form>
-                                    <script>
-                                        function ask{{ $user->id }}(event) {
-                                            event.preventDefault();
-                                            Swal.fire({
-                                                title: 'Eliminar registro',
-                                                text: '¿Desea eliminar este registro?',
-                                                icon: 'question',
-                                                showDenyButton: true,
-                                                confirmButtonText: 'Eliminar',
-                                                confirmButtonColor: 'red',
-                                                denyButtonColor: '#270a0a',
-                                                denyButtonText: 'Cancelar',
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    var form = $('#myform{{ $user->id }}');
-                                                    form.submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
+                                        <form style="display: inline" action="{{ route('user.destroy', [$user]) }}"
+                                            method="post" onclick="ask{{ $user->id }}(event)"
+                                            id="myform{{ $user->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            {!! $btnDelete !!}
+                                        </form>
+                                        <script>
+                                            function ask{{ $user->id }}(event) {
+                                                event.preventDefault();
+                                                Swal.fire({
+                                                    title: 'Eliminar registro',
+                                                    text: '¿Desea eliminar este registro?',
+                                                    icon: 'question',
+                                                    showDenyButton: true,
+                                                    confirmButtonText: 'Eliminar',
+                                                    confirmButtonColor: 'red',
+                                                    denyButtonColor: '#270a0a',
+                                                    denyButtonText: 'Cancelar',
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        var form = $('#myform{{ $user->id }}');
+                                                        form.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
                                     @endcan
                                     @can('visualizar usuario')
-                                    <a href="{{ route('user.show', [$user]) }}" class="btn btn-sm shadow btn-default text-teal"
-                                        title="Detalles">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
+                                        <a href="{{ route('user.show', [$user]) }}"
+                                            class="btn btn-sm shadow btn-default text-teal" title="Detalles">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
                                     @endcan
                                 </td>
                             </tr>

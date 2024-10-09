@@ -12,7 +12,7 @@ class Asset extends Model
     protected $fillable = [
         'code',
         'name',
-        'sate_id',
+        'state_id',
         'category_id',
         'location_id',
         'admission_date',

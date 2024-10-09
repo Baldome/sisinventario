@@ -27,7 +27,7 @@
                                         <label for="code">CÓDIGO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-code"></i></span>
-                                            <input name="code" placeholder="Ingrese el código" type="number" min=1
+                                            <input name="code" placeholder="Ingrese el código" type="text"
                                                 class="form-control" value="{{ old('code') }}" required>
                                         </div>
                                         @error('code')

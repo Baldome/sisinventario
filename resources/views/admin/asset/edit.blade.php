@@ -28,7 +28,7 @@
                                         <label for="code">CÓDIGO</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-text"><i class="fa-solid fa-code"></i></span>
-                                            <input name="code" type="number" min=1 class="form-control"
+                                            <input name="code" type="text" class="form-control"
                                                 value="{{ $asset->code }}" required>
                                         </div>
                                     </div>

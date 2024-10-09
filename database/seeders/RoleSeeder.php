@@ -16,8 +16,9 @@ class RoleSeeder extends Seeder
     {
         // Crear los roles
         $roles = [
-            'Administrador',
-            'Usuario',
+            'ADMINISTRADOR',
+            'ALMACENERO',
+            'USUARIO',
         ];
 
         foreach ($roles as $roleName) {
@@ -28,7 +29,7 @@ class RoleSeeder extends Seeder
         }
 
         // Obtener el rol de Administrador
-        $adminRole = Role::where('name', 'Administrador')->first();
+        $adminRole = Role::where('name', 'ADMINISTRADOR')->first();
 
         // Obtener todos los permisos
         $permissions = Permission::all();
@@ -36,13 +37,18 @@ class RoleSeeder extends Seeder
         // Asignar todos los permisos al rol de Administrador
         $adminRole->syncPermissions($permissions);
 
-        // Obtener el rol de Usuario
-        $userRole = Role::where('name', 'Usuario')->first();
+        // Obtener el rol de Almacenero
+        $almacenRole = Role::where('name', 'ALMACENERO')->first();
 
-        // Permisos específicos para el rol Usuario
-        $userPermissions = [
+        // Permisos específicos para el rol Almacenero
+        $almacenPermissions = [
+            //administracion
+            'ver activos asignados',
+            'ver herramientas asignados',
             //usuarios
             'listar usuarios',
+            'editar usuario',
+            'crear usuario',
             'visualizar usuario',
             //roles
             'listar roles',
@@ -66,13 +72,74 @@ class RoleSeeder extends Seeder
             'editar activo',
             'crear activo',
             'visualizar activo',
+            'asignar activo',
+            'importar activos',
+            //herramientas
+            'listar herramientas',
+            'editar herramienta',
+            'crear herramienta',
+            'visualizar herramienta',
+            'asignar herramienta',
+            'importar herramientas',
+            //prestamos
+            'listar prestamos',
+            'devolver prestamo',
+            'crear prestamo',
+            'visualizar prestamo',
+            'listar tus prestamos',
+            //unidades
+            'listar unidades',
+            'editar unidad',
+            'crear unidad',
+            'eliminar unidad',
+            'visualizar unidad',
+            //estados
+            'listar estados',
+            'editar estado',
+            'crear estado',
+            'eliminar estado',
+            'visualizar estado',
+            //reportes
+            'reportes',
+        ];
+
+        // Obtener los permisos específicos
+        $permissionsForAlmacen = Permission::whereIn('name', $almacenPermissions)->get();
+
+        // Asignar los permisos específicos al rol de Usuario
+        $almacenRole->syncPermissions($permissionsForAlmacen);
+
+        // Obtener el rol de Usuario
+        $userRole = Role::where('name', 'USUARIO')->first();
+
+        // Permisos específicos para el rol Usuario
+        $userPermissions = [
+            //usuarios
+            'listar usuarios',
+            'visualizar usuario',
+            //roles
+            //permisos
+            //ubicaciones
+            'listar ubicaciones',
+            'editar ubicacion',
+            'crear ubicacion',
+            'visualizar ubicacion',
+            //categorias
+            'listar categorias',
+            'editar categoria',
+            'crear categoria',
+            'visualizar categoria',
+            //activos
+            'listar activos',
+            'editar activo',
+            'crear activo',
+            'visualizar activo',
             //herramientas
             'listar herramientas',
             'editar herramienta',
             'crear herramienta',
             'visualizar herramienta',
             //prestamos
-            'listar prestamos',
             'devolver prestamo',
             'crear prestamo',
             'visualizar prestamo',

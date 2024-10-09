@@ -177,10 +177,10 @@
                                     <div class="form-group input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-venus"></i></span>
                                         <select name="gender" class="form-control" required>
-                                            <option value="Hombre" {{ $user->gender === 'Hombre' ? 'selected' : '' }}>
-                                                Hombre</option>
-                                            <option value="Mujer" {{ $user->gender === 'Mujer' ? 'selected' : '' }}>
-                                                Mujer</option>
+                                            <option value="HOMBRE" {{ $user->gender === 'HOMBRE' ? 'selected' : '' }}>
+                                                HOMBRE</option>
+                                            <option value="MUJER" {{ $user->gender === 'MUJER' ? 'selected' : '' }}>
+                                                MUJER</option>
                                         </select>
                                         @error('gender')
                                             <small style="color: red">{{ $message }}</small>

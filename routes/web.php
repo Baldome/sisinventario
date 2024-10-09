@@ -37,6 +37,7 @@ Route::middleware([
     Route::resource('/admin/asset', AssetController::class)->names('asset');
     Route::get('/admin/asset/{id}/assign-asset-to-user', [AssetController::class, 'createAssignAssetToUser'])->name('asset.createAssignAssetToUser');
     Route::put('/admin/asset/{id}/assign-asset-to-user', [AssetController::class, 'assignAssetToUser'])->name('asset.assignAssetToUser');
+    Route::post('/admin/asset/import', [AssetController::class, 'import'])->name('asset.import');
 
     Route::resource('/admin/permission', PermissionController::class)->names('permission');
 
@@ -52,6 +53,7 @@ Route::middleware([
     Route::resource('/admin/tools', ToolController::class)->names('tools');
     Route::get('/admin/tools/{id}/assign-tool-to-user', [ToolController::class, 'createAssignToolToUser'])->name('tools.createAssignToolToUser');
     Route::put('/admin/tools/{id}/assign-tool-to-user', [ToolController::class, 'assignToolToUser'])->name('tools.assignToolToUser');
+    Route::post('/admin/tools/import', [ToolController::class, 'import'])->name('tools.import');
 
     Route::resource('/admin/loans', LoanController::class)->except(['create'])->names('loans');
     Route::get('/admin/loans/create/{id}', [LoanController::class, 'create'])->name('loans.create');

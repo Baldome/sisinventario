@@ -57,6 +57,7 @@ class PermissionSeeder extends Seeder
             'eliminar activo',
             'visualizar activo',
             'asignar activo',
+            'importar activos',
             //herramientas
             'listar herramientas',
             'editar herramienta',
@@ -64,6 +65,7 @@ class PermissionSeeder extends Seeder
             'eliminar herramienta',
             'visualizar herramienta',
             'asignar herramienta',
+            'importar herramientas',
             //prestamos
             'listar prestamos',
             'devolver prestamo',

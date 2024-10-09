@@ -18,11 +18,9 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            AssetSeeder::class,
             UnitSeeder::class,
-            ToolSeeder::class,
-            LoanSeeder::class,
             SettingSeeder::class,
+            ToolSeeder::class,
         ]);
     }
 }

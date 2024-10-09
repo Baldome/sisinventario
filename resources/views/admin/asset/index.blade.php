@@ -18,6 +18,14 @@
                     <span
                         class="text-lg"><b>{{ Auth::user()->hasRole('Administrador') ? 'Todos los Activos' : 'Mis Activos' }}</b></span>
                     <div class="card-tools">
+                        {{-- @can('importar activo') --}}
+                        <div class="btn-group pull-right me-2">
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                data-bs-target="#importAssetModal">
+                                <i class="fa-solid fa-file-import mr-2"></i>Importar
+                            </button>
+                        </div>
+                        {{-- @endcan --}}
                         @can('crear activo')
                             <div class="btn-group pull-right me-2">
                                 <a href="{{ route('asset.create') }}" class="btn btn-sm btn-primary">
@@ -61,7 +69,7 @@
                             <tr>
                                 <td>{{ $counter }}</td>
                                 <td><span class="bg-light inline rounded-circle user-image">
-                                        <img src="{{ $asset->image }}" alt="{{ $asset->name }}" width="50px">
+                                        <img src="{{ $asset->image }}" alt="{{ $asset->id }}" width="50px">
                                     </span>
                                 </td>
                                 <td>{{ $asset->code }}</td>
@@ -161,6 +169,62 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal import assets-->
+    <div class="modal fade" id="importAssetModal" tabindex="-1" aria-labelledby="importAssetModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importAssetModalLabel"><b>Importar activos</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form action="{{ route('asset.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            @if (isset($errors) && $errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="col-md-12">
+                                <div class="form-group input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-file-excel"></i></span>
+                                    <input type="file" name="import_file" class="form-control" value="{{ old('import_file') }}"
+                                        required>
+                                </div>
+                                @error('import_file')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="btn-group pull-right me-2">
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-file-import mr-2"></i><span
+                                            class="hidden-xs">Importar</span>
+                                    </button>
+                                </div>
+                                <div class="btn-group pull-right me-2">
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        data-bs-dismiss="modal"><i
+                                            class="fa-solid fa-ban mr-2"></i>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
