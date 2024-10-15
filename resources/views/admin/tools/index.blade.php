@@ -18,15 +18,15 @@
                     <span
                         class="text-lg"><b>{{ Auth::user()->hasRole('Administrador') ? 'Todas las Herramientas' : 'Mis Herramientas' }}</b></span>
                     <div class="card-tools">
-                        {{-- @can('importar activo') --}}
-                        <div class="btn-group pull-right me-2">
-                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                data-bs-target="#importToolModal">
-                                <i class="fa-solid fa-file-import mr-2"></i>Importar
-                            </button>
-                        </div>
-                        {{-- @endcan --}}
-                        @can('crear activo')
+                        @can('importar herramientas')
+                            <div class="btn-group pull-right me-2">
+                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#importToolModal">
+                                    <i class="fa-solid fa-file-import mr-2"></i>Importar
+                                </button>
+                            </div>
+                        @endcan
+                        @can('crear herramienta')
                             <div class="btn-group pull-right me-2">
                                 <a href="{{ route('tools.create') }}" class="btn btn-sm btn-primary">
                                     <i class="fa-solid fa-plus mr-2"></i><span class="hidden-xs">Crear nueva herramienta</span>
@@ -126,9 +126,11 @@
                                     @if ($isLoaned)
                                         <span class="btn btn-sm btn-default text-red shadow"><b>Prestado</b></span>
                                     @else
-                                        <a href="{{ route('loans.create', $tool->id) }}"
-                                            class="btn btn-sm btn-default text-warning shadow"><i
-                                                class="fa-solid fa-share-from-square mr-2"></i><b>Prestar</b></a>
+                                        @can('crear prestamo')
+                                            <a href="{{ route('loans.create', $tool->id) }}"
+                                                class="btn btn-sm btn-default text-warning shadow"><i
+                                                    class="fa-solid fa-share-from-square mr-2"></i><b>Prestar</b></a>
+                                        @endcan
                                     @endif
                                     @can('editar herramienta')
                                         <a href="{{ route('tools.edit', $tool) }}"
@@ -193,14 +195,12 @@
         </div>
     </div>
     <!-- Modal import tools-->
-    <div class="modal fade" id="importToolModal" tabindex="-1" aria-labelledby="importToolModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="importToolModal" tabindex="-1" aria-labelledby="importToolModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="importToolModalLabel"><b>Importar herramientas</b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('tools.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -218,8 +218,8 @@
                             <div class="col-md-12">
                                 <div class="form-group input-group">
                                     <span class="input-group-text"><i class="fa-solid fa-file-excel"></i></span>
-                                    <input type="file" name="import_file" class="form-control" value="{{ old('import_file') }}"
-                                        required>
+                                    <input type="file" name="import_file" class="form-control"
+                                        value="{{ old('import_file') }}" required>
                                 </div>
                                 @error('import_file')
                                     <small style="color: red">{{ $message }}</small>
@@ -232,13 +232,11 @@
                             <div class="col-md-12">
                                 <div class="btn-group pull-right me-2">
                                     <button type="submit" class="btn btn-sm btn-primary">
-                                        <i class="fa-solid fa-file-import mr-2"></i><span
-                                            class="hidden-xs">Importar</span>
+                                        <i class="fa-solid fa-file-import mr-2"></i><span class="hidden-xs">Importar</span>
                                     </button>
                                 </div>
                                 <div class="btn-group pull-right me-2">
-                                    <button type="button" class="btn btn-secondary btn-sm"
-                                        data-bs-dismiss="modal"><i
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"><i
                                             class="fa-solid fa-ban mr-2"></i>Cancelar</button>
                                 </div>
                             </div>

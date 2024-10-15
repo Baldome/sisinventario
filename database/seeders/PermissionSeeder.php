@@ -34,9 +34,6 @@ class PermissionSeeder extends Seeder
             'asignar permisos al rol',
             //permisos
             'listar permisos',
-            'editar permiso',
-            'crear permiso',
-            'eliminar permiso',
             'visualizar permiso',
             //ubicaciones
             'listar ubicaciones',
@@ -86,6 +83,10 @@ class PermissionSeeder extends Seeder
             'visualizar estado',
             //reportes
             'reportes',
+            'generar reporte de activos',
+            'generar reporte de herramientas',
+            'generar reporte de prestamos por meses',
+            'generar reporte de prestamos',
         ];
 
         foreach ($permissions as $permission) {

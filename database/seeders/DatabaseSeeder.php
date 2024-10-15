@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             UnitSeeder::class,
             SettingSeeder::class,
-            ToolSeeder::class,
+            //ToolSeeder::class,
         ]);
     }
 }

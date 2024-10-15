@@ -6,10 +6,10 @@ use App\Models\Asset;
 use App\Models\Category;
 use App\Models\Loan;
 use App\Models\Location;
+use App\Models\State;
 use App\Models\Tool;
 use App\Models\Unit;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -21,11 +21,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class AdminController extends BaseController
 {
     use AuthorizesRequests;
-
-    // public function __construct()
-    // {
-    //     $this->middleware('can:listar usuarios')->only('index');
-    // }
 
     public function index()
     {
@@ -39,6 +34,7 @@ class AdminController extends BaseController
         $tools = Tool::all();
         $units = Unit::all();
         $loans = Loan::all();
+        $states = State::all();
 
 
         $your_loans = DB::table('loans')
@@ -72,6 +68,7 @@ class AdminController extends BaseController
             'tools',
             'units',
             'loans',
+            'states',
             'your_loans',
             'activos_por_usuario'
         ));

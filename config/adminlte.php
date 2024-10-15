@@ -397,7 +397,7 @@ return [
         [
             'text' => 'Unidades',
             'route' => 'units.index',
-            'icon' => 'fa fa-fw fa-unity mr-2',
+            'icon' => 'fa fa-fw fa-bookmark mr-2',
             'can' => 'listar unidades'
         ],
         [

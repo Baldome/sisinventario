@@ -54,7 +54,7 @@
                                     <p>{{ $tool->location->name }}</p>
                                 </div>
                                 <div class="form-group col-3">
-                                    <label for="model">Unidad</label>
+                                    <label for="unit">Unidad</label>
                                     <p>{{ $tool->unit->name }}</p>
                                 </div>
                             </div>

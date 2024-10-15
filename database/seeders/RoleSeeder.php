@@ -101,6 +101,10 @@ class RoleSeeder extends Seeder
             'visualizar estado',
             //reportes
             'reportes',
+            'generar reporte de activos',
+            'generar reporte de herramientas',
+            'generar reporte de prestamos por meses',
+            'generar reporte de prestamos',
         ];
 
         // Obtener los permisos específicos
@@ -141,7 +145,6 @@ class RoleSeeder extends Seeder
             'visualizar herramienta',
             //prestamos
             'devolver prestamo',
-            'crear prestamo',
             'visualizar prestamo',
             'listar tus prestamos',
             //unidades
@@ -156,6 +159,8 @@ class RoleSeeder extends Seeder
             'visualizar estado',
             //reportes
             'reportes',
+            'generar reporte de activos',
+            'generar reporte de herramientas',
         ];
 
         // Obtener los permisos específicos

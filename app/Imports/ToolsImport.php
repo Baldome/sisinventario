@@ -15,12 +15,12 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class AssetsImport implements WithMultipleSheets
+class ToolsImport implements WithMultipleSheets
 {
     public function sheets(): array
     {
         return [
-            'tools' => new AssetsSheetImport(),
+            'tools' => new ToolsSheetImport(),
         ];
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('unit_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('location_id');
-            $table->date('admission_date');
+            $table->date('admission_date')->nullable();
             $table->integer('amount');
             $table->text('description')->nullable();
             $table->text('observations')->nullable();

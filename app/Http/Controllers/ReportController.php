@@ -20,6 +20,10 @@ class ReportController extends BaseController
     public function __construct()
     {
         $this->middleware('can:reportes')->only('index');
+        $this->middleware('can:generar reporte de activos')->only('generateReportAsset');
+        $this->middleware('can:generar reporte de herramientas')->only('generateReportTool');
+        $this->middleware('can:generar reporte de prestamos por meses')->only('generateReportForDates');
+        $this->middleware('can:generar reporte de prestamos')->only('generateReportLoan');
     }
 
     public function index()

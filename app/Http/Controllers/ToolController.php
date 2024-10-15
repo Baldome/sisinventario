@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Imports\ToolsImport;
+use App\Imports\ToolsSheetImport;
 use App\Models\Category;
-use App\Models\Loan;
 use App\Models\Location;
 use App\Models\State;
 use App\Models\Tool;
@@ -31,6 +31,7 @@ class ToolController extends BaseController
         $this->middleware('can:eliminar herramienta')->only('destroy');
         $this->middleware('can:visualizar herramienta')->only('show');
         $this->middleware('can:asignar herramienta')->only('createAssignToolToUser');
+        $this->middleware('can:importar herramientas')->only('import');
     }
 
     /**
@@ -254,7 +255,7 @@ class ToolController extends BaseController
         Excel::import(new ToolsImport, $file);
 
         return redirect()->route('tools.index')
-            ->with('message', 'Asignación correcta!')
+            ->with('message', 'Se importó correctamente!')
             ->with('icon', 'success');
     }
 }

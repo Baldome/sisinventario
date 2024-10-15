@@ -19,48 +19,48 @@
                         <div class="card-header with-border">
                             <h3 class="card-title">Datos registrados de la herramienta: <b>{{ $tool->name }}</b></h3>
                             <div class="card-tools">
-                                {{-- @can('prestar herramienta') --}}
-                                @php
-                                    $isLoaned = $tool->loans->where('isBorrowed', 1)->isNotEmpty();
-                                @endphp
-                                @if ($isLoaned)
+                                @can('prestar herramienta')
+                                    @php
+                                        $isLoaned = $tool->loans->where('isBorrowed', 1)->isNotEmpty();
+                                    @endphp
+                                    @if ($isLoaned)
+                                        <div class="btn-group pull-right me-2">
+                                            <span class="btn btn-sm btn-default text-red shadow"><b>Prestado</b></span>
+                                        </div>
+                                    @else
+                                        <div class="btn-group pull-right me-2">
+                                            <a href="{{ route('loans.create', $tool->id) }}"
+                                                class="btn btn-sm btn-warning shadow"><i
+                                                    class="fa-solid fa-share-from-square mr-2"></i><b>Prestar</b></a>
+                                        </div>
+                                    @endif
+                                @endcan
+                                @can('eliminar herramienta')
+                                    <form style="display: inline" action="{{ route('tools.destroy', [$tool]) }}" method="POST"
+                                        onclick="ask{{ $tool->id }}(event)" id="myform{{ $tool->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="btn-group pull-right me-2">
+                                            <a class="btn btn-sm btn-danger delete">
+                                                <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                            </a>
+                                        </div>
+                                    </form>
+                                @endcan
+                                @can('editar herramienta')
                                     <div class="btn-group pull-right me-2">
-                                        <span class="btn btn-sm btn-default text-red shadow"><b>Prestado</b></span>
-                                    </div>
-                                @else
-                                    <div class="btn-group pull-right me-2">
-                                        <a href="{{ route('loans.create', $tool->id) }}"
-                                            class="btn btn-sm btn-warning shadow"><i
-                                                class="fa-solid fa-share-from-square mr-2"></i><b>Prestar</b></a>
-                                    </div>
-                                @endif
-                                {{-- @endcan --}}
-                                {{-- @can('eliminar herramienta') --}}
-                                <form style="display: inline" action="{{ route('tools.destroy', [$tool]) }}" method="POST"
-                                    onclick="ask{{ $tool->id }}(event)" id="myform{{ $tool->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <div class="btn-group pull-right me-2">
-                                        <a class="btn btn-sm btn-danger delete">
-                                            <i class="fa-solid fa-trash mr-2"></i><span class="hidden-xs">Eliminar</span>
+                                        <a href="{{ route('tools.edit', [$tool]) }}" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
                                         </a>
                                     </div>
-                                </form>
-                                {{-- @endcan --}}
-                                {{-- @can('editar activo') --}}
-                                <div class="btn-group pull-right me-2">
-                                    <a href="{{ route('tools.edit', [$tool]) }}" class="btn btn-sm btn-primary">
-                                        <i class="fa-solid fa-edit mr-2"></i><span class="hidden-xs">Editar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
-                                {{-- @can('listar herramientas') --}}
-                                <div class="btn-group pull-right">
-                                    <a href="{{ route('tools.index', []) }}" class="btn btn-sm btn-secondary">
-                                        <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
-                                    </a>
-                                </div>
-                                {{-- @endcan --}}
+                                @endcan
+                                @can('listar herramientas')
+                                    <div class="btn-group pull-right">
+                                        <a href="{{ route('tools.index', []) }}" class="btn btn-sm btn-secondary">
+                                            <i class="fa-solid fa-list mr-2"></i><span class="hidden-xs">Listar</span>
+                                        </a>
+                                    </div>
+                                @endcan
                             </div>
                         </div>
                         <div class="form-horizontal">
